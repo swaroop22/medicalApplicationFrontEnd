@@ -1,0 +1,4 @@
++ @angular/forms@4.4.7
+updated 1 package and audited 4970 packages in 15.581s
+found 142 vulnerabilities (53 low, 62 moderate, 25 high, 2 critical)
+  run `npm audit fix` to fix them, or `npm audit` for details

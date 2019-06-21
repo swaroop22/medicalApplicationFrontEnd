@@ -24,8 +24,8 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let subCancerType of subCancerTypes">
-                  <td >{{subCancerType.subCancerTypeId1}}</td>
-                  <td ><u [routerLink]="['/regimenDetails', subCancerType.cancerTypeId]">{{subCancerType.title}}</u></td>
+                  <td >{{subCancerType.subcancertypeid}}</td>
+                  <td ><u [routerLink]="['/regimenDetails', subCancerType.subcancertypeid]">{{subCancerType.title}}</u></td>
                   <td>
                     <i class="fa fa-pencil" data-toggle="tooltip" placement="top" tooltip="Edit CancerType"
                        (click)="edit(subCancerType)"></i>

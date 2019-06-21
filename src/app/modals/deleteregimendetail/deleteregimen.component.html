@@ -2,15 +2,15 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title pull-left">Delete Medicine</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="close($event)">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <h3>Are you sure to delete {{Medicine.firstName}} ?</h3>
+      <h3>Are you sure to delete {{RegimenDetail.dispName}} ?</h3>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-default" (click)="close()">Cancel</button>
+      <button class="btn btn-default" (click)="close($event)">Cancel</button>
       <button class="btn btn-primary" (click)="okay()">Ok</button>
     </div>
   </div>

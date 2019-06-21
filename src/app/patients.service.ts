@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/internal/Observable';
 import { map } from "rxjs/operators";
+import {CancerType} from './state/CancerType';
 
 
 
@@ -21,5 +22,37 @@ export class PatientsService {
     })
 
   }
+
+  addPatientTypes(obj: CancerType): Observable<any> {
+
+    var url = this.ApiUrl + '/' + 'add';
+    return this.http.post(url, obj).pipe(map( response => {
+      return response.json();
+    }))
+    onerror: ( (error) => {
+      return error;
+    })
+  }
+
+  editPatientTypes(obj): Observable<any> {
+
+    var url = this.ApiUrl + '/' + 'edit';
+    return this.http.put(url, obj).pipe(map( response => {
+      return response.json();
+    }))
+    onerror: ( (error) => {
+      return error;
+    })
+  }
+
+  deletePatientTypes(id: number): Observable<any> {
+    return this.http.delete(this.ApiUrl + '/' + id).pipe(map( response => {
+      return response.json();
+    }))
+    onerror: ( (error) => {
+      return error;
+    })
+  }
+
 
 }

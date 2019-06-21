@@ -1,20 +1,20 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-deletemedicine',
-  templateUrl: './deleteregimen.component.html',
-  styleUrls: ['./deleteregimen.component.scss']
+  selector: 'app-deletepatienttypes',
+  templateUrl: './deletepatienttypes.component.html',
+  styleUrls: ['./deletepatienttypes.component.scss']
 })
-export class DeleteregimenComponent {
+export class DeletepatienttypesComponent {
   @Output() yes = new EventEmitter();
   @Output() cancel = new EventEmitter();
-  @Input() RegimenDetail: any;
+  @Input() PatientType: any;
 
   constructor() {
   }
 
   okay() {
-    this.yes.emit(this.RegimenDetail);
+    this.yes.emit(this.PatientType);
   }
 
   close(event) {

@@ -1,0 +1,57 @@
+<ul class="breadcrumb">
+<p-breadcrumb [model]="crumbs" ></p-breadcrumb>
+</ul>
+
+<div class="pad20"></div>
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <button class="btn btn-primary pull-right" (click)="showAddPatient()">Add Patient</button>
+          </div>
+          <div class="card-block">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>Patient id</th>
+                  <th>Patient Type</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let patient of Patients, let i= index">
+                  <td>{{patient.id}}</td>
+                  <td ><u [routerLink]="['/cancerTypes',patient.id]">{{patient.title}}</u></td>
+                  <td>
+                    <i class="fa fa-pencil" data-toggle="tooltip" placement="top" tooltip="Edit Patient"
+                       (click)="edit(patient)"></i>
+                  </td>
+                  <td>
+                    <i class="fa fa-trash" data-toggle="tooltip" placement="top" tooltip="Delete Patient"
+                       (click)="delete(patient)"></i>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-addpatienttypes *ngIf="isAddPatientModal" (onHide)="onHide('add')" [config]="{ show: true }" bsModal
+               #addModal="bs-modal" (yes)="addPerson($event)" (cancel)="onClose('add')" class="modal fade"
+               [Error]="addPersonError"></app-addpatienttypes>
+
+<app-editpatienttypes *ngIf="isEditModal" (onHide)="onHide('edit')" [config]="{ show: true }" bsModal
+                #editModal="bs-modal" (yes)="editPatientTypes($event)" (cancel)="onClose('edit')" class="modal fade" [PatientType]="Patient"></app-editpatienttypes>
+
+<app-deletepatienttypes *ngIf="isDeleteModal" (onHide)="onHide('delete')" [config]="{ show: true }" bsModal
+                  #deleteModal="bs-modal" (yes)="deletePatientTypes($event)" (cancel)="onClose('delete')" class="modal fade" [PatientType]="Patient"></app-deletepatienttypes>
+

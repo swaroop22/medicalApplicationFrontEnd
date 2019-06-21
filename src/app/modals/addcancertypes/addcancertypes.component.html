@@ -1,7 +1,7 @@
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Add Patient Type</h4>
+      <h4 class="modal-title pull-left">Add Cancer Type</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -9,13 +9,20 @@
     <div class="modal-body">
       <form class="form">
         <div class="form-group">
-          <label class="form-control-label">Patient Title</label>
-          <input type="text" class="form-control" placeholder="title" name="title" [(ngModel)]="PatientType.title">
+          <label class="form-control-label">Add CancerType Title</label>
+          <ck-editor name="editor1" type="text" class="form-control" [(ngModel)]="CancerType.title" skin="moono-lisa" language="en"></ck-editor>
+        </div>
+        <div class="form-group">
+          <label class="form-control-label">Select Patient Types</label>
+          <select class="form-control" (change)="onSelect($event.target.value)" required>
+            <option>Select Your Patient Type</option>
+            <option *ngFor="let patientName of patientNames" [value]="patientName.id">{{patientName.title}}</option>
+          </select>
         </div>
       </form>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-primary" (click)="okay()">Ok</button>
+      <button class="btn btn-primary" (click)="okay()">Add</button>
     </div>
   </div>
 </div>

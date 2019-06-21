@@ -1,10 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<ul class="breadcrumb">   
+<p-breadcrumb [style]="" [model]="crumbs" ></p-breadcrumb>
+</ul>
+
+<div class="pad20"></div>
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+        <div class="card">
+          <div class="card-header">
+          <button class="btn btn-primary pull-right" (click)="showAddCancerType()">Add CancerType</button>
+          </div>
+          <div class="card-block">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>PatientType Id</th>
+                  <th>Cancer Type</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let cancerType of CancerTypes">
+                  <td >{{cancerType.patienttypeid}}</td>
+                  <td >                         <a  href="javascript:void(0)" (click)="getUrlFix(cancerType.id)">{{cancerType.title}}</a></td>
+                  <td>
+                    <i class="fa fa-pencil" data-toggle="tooltip" placement="top" tooltip="Edit CancerType"
+                       (click)="edit(cancerType)"></i>
+                  </td>
+                  <td>
+                    <i class="fa fa-trash" data-toggle="tooltip" placement="top" tooltip="Delete CancerType"
+                       (click)="delete(cancerType)"></i>
+                  </td>
+                </tr>
+                <tr *ngIf="CancerTypes.length === 0">
+                  <span style="text-align: center"> No CancerTypes Found </span>
+                </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-addcancertypes *ngIf="isAddCancerTypeModal" (onHide)="onHide('add')" [config]="{ show: true }" bsModal
+                     #addModal="bs-modal" (yes)="addCancerTypes($event)" (cancel)="onClose('add')" class="modal fade"
+                     [Error]="addCancerTypeError"></app-addcancertypes>
+
+<app-editcancertypes *ngIf="isEditModal" (onHide)="onHide('edit')" [config]="{ show: true }" bsModal
+                 #editModal="bs-modal" (yes)="editCancerTypes($event)" (cancel)="onClose('edit')" class="modal fade" [CancerType]="CancerType"></app-editcancertypes>
+
+<app-deletecancertypes *ngIf="isDeleteModal" (onHide)="onHide('delete')" [config]="{ show: true }" bsModal
+                   #deleteModal="bs-modal" (yes)="deleteCancerTypes($event)" (cancel)="onClose('delete')" class="modal fade" [CancerType]="CancerType"></app-deletecancertypes>

@@ -1,7 +1,7 @@
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Edit Patinet Type</h4>
+      <h4 class="modal-title pull-left">Edit Cancer Type</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="close($event)">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -9,14 +9,21 @@
     <div class="modal-body">
       <form class="form">
         <div class="form-group">
-          <label class="form-control-label">Patient Title</label>
-          <input type="text" class="form-control" placeholder="Name" name="username" [(ngModel)]="PatientType.title">
+          <label class="form-control-label">CancerType Title</label>
+          <ck-editor name="editor1" class="form-control" [(ngModel)]="CancerType.title" skin="moono-lisa" language="en"></ck-editor>
         </div>
       </form>
+      <div class="form-group">
+        <label class="form-control-label">Select Patient Types</label>
+        <select class="form-control" (change)="onSelect($event.target.value)" required>
+          <option>Select Your Patient Type</option>
+          <option *ngFor="let patientName of patientNames" [value]="patientName.id">{{patientName.title}}</option>
+        </select>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-default" (click)="close($event)">Cancel</button>
-      <button class="btn btn-primary" (click)="okay()">Ok</button>
+      <button class="btn btn-primary" (click)="okay()" [disabled]= clicked>Ok</button>
     </div>
   </div>
 </div>

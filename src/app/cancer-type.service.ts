@@ -12,7 +12,7 @@ export class CancerTypeService {
   constructor(private http: Http) {
   }
 
-  getCancerTypeS( id: number): Observable<any> {
+  getCancerTypes( id: number): Observable<any> {
     var url = this.ApiUrl + "/" + id.toString();
     return this.http.get(url).pipe(map( response => {
       return response.json();
@@ -21,6 +21,37 @@ export class CancerTypeService {
       return error;
     })
 
+  }
+
+  addCancerTypes(obj): Observable<any> {
+
+    var url = this.ApiUrl + '/' + 'add';
+    return this.http.post(url, obj).pipe(map( response => {
+      return response.json();
+    }))
+    onerror: ( (error) => {
+      return error;
+    })
+  }
+
+  editCancerTypes(obj): Observable<any> {
+
+    var url = this.ApiUrl + '/' + 'edit';
+    return this.http.put(url, obj).pipe(map( response => {
+      return response.json();
+    }))
+    onerror: ( (error) => {
+      return error;
+    })
+  }
+
+  deleteCancerTypes(id: number): Observable<any> {
+    return this.http.delete(this.ApiUrl + '/' + id).pipe(map( response => {
+      return response.json();
+    }))
+    onerror: ( (error) => {
+      return error;
+    })
   }
 
 }

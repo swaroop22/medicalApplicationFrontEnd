@@ -1,23 +1,18 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 
 @Component({
-  selector: 'app-addmedicine',
-  templateUrl: './addregimen.component.html',
-  styleUrls: ['./addregimen.component.scss']
+  selector: 'app-addpatienttypes',
+  templateUrl: './addpatienttypes.component.html',
+  styleUrls: ['./addpatienttypes.component.scss']
 })
-export class AddregimenComponent implements OnChanges {
+export class AddpatienttypesComponent implements OnChanges {
 
   @Output() yes = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Input() Error: any;
 
-  public Medicine = {
-    firstName: '',
-    lastName: '',
-    middleName: '',
-    age: '',
-    dob: '',
-    occupation: ''
+  public PatientType = {
+    title: ''
   };
 
   constructor() {
@@ -31,19 +26,14 @@ export class AddregimenComponent implements OnChanges {
   }
 
   initEmptyUser() {
-    const medicine = {
-      firstName: '',
-      lastName: '',
-      middleName: '',
-      age: '',
-      dob: '',
-      occupation: ''
+    const PatientType = {
+      title: ''
     };
-    this.Medicine = JSON.parse(JSON.stringify(medicine));
+    this.PatientType = JSON.parse(JSON.stringify(PatientType));
   }
 
   okay() {
-    this.yes.emit(this.Medicine);
+    this.yes.emit(this.PatientType);
   }
 
   close(event) {

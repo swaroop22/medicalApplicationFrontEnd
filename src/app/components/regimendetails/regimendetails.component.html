@@ -1,10 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<ul class="breadcrumb">
+<p-breadcrumb [model]="crumbs"></p-breadcrumb>
+</ul>
+
+<div class="pad20"></div>
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <button class="btn btn-primary pull-right" (click)="showAddRegimenDetails()">Add Regimen Detail</button>
+          </div>
+          <div class="card-block">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>Regimen Name</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let regimenDetail of RegimenDetails">
+                  <td >{{regimenDetail.dispName}}</td>
+                  <td>
+                    <i class="fa fa-pencil" data-toggle="tooltip" placement="top" tooltip="Edit Medicine"
+                       (click)="edit(regimenDetail)"></i>
+                  </td>
+                  <td>
+                    <i class="fa fa-trash" data-toggle="tooltip" placement="top" tooltip="Delete Medicine"
+                       (click)="delete(regimenDetail)"></i>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<app-addregimen *ngIf="isAddRegimenDetailsModal" (onHide)="onHide('add')" [config]="{ show: true }" bsModal
+                 #addModal="bs-modal" (yes)="addRegimenDetail($event)" (cancel)="onClose('add')" class="modal fade"
+                ></app-addregimen>
+
+<app-editregimen *ngIf="isEditModal" (onHide)="onHide('edit')" [config]="{ show: true }" bsModal
+                  #editModal="bs-modal" (yes)="editRegimenDetail($event)" (cancel)="onClose('edit')" class="modal fade" [RegimenDetail]="RegimenDetail"></app-editregimen>
+
+<app-deleteregimen *ngIf="isDeleteModal" (onHide)="onHide('delete')" [config]="{ show: true }" bsModal
+                    #deleteModal="bs-modal" (yes)="deleteRegimenDetail($event)" (cancel)="onClose('delete')" class="modal fade" [RegimenDetail]="RegimenDetail"></app-deleteregimen>
+

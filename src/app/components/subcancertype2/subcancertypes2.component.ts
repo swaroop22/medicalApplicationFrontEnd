@@ -1,16 +1,18 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {SubcancertypeService} from '../../subcancertype.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ModalDirective} from 'ngx-bootstrap';
 import {MenuItem} from 'primeng/api';
+import {Subcancertype2Service} from '../../subcancertype2.service';
+import { Subcancertype3Service } from '../../subcancertype3.service';
+
 
 
 @Component({
-  selector: 'app-subcancertypes',
-  templateUrl: './subcancertypes.component.html',
-  styleUrls: ['./subcancertypes.component.css']
+  selector: 'app-subcancertypes2',
+  templateUrl: './subcancertypes2.component.html',
+  styleUrls: ['./subcancertypes2.component.css']
 })
-export class SubcancertypesComponent implements OnInit {
+export class Subcancertypes2Component implements OnInit {
 
   public subCancerTypes: any = [];
   @ViewChild('addModal') public addModal: ModalDirective;
@@ -20,20 +22,35 @@ export class SubcancertypesComponent implements OnInit {
   public isDeleteModal = false;
   public isAddSubCancerTypeModal = false;
   public SubCancerType = {};
+  public subcancerType3 = {};
   public addSubCancerTypeError = '';
   crumbs: MenuItem[];
+  public url: string;
 
-  constructor(private subCancerType1Service: SubcancertypeService,
+  constructor(private subCancerType1Service: Subcancertype2Service,
+              private  subcancertype3Service : Subcancertype3Service,
               private routes: ActivatedRoute,
               private route: Router) {
     this.getSubCancerTypes();
+    this.subcancertype3Service.getSubCancerTypes3(this.routes.snapshot.params["id"]).subscribe( value => {
+      this.subcancerType3 = value;
+    });
+
+    if((this.subcancerType3 != null) && (Object.keys(this.subcancerType3).length != 0)){
+      this.url = '/subCancerTypes3/';
+    }
+     else {
+       this.url = '/regimenDetails';
+    }
+
   }
 
   ngOnInit(): void {
     this.crumbs = [
-      {label:'PatientTypes', icon: 'fa fa-plus', url: 'http://localhost:4200/patients'},
-      {label:'CancerTypes',  icon: 'fa fa-plus', url: 'http://localhost:4200/cancerTypes' + '/' + this.routes.snapshot.params["id"]},
-      {label:'SubCancerTypes',  icon: 'fa fa-plus', url: this.route.url}
+      {label:'PATIENTTYPES', url: 'http://localhost:4200/patientTypes'},
+      {label:'CANCERTYPES',   url: 'http://localhost:4200/cancerTypes' + '/' + this.routes.snapshot.params["id"]},
+      {label:'SUBCANCERTYPES',   url: 'http://localhost:4200/subCancerTypes' + '/' + this.routes.snapshot.params["id"]},
+      {label:'SUBCANCERTYPES2',  url: this.route.url}
     ]
   }
 
@@ -43,7 +60,7 @@ export class SubcancertypesComponent implements OnInit {
 
   getSubCancerTypes(){
     const that = this;
-    this.subCancerType1Service.getSubCancerTypes(this.routes.snapshot.params["id"]).subscribe(function (resp) {
+    this.subCancerType1Service.getSubCancerTypes2(this.routes.snapshot.params["id"]).subscribe(function (resp) {
       that.subCancerTypes = resp;
     }, function (error) {
       alert('Error in getting SubCancer Types');
@@ -82,7 +99,7 @@ export class SubcancertypesComponent implements OnInit {
 
   addSubCancerTypes(event){
     const that = this;
-    this.subCancerType1Service.addSubCancerTypes(event).subscribe(function (resp) {
+    this.subCancerType1Service.addSubCancerTypes2(event).subscribe(function (resp) {
       that.getSubCancerTypes();
       that.addModal.hide();
     }, function (error) {
@@ -92,7 +109,7 @@ export class SubcancertypesComponent implements OnInit {
 
   editSubCancerTypes(data){
     const that = this;
-    this.subCancerType1Service.editSubCancerTypes(data).subscribe(function (resp) {
+    this.subCancerType1Service.editSubCancerTypes2(data).subscribe(function (resp) {
       that.getSubCancerTypes();
       that.editModal.hide();
     }, function (error) {
@@ -102,9 +119,9 @@ export class SubcancertypesComponent implements OnInit {
 
   deleteSubCancerTypes(data){
     const that = this;
-    this.subCancerType1Service.deleteSubCancerTypes(data).subscribe(function (resp) {
+    this.subCancerType1Service.deleteSubCancerTypes2(data.id).subscribe(function (resp) {
       that.getSubCancerTypes();
-      that.editModal.hide();
+      that.deleteModal.hide();
     }, function (error) {
       alert('Error to update SubCancerType ' + data);
     });

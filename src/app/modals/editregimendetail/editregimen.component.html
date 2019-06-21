@@ -1,33 +1,67 @@
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Edit Medicine</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+      <h4 class="modal-title pull-left">Edit Regimen Details</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="close($event)">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
       <form class="form">
         <div class="form-group">
-          <label class="form-control-label">First Name</label>
-          <input type="text" class="form-control" placeholder="Name" name="username" [(ngModel)]="Medicine.firstName">
+          <label class="form-control-label">Display Name</label>
+          <input type="text" class="form-control" placeholder="Name" name="username" [(ngModel)]="RegimenDetail.dispName">
         </div>
         <div class="form-group">
-          <label class="form-control-label">Middle Name</label>
-          <input type="text" class="form-control" placeholder="Middlename" name="middlename" [(ngModel)]="Medicine.middleName">
+          <label class="form-control-label">Name</label>
+          <input type="text" class="form-control" placeholder="Middlename" name="middlename" [(ngModel)]="RegimenDetail.name">
         </div>
         <div class="form-group">
-          <label class="form-control-label">Last Name</label>
-          <input type="text" class="form-control" placeholder="Lastname" name="lastname" [(ngModel)]="Medicine.lastName">
+          <label class="form-control-label">Schedule</label>
+          <ck-editor name="editor1" type="text" class="form-control" [(ngModel)]="RegimenDetail.schedule" skin="moono-lisa" language="en"></ck-editor>
+          <!--          <input type="text" class="form-control" placeholder="Lastname" name="lastname" [(ngModel)]="RegimenDetail.schedule">-->
         </div>
         <div class="form-group">
-          <label class="form-control-label">Occupation</label>
-          <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="Medicine.occupation">
+          <label class="form-control-label">Emetogenic Potential</label>
+          <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.emetogenicPotential">
+        </div>
+        <div class="form-group">
+          <label class="form-control-label">Reference</label>
+          <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.reference">
+        </div>
+        <div class="form-group">
+          <label class="form-control-label">Dosage Modifications</label>
+          <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.dosageModifications">
+        </div>
+        <div class="form-group">
+          <label class="form-control-label">Brand Names</label>
+          <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.brandNames">
+        </div>
+        <div class="form-group">
+          <label class="form-control-label">Select SubCancer Types</label>
+          <select class="form-control" (change)="onSelect($event.target.value)" required>
+            <option>Select Your Patient Type</option>
+            <option *ngFor="let subCancerType of subCancerTypes" [value]="subCancerType.id">{{subCancerType.title}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-control-label">Select SubCancer2 Types</label>
+          <select class="form-control" (change)="onSelect2($event.target.value)" required>
+            <option>Select Your Patient Type</option>
+            <option *ngFor="let subCancerType of subCancerTypes2" [value]="subCancerType.id">{{subCancerType.title}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-control-label">Select SubCancer3 Types</label>
+          <select class="form-control" (change)="onSelect3($event.target.value)" required>
+            <option>Select Your Patient Type</option>
+            <option *ngFor="let subCancerType of subCancerTypes3" [value]="subCancerType.id">{{subCancerType.title}}</option>
+          </select>
         </div>
       </form>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-default" (click)="close()">Cancel</button>
+      <button class="btn btn-default" (click)="close($event)">Cancel</button>
       <button class="btn btn-primary" (click)="okay()">Ok</button>
     </div>
   </div>

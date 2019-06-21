@@ -1,7 +1,7 @@
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Add Medicine</h4>
+      <h4 class="modal-title pull-left">Add Patient Type</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -9,20 +9,9 @@
     <div class="modal-body">
       <form class="form">
         <div class="form-group">
-          <label class="form-control-label">Medicine Name</label>
-          <input type="text" class="form-control" placeholder="Name" name="username" [(ngModel)]="Medicine.firstName">
+          <label class="form-control-label">Patient Title</label>
+          <input type="text" class="form-control" placeholder="title" name="title" [(ngModel)]="PatientType.title">
         </div>
-        <div class="form-group">
-          <label class="form-control-label">Medicine Details</label>
-          <input type="text" class="form-control" placeholder="Middlename" name="middlename" [(ngModel)]="Medicine.middleName">
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label">ckeditor</label>
-          <ck-editor name="editor1"  skin="moono-lisa" language="en"></ck-editor>
-        </div>
-
-
       </form>
     </div>
     <div class="modal-footer">

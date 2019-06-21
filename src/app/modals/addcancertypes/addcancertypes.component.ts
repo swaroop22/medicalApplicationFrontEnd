@@ -1,22 +1,30 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {PatientsService} from '../../patients.service';
+import {CancerType} from '../../state/CancerType';
+
+
 
 @Component({
-  selector: 'app-addpatienttypes',
-  templateUrl: './addpatienttypes.component.html',
-  styleUrls: ['./addpatienttypes.component.scss']
+  selector: 'app-addcancertypes',
+  templateUrl: './addcancertypes.component.html',
+  styleUrls: ['./addcancertypes.component.scss']
 })
-export class AddpatienttypesComponent implements OnChanges {
+export class AddcancertypesComponent implements OnChanges {
 
   @Output() yes = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Input() Error: any;
+  public patientNames = [];
+  id: number;
 
-  public PatientType = {
-    title: ''
-  };
+  public CancerType: CancerType;
 
-  constructor() {
+  constructor(private patientsService: PatientsService){
+    this.getPatientsNames();
+  }
 
+  ngOnInit(): void {
+    console.log(this.CancerType.title)
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -26,18 +34,34 @@ export class AddpatienttypesComponent implements OnChanges {
   }
 
   initEmptyUser() {
-    const PatientType = {
-      title: ''
+    var CancerType = {
+      title: '',
+      id: 0
     };
-    this.PatientType = JSON.parse(JSON.stringify(PatientType));
+
+    this.CancerType = JSON.parse(JSON.stringify(CancerType));
   }
 
   okay() {
-    this.yes.emit(this.PatientType);
+    this.CancerType.patienttypeid = this.id;
+    this.yes.emit(this.CancerType);
   }
 
   close(event) {
     this.cancel.emit(event);
+  }
+
+  getPatientsNames() {
+    const that = this;
+    this.patientsService.getPatients().subscribe(function (resp) {
+      that.patientNames = resp;
+    }, function (error) {
+      alert('Error in getting medicines');
+    });
+  }
+
+  onSelect(event){
+    this.id = event;
   }
 
 }

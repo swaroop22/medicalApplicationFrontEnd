@@ -1,7 +1,7 @@
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Edit Patinet Type</h4>
+      <h4 class="modal-title pull-left">Edit SubCancer Type</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="close($event)">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -9,8 +9,8 @@
     <div class="modal-body">
       <form class="form">
         <div class="form-group">
-          <label class="form-control-label">Patient Title</label>
-          <input type="text" class="form-control" placeholder="Name" name="username" [(ngModel)]="CancerType.title">
+          <label class="form-control-label">SubCancerType Title</label>
+          <ck-editor name="editor1" type="text" class="form-control" [(ngModel)]="SubCancerType.title" skin="moono-lisa" language="en"></ck-editor>
         </div>
       </form>
     </div>
