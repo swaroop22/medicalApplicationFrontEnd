@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {CancerTypeService} from '../../cancer-type.service';
 import {ActivatedRoute} from '@angular/router';
+import {CANCERS} from '../../constants/constants';
 
 @Component({
   selector: 'app-addsubcancertypes',

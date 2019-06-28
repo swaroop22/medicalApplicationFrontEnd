@@ -43,7 +43,7 @@ export class AddcancertypesComponent implements OnChanges {
   }
 
   okay() {
-    this.CancerType.patienttypeid = this.id;
+    this.CancerType.patientId = this.id;
     this.yes.emit(this.CancerType);
   }
 

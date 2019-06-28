@@ -3,6 +3,8 @@ import {ModalDirective} from 'ngx-bootstrap';
 import {MenuItem} from 'primeng/api';
 import {RegimenDetailService} from '../../regimen-detail.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {CancerTypeService} from '../../cancer-type.service';
+import {CancerTreeService} from '../../services/cancer-tree.service';
 
 
 @Component({
@@ -29,17 +31,12 @@ export class RegimendetailsComponent implements OnInit {
   crumbs: MenuItem[];
 
   constructor(private RegimenDetailService: RegimenDetailService,
+              private cancerTypeService: CancerTypeService,
               private routes: ActivatedRoute,
-              private route: Router) {
+              private route: Router,
+              private cancerTree: CancerTreeService,) {
     this.getRegimens();
-    this.crumbs = [
-      {label:'PATIENTTYPES', url: 'http://localhost:4200/patientTypes'},
-      {label:'CANCERTYPES',url: 'http://localhost:4200/cancerTypes' + '/' +this.routes.snapshot.params["id"]},
-      {label:'SUBCANCERTYPES', disabled: true, url: 'http://localhost:4200/subCancerTypes' + '/' + this.routes.snapshot.params["id"]},
-      {label:'SUBCANCERTYPES2', url: 'http://localhost:4200/subCancerTypes2' + '/' + this.routes.snapshot.params["id"]},
-      {label:'SUBCANCERTYPES3', url: 'http://localhost:4200/subCancerTypes3' + '/' + this.routes.snapshot.params["id"]},
-      {label:'REGIMENDETAILS',url: this.route.url}
-    ]
+    this.crumbs = this.cancerTree.getBreadCrumbData();
   }
 
   ngOnInit() {
@@ -111,10 +108,10 @@ export class RegimendetailsComponent implements OnInit {
   }
 
   getRegimens() {
-    const that = this;
-    this.RegimenDetailService.getRegimenDetails(this.routes.snapshot.params["id"]).subscribe(function (resp) {
-      that.RegimenDetails = resp;
-    }, function (error) {
+    this.cancerTypeService.getCancerTypes(this.routes.snapshot.params["id"]).subscribe((resp) => {
+      this.RegimenDetails = resp;
+      this.crumbs = this.cancerTree.getBreadCrumbData();
+    }, (error) => {
       alert('Error in getting medicines');
     });
   }

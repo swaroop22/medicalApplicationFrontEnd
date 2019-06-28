@@ -30,6 +30,7 @@ import {Subcancertypes2Component} from './components/subcancertype2/subcancertyp
 
 import {TreeTableModule} from 'primeng/treetable';
 import {Subcancertypes3Component} from './components/subcancertype3/subcancertypes3.component';
+import {CancerTreeService} from './services/cancer-tree.service';
 
 
 @NgModule({
@@ -71,7 +72,7 @@ import {Subcancertypes3Component} from './components/subcancertype3/subcancertyp
     PatientsComponent,
     CancertypeComponent
   ],
-  providers: [],
+  providers: [CancerTreeService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

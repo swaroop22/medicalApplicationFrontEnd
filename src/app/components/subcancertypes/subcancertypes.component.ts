@@ -5,6 +5,8 @@ import {ModalDirective} from 'ngx-bootstrap';
 import {MenuItem} from 'primeng/api';
 import {Subcancertype2Service} from '../../subcancertype2.service';
 import { Subcancertype3Service } from '../../subcancertype3.service';
+import {CancerTreeService} from '../../services/cancer-tree.service';
+import {CancerTypeService} from '../../cancer-type.service';
 
 @Component({
   selector: 'app-subcancertypes',
@@ -30,33 +32,31 @@ export class SubcancertypesComponent implements OnInit {
   constructor(private subCancerType1Service: SubcancertypeService,
               private subcancertype2Service: Subcancertype2Service,
               private  subCancertype3Service: Subcancertype3Service,
+              private cancerTypeService: CancerTypeService,
               private routes: ActivatedRoute,
+              private cancerTree: CancerTreeService,
               private route: Router) {
     this.getSubCancerTypes();
 
-    this.subcancertype2Service.getSubCancerTypes2(this.routes.snapshot.params["id"]).subscribe( value => {
-      this.SubCancerType2 = value;
-    });
-
-    this.subCancertype3Service.getSubCancerTypes3(this.routes.snapshot.params["id"]).subscribe( value => {
-      this.SubCancerType3 = value;
-      if((this.SubCancerType2 != null) && (Object.keys(this.SubCancerType2).length != 0)){
-        this.url = '/subCancerTypes2';
-      }else if((this.SubCancerType3 != null) && (Object.keys(this.SubCancerType3).length != 0)){
-        this.url = '/subCancerTypes3';
-      }
-      else {
-        this.url = '/regimenDetails';
-      }
-    });
+    // this.subcancertype2Service.getSubCancerTypes2(this.routes.snapshot.params["id"]).subscribe( value => {
+    //   this.SubCancerType2 = value;
+    // });
+    //
+    // this.subCancertype3Service.getSubCancerTypes3(this.routes.snapshot.params["id"]).subscribe( value => {
+    //   this.SubCancerType3 = value;
+    //   if((this.SubCancerType2 != null) && (Object.keys(this.SubCancerType2).length != 0)){
+    //     this.url = '/subCancerTypes2';
+    //   }else if((this.SubCancerType3 != null) && (Object.keys(this.SubCancerType3).length != 0)){
+    //     this.url = '/subCancerTypes3';
+    //   }
+    //   else {
+    //     this.url = '/regimenDetails';
+    //   }
+    // });
   }
 
   ngOnInit(): void {
-    this.crumbs = [
-      {label:'PATIENTTYPES', icon: 'fa fa-plus', url: 'http://localhost:4200/patientTypes'},
-      {label:'CANCERTYPES',  icon: 'fa fa-plus', url: 'http://localhost:4200/cancerTypes' + '/' + this.routes.snapshot.params["id"]},
-      {label:'SUBCANCERTYPES',  icon: 'fa fa-plus', url: this.route.url}
-    ]
+    this.crumbs = this.cancerTree.getBreadCrumbData();
   }
 
   showAddSubCancerType() {
@@ -65,7 +65,7 @@ export class SubcancertypesComponent implements OnInit {
 
   getSubCancerTypes(){
     const that = this;
-    this.subCancerType1Service.getSubCancerTypes(this.routes.snapshot.params["id"]).subscribe(function (resp) {
+    this.cancerTypeService.getCancerTypes(this.routes.snapshot.params["id"]).subscribe(function (resp) {
       that.subCancerTypes = resp;
     }, function (error) {
       alert('Error in getting SubCancer Types');

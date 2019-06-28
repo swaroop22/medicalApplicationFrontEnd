@@ -3,6 +3,10 @@ import {MenuItem, TreeNode} from 'primeng/api';
 import {PatientsService} from '../../patients.service';
 import {Router} from '@angular/router';
 import {ModalDirective} from 'ngx-bootstrap';
+import {CancerTypeService} from '../../cancer-type.service';
+import {CANCERS} from '../../constants/constants';
+import {CancerTree} from '../../state/CancerTree';
+import {CancerTreeService} from '../../services/cancer-tree.service';
 
 
 @Component({
@@ -39,11 +43,12 @@ export class PatientsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-    constructor(private PatientsService: PatientsService, private route: Router) {
+    constructor(private PatientsService: PatientsService,
+                private cancerTypeService: CancerTypeService,
+                private cancerTree: CancerTreeService,
+                private route: Router) {
     this.getPatients();
-    this.crumbs = [
-      {label:'PATIENTTYPES',url: this.route.url}
-    ];
+    this.crumbs = this.cancerTree.getBreadCrumbData();
   }
 
   showAddPatient() {
@@ -51,11 +56,11 @@ export class PatientsComponent implements OnInit {
   }
 
   getPatients() {
-    const that = this;
-    this.PatientsService.getPatients().subscribe(function (resp) {
-      that.Patients = resp;
+    this.cancerTypeService.getCancerTypes(undefined).subscribe((resp) => {
+      this.Patients = resp;
+      this.crumbs = this.cancerTree.getBreadCrumbData();
     }, function (error) {
-      alert('Error in getting medicines');
+      alert('Error in getting Patients');
     });
   }
 

@@ -7,6 +7,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SubcancertypeService} from '../../subcancertype.service';
 import {Subcancertype2Service} from '../../subcancertype2.service';
 import { Subcancertype3Service } from '../../subcancertype3.service';
+import {CANCERS} from '../../constants/constants';
+import {CancerTree} from '../../state/CancerTree';
+import {CancerTreeService} from '../../services/cancer-tree.service';
 
 @Component({
   selector: 'app-cancertype',
@@ -35,25 +38,29 @@ export class CancertypeComponent {
   constructor(private cancerTypeService: CancerTypeService,
               private routes: ActivatedRoute,
               private route: Router,
+              private cancerTree: CancerTreeService,
               private subcancertypeService: SubcancertypeService,
               public subcancertypeService2: Subcancertype2Service,
               public subcancertypeService3: Subcancertype3Service) {
     this.getCancerTypes();
-    this.crumbs = [
-      {label:'PATIENTTYPES', url: 'http://localhost:4200/patientTypes', styleClass: 'ui-breadcrumb'},
-     {label:'CANCERTYPES',url: this.route.url}
-     ];
-    
-
-  
+    this.crumbs = this.cancerTree.getBreadCrumbData();
   }
   getCancerTypes(){
-    const that = this;
-    this.cancerTypeService.getCancerTypes(this.routes.snapshot.params["id"]).subscribe(function (resp) {
-      that.CancerTypes = resp;
+
+    const id = this.routes.snapshot.params["id"];
+
+    this.cancerTypeService.getCancerTypes(id).subscribe( (resp) => {
+      this.CancerTypes = resp;
+      this.crumbs = this.cancerTree.getBreadCrumbData();
+
+      if(this.CancerTypes.length === 0)
+      {
+        this.route.navigateByUrl(this.url + '/' + id);
+      }
+
       console.log(resp);
-    }, function (error) {
-      alert('Error in getting medicines');
+    }, (error) => {
+      alert('Error in cancer types');
     });
   }
 
@@ -93,7 +100,7 @@ export class CancertypeComponent {
 
   editCancerTypes(data){
     const that = this;
-    this.cancerTypeService.editCancerTypes(data).subscribe(function (resp) {
+    this.cancerTypeService.editCancerTypes(data, CANCERS.SUBCANCER1).subscribe(function (resp) {
       that.getCancerTypes();
       that.editModal.hide();
     }, function (error) {
@@ -103,7 +110,7 @@ export class CancertypeComponent {
 
   deleteCancerTypes(data){
     const that = this;
-    this.cancerTypeService.deleteCancerTypes(data.id).subscribe(function (resp) {
+    this.cancerTypeService.deleteCancerTypes(data.id, CANCERS.SUBCANCER1).subscribe(function (resp) {
       that.getCancerTypes();
       that.deleteModal.hide();
     }, function (error) {
@@ -113,7 +120,7 @@ export class CancertypeComponent {
 
   addCancerTypes(event: CancerType) {
     const that = this;
-    this.cancerTypeService.addCancerTypes(event).subscribe(function (resp) {
+    this.cancerTypeService.addCancerTypes(event, CANCERS.SUBCANCER1).subscribe(function (resp) {
       that.getCancerTypes();
       that.addModal.hide();
     }, function (error) {
@@ -121,36 +128,18 @@ export class CancertypeComponent {
     });
   }
 
-  getUrlFix(id : number){
-    
-    this.subcancertypeService.getSubCancerTypes(id).subscribe( (resp) => {
-      this.subCancerType = resp;
-      this.subcancertypeService2.getSubCancerTypes2(id).subscribe( (resp2) => {
-        this.subCancerType2 = resp2;
-        console.log(resp2);
-        this.subcancertypeService3.getSubCancerTypes3(id).subscribe( (resp3) => {
-          this.subCancerType3 = resp3;
-          console.log(resp3);
-          if( (!this.subCancerType != null) && (Object.keys(this.subCancerType).length != 0)){
-            this.url = '/subCancerTypes';
-          }
-          else if((this.subCancerType2 != null)&& (Object.keys(this.subCancerType2).length != 0)){
-            this.url = '/subCancerTypes2';
-          } else if((this.subCancerType3 != null) && (Object.keys(this.subCancerType3).length != 0)){
-            this.url = '/subCancerTypes3';
-          }
-          else {
-            this.url = '/regimenDetails';
-          }
-      
-          this.route.navigateByUrl(this.url + '/' + id);
-        }, function (error) {
-          alert('Error in getting SubCancer Types');
-        });
-    
-      }, function (error) {
-        alert('Error in getting SubCancer Types');
-      });
+  getUrlFix(id: number) {
+
+    this.cancerTypeService.getCancerTypes(id).subscribe((resp) => {
+
+      this.CancerTypes = resp;
+
+      this.crumbs = this.cancerTree.getBreadCrumbData();
+
+      if(this.CancerTypes.length === 0)
+      {
+        this.route.navigateByUrl('/regimenDetails/' + id);
+      }
     }, function (error) {
       alert('Error in getting SubCancer Types');
     });
