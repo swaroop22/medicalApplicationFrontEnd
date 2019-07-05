@@ -2,6 +2,9 @@ import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '
 import {CancerTypeService} from '../../cancer-type.service';
 import {ActivatedRoute} from '@angular/router';
 import {CANCERS} from '../../constants/constants';
+import {CancerTree} from '../../state/CancerTree';
+import {CancerTreeService} from '../../services/cancer-tree.service';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-addsubcancertypes',
@@ -13,9 +16,11 @@ export class AddsubcancertypesComponent implements OnChanges {
   @Output() yes = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Input() Error: any;
+  cancerTree: CancerTree;
   id: number;
   public CancerTypes: any = [];
 
+  dropDownForm: FormGroup;
   public CancerType = {
     title: '',
     id: 0,
@@ -23,14 +28,28 @@ export class AddsubcancertypesComponent implements OnChanges {
   };
 
   constructor(private cancerTypeService: CancerTypeService,
+              private cancerTreeService: CancerTreeService,
               private routes: ActivatedRoute) {
-
+    this.cancerTree = this.cancerTreeService.cancer;
   }
 
   ngOnInit(): void {
     this.getCancerTypes();
+    this.getSubCancerDropDowns();
   }
 
+  getSubCancerDropDowns() {
+    const subCancerTypes = Object.keys(this.cancerTreeService.cancer);
+    //this.dropDownForm = new FormGroup();
+    const controls = {};
+
+    subCancerTypes.forEach((subCancer) => {
+      controls[subCancer] = new FormControl()
+    })
+
+    this.dropDownForm = new FormGroup(controls);
+
+  }
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -69,7 +88,7 @@ export class AddsubcancertypesComponent implements OnChanges {
   }
 
   onSelect(event){
-    this.id = event;
+    this.CancerType[event.key] = event.value;
   }
 
 }

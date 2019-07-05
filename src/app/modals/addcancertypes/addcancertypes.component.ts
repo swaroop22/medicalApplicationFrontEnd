@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {PatientsService} from '../../patients.service';
 import {CancerType} from '../../state/CancerType';
+import {CancerTreeService} from '../../services/cancer-tree.service';
+import {CANCERS} from '../../constants/constants';
 
 
 
@@ -15,12 +17,14 @@ export class AddcancertypesComponent implements OnChanges {
   @Output() cancel = new EventEmitter();
   @Input() Error: any;
   public patientNames = [];
+  public subCancerTree: any = {};
   id: number;
 
   public CancerType: CancerType;
 
-  constructor(private patientsService: PatientsService){
-    this.getPatientsNames();
+  constructor(private patientsService: PatientsService,
+              private cancerTreeService: CancerTreeService){
+    this.getCancerTreeDetails();
   }
 
   ngOnInit(): void {
@@ -33,17 +37,24 @@ export class AddcancertypesComponent implements OnChanges {
     }
   }
 
-  initEmptyUser() {
-    var CancerType = {
-      title: '',
-      id: 0
-    };
+  getCancerTreeDetails() {
+    const cancerTree = this.cancerTreeService.cancer;
+    for(let cancerType in cancerTree) {
+      if(cancerType.indexOf('SUBCANCER') >= 0) {
+        this.subCancerTree[cancerType] = cancerTree[cancerType];
+      }
+    }
+    this.patientNames = cancerTree[CANCERS.PATIENT];
+  }
 
-    this.CancerType = JSON.parse(JSON.stringify(CancerType));
+  initEmptyUser() {
+     this.CancerType = {
+      title: '',
+    };;
   }
 
   okay() {
-    this.CancerType.patientId = this.id;
+    this.CancerType.patienttypeid = this.id;
     this.yes.emit(this.CancerType);
   }
 

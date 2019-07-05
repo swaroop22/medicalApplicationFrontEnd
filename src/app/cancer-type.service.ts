@@ -8,6 +8,12 @@ import {CancerTreeService} from './services/cancer-tree.service';
 @Injectable()
 export class CancerTypeService {
   private apiEndPointsMap: Map<string, string> = new Map();
+  private patientId;
+  private cancerTypeId;
+  private subCancer1Id;
+  private subCancer2Id;
+  private linkedId;
+  private regimenId;
   constructor(private http: Http,
               private cancerTree: CancerTreeService) {
     this.apiEndPointsMap.set(CANCERS.PATIENT, 'http://localhost:8092/patientController');
@@ -19,16 +25,49 @@ export class CancerTypeService {
   }
 
   getCancerTypes(id: number): Observable<any> {
+    this.addId(id);
     const type = this.cancerTree.nextItemToFetch();
-    const url = type === CANCERS.PATIENT ? `${this.apiEndPointsMap.get(type)}`: ( type === CANCERS.REGIMEN_DETAILS ? `${this.apiEndPointsMap.get(type)}/${id}/names` : `${this.apiEndPointsMap.get(type)}/${id}`);
+    let url = type === CANCERS.PATIENT ? `${this.apiEndPointsMap.get(type)}`: ( type === CANCERS.REGIMEN_DETAILS ? `${this.apiEndPointsMap.get(type)}/${id}/names` : this.getURL(id));
     return this.http.get(url).pipe(map( response => {
       this.cancerTree.addItem(response.json());
       return response.json();
     }));
   }
 
+  getURL(cancerId?) {
+    const fetchingItem = this.cancerTree.nextItemToFetch();
+   if (fetchingItem === CANCERS.SUBCANCER1) {
+      return this.apiEndPointsMap.get(CANCERS.SUBCANCER1) + `/${this.patientId}/${this.cancerTypeId}`;
+    } else if (fetchingItem === CANCERS.SUBCANCER2) {
+      return  this.apiEndPointsMap.get(CANCERS.SUBCANCER2) + `/${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}`;
+    } else if(fetchingItem === CANCERS.SUBCANCER) {
+     return  this.apiEndPointsMap.get(CANCERS.SUBCANCER) + `/${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}/${this.subCancer2Id}`;
+   } else if (fetchingItem === CANCERS.CANCER) {
+      return this.apiEndPointsMap.get(CANCERS.CANCER) + `/${cancerId}`;
+    }
+
+  }
+
+  addId(id) {
+    if(!this.patientId) {
+      this.patientId = id;
+    }
+    else if(!this.cancerTypeId) {
+      this.cancerTypeId = id;
+    }
+    else if(!this.subCancer1Id) {
+      this.subCancer1Id = id;
+    }
+    else if(!this.subCancer2Id) {
+      this.subCancer2Id = id;
+    }
+    else if(!this.linkedId) {
+      this.linkedId = id;
+    }
+  }
+
   addCancerTypes(obj, type): Observable<any> {
-    const url = `${this.apiEndPointsMap.get(type)}/add`;
+    const url = `${this.apiEndPointsMap.get(CANCERS.SUBCANCER)}/add`;
     return this.http.post(url, obj).pipe(map( response => {
       return response.json();
     }));

@@ -35,6 +35,9 @@ export class CancertypeComponent {
   public url: string;
   id: number;
 
+  addButtonName: string = '';
+  isAddSubCancerTypeModal: boolean;
+
   constructor(private cancerTypeService: CancerTypeService,
               private routes: ActivatedRoute,
               private route: Router,
@@ -45,6 +48,11 @@ export class CancertypeComponent {
     this.getCancerTypes();
     this.crumbs = this.cancerTree.getBreadCrumbData();
   }
+
+  ngOnInit() {
+    this.addButtonName = this.cancerTree.nextItemToFetch();
+  }
+
   getCancerTypes(){
 
     const id = this.routes.snapshot.params["id"];
@@ -59,14 +67,29 @@ export class CancertypeComponent {
       }
 
       console.log(resp);
+
+      this.ngOnInit();
     }, (error) => {
       alert('Error in cancer types');
     });
   }
 
   showAddCancerType() {
-    this.isAddCancerTypeModal = true;
+    const type  =this.cancerTree.nextItemToFetch();
+
+    if( type=== CANCERS.SUBCANCER || type === CANCERS.SUBCANCER2) {
+      this.isAddSubCancerTypeModal = true;
+      this.isAddCancerTypeModal = false;
+    } else {
+      this.isAddSubCancerTypeModal = false;
+      this.isAddCancerTypeModal = true;
+    }
   }
+
+  showAddSubCancerType() {
+    this.isAddSubCancerTypeModal = true;
+  }
+
 
   edit(obj) {
     this.CancerType = JSON.parse(JSON.stringify(obj));
@@ -119,10 +142,9 @@ export class CancertypeComponent {
   }
 
   addCancerTypes(event: CancerType) {
-    const that = this;
-    this.cancerTypeService.addCancerTypes(event, CANCERS.SUBCANCER1).subscribe(function (resp) {
-      that.getCancerTypes();
-      that.addModal.hide();
+    this.cancerTypeService.addCancerTypes(event, CANCERS.SUBCANCER1).subscribe((resp) => {
+      this.getCancerTypes();
+      this.addModal.hide();
     }, function (error) {
       alert('Person add error ' + event);
     });
