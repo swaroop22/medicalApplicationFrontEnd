@@ -1,6 +1,6 @@
 <ul class="breadcrumb">
 <p-breadcrumb [style]="" [model]="crumbs" ></p-breadcrumb>
-  <button class="btn btn-primary pull-right bread-crumb-button" (click)="showAddSubCancerType()">Add SUBCANCER</button>
+  <button class="btn btn-primary pull-right bread-crumb-button" (click)="showAddSubCancerType()">Add {{cancerTree.getNextItemName()}}</button>
 </ul>
 
 <div class="pad20"></div>
@@ -10,7 +10,7 @@
       <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
         <div class="card">
           <div class="card-header">
-          <button class="btn btn-primary pull-right" (click)="showAddCancerType()">Add {{addButtonName}}</button>
+          <button class="btn btn-primary pull-right" (click)="showAddCancerType()">Add {{cancerTree.getCurrentLevel()}}</button>
           </div>
           <div class="card-block">
             <div class="table-responsive">

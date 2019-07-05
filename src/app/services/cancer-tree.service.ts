@@ -47,8 +47,7 @@ export class  CancerTreeService {
 
   addSubCancer(subCancers: CancerType[]) {
     if(subCancers.length > 0) {
-      const newSubCancerLevel = Object.keys(this.cancer).length - 1; // removing the patient and cancer types
-      this.cancer[CANCERS.SUBCANCER + newSubCancerLevel + 'TYPE'] = subCancers;
+      this.cancer[this.getNextItemName()] = subCancers;
     }
   }
 
@@ -60,14 +59,18 @@ export class  CancerTreeService {
     return Object.keys(this.cancer)[Object.keys(this.cancer).length -1];
   }
 
-  getCurrentSubCancerLevelName() {
-    let currentLevel: string = this.nextItemToFetch();
+  getNextItemName() {
+    const newSubCancerLevel = Object.keys(this.cancer).length - 1; // removing the patient and cancer types
 
-    if(currentLevel === CANCERS.SUBCANCER && currentLevel != CANCERS.SUBCANCER1 && currentLevel != CANCERS.SUBCANCER2) {
-      currentLevel = CANCERS.SUBCANCER + (Object.keys(this.cancer).length - 1);
-    }
-
-    return currentLevel;
+    return CANCERS.SUBCANCER + newSubCancerLevel + 'TYPE'
+    //
+    // let currentLevel: string = this.nextItemToFetch();
+    //
+    // if(currentLevel === CANCERS.SUBCANCER && currentLevel != CANCERS.SUBCANCER1 && currentLevel != CANCERS.SUBCANCER2) {
+    //   currentLevel = CANCERS.SUBCANCER + (Object.keys(this.cancer).length - 1);
+    // }
+    //
+    // return currentLevel;
   }
 
   nextItemToFetch() {
@@ -83,7 +86,7 @@ export class  CancerTreeService {
       return CANCERS.SUBCANCER1;
     } else if (!this.cancer.hasOwnProperty(CANCERS.SUBCANCER2)) {
       return CANCERS.SUBCANCER2;
-    } else if (Object.keys(this.cancer).length > 4 && !this.cancer.hasOwnProperty(CANCERS.REGIMEN_DETAILS)) {
+    } else if (Object.keys(this.cancer).length >= 4 && !this.cancer.hasOwnProperty(CANCERS.REGIMEN_DETAILS) && this.cancer.hasOwnProperty(CANCERS.SUBCANCER2)) {
       return CANCERS.SUBCANCER;
     }
   }
