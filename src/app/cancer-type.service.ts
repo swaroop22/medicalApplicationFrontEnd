@@ -63,6 +63,12 @@ export class CancerTypeService {
 
   }
 
+  getAllCancerTypes() : Observable<any>{
+    return this.http.get(this.apiEndPointsMap.get(CANCERS.CANCER)).pipe(map( response => {
+      return response.json();
+    }));
+  }
+
   addId(id) {
     if(!this.patientId) {
       this.patientId = id;

@@ -114,7 +114,7 @@ export class RegimendetailsComponent implements OnInit {
   }
 
   getAllRegimens(){
-    this.cancerTypeService.getAllCancerTypes().subscribe((resp) => {
+    this.cancerTypeService. getAllCancerTypes().subscribe((resp) => {
       this.RegimenDetails = resp;
       this.crumbs = this.cancerTree.getBreadCrumbData();
     }, (error) => {
