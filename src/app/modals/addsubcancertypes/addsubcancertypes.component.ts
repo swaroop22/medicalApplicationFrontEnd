@@ -34,7 +34,6 @@ export class AddsubcancertypesComponent implements OnChanges {
   }
 
   ngOnInit(): void {
-    this.getCancerTypes();
     this.getSubCancerDropDowns();
   }
 
@@ -56,15 +55,6 @@ export class AddsubcancertypesComponent implements OnChanges {
     if (!changes.Error.currentValue.login) {
       this.initEmptyUser();
     }
-  }
-
-  getCancerTypes(){
-    const that = this;
-    this.cancerTypeService.getCancerTypes(this.routes.snapshot.params["id"]).subscribe(function (resp) {
-      that.CancerTypes = resp;
-    }, function (error) {
-      alert('Error in getting medicines');
-    });
   }
 
   initEmptyUser() {

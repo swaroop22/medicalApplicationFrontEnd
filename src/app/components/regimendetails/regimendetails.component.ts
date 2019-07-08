@@ -5,6 +5,7 @@ import {RegimenDetailService} from '../../regimen-detail.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CancerTypeService} from '../../cancer-type.service';
 import {CancerTreeService} from '../../services/cancer-tree.service';
+import {CANCERS} from '../../constants/constants';
 
 
 @Component({
@@ -108,7 +109,7 @@ export class RegimendetailsComponent implements OnInit {
   }
 
   getRegimens() {
-    this.cancerTypeService.getCancerTypes(this.routes.snapshot.params["id"]).subscribe((resp) => {
+    this.cancerTypeService.getCancerTypes(this.routes.snapshot.params["id"], CANCERS.REGIMEN_DETAILS).subscribe((resp) => {
       this.RegimenDetails = resp;
       this.crumbs = this.cancerTree.getBreadCrumbData();
     }, (error) => {

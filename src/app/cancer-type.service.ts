@@ -24,9 +24,8 @@ export class CancerTypeService {
     this.apiEndPointsMap.set(CANCERS.REGIMEN_DETAILS, 'http://localhost:8092/regimenDetailController');
   }
 
-  getCancerTypes(id: number): Observable<any> {
-    this.addId(id);
-    const type = this.cancerTree.nextItemToFetch();
+  getCancerTypes(id: number, type): Observable<any> {
+
     let url = type === CANCERS.PATIENT ? `${this.apiEndPointsMap.get(type)}`: ( type === CANCERS.REGIMEN_DETAILS ? `${this.apiEndPointsMap.get(type)}/${id}/names` : this.getURL(id));
 
     if(type === CANCERS.SUBCANCER) {
@@ -38,13 +37,13 @@ export class CancerTypeService {
         linkedSubCancerId: this.linkedId,
       };
       return this.http.post(url, payload).pipe(map( response => {
-        this.cancerTree.addItem(response.json());
+        this.cancerTree.addItem(response.json(), type);
         return response.json();
       }));
     }
     else {
       return this.http.get(url).pipe(map( response => {
-        this.cancerTree.addItem(response.json());
+        this.cancerTree.addItem(response.json(), type);
         return response.json();
       }));
     }

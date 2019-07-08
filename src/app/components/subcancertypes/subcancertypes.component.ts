@@ -65,7 +65,7 @@ export class SubcancertypesComponent implements OnInit {
 
   getSubCancerTypes(){
     const that = this;
-    this.cancerTypeService.getCancerTypes(this.routes.snapshot.params["id"]).subscribe(function (resp) {
+    this.cancerTypeService.getCancerTypes(this.routes.snapshot.params["id"], '').subscribe(function (resp) {
       that.subCancerTypes = resp;
     }, function (error) {
       alert('Error in getting SubCancer Types');

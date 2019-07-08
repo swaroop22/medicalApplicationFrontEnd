@@ -11,8 +11,7 @@ export class  CancerTreeService {
 
   constructor(private router: Router) {}
 
-  addItem(json: any) {
-    const type = this.nextItemToFetch();
+  addItem(json: any, type) {
     switch (type) {
       case CANCERS.CANCER:
         this.addCancer(json);

@@ -35,6 +35,7 @@ export class CancertypeComponent {
   public url: string;
   id: number;
 
+  navigateOnAdding: boolean = false;
   addButtonName: string = '';
   isAddSubCancerTypeModal: boolean;
 
@@ -53,11 +54,14 @@ export class CancertypeComponent {
     this.addButtonName = this.cancerTree.nextItemToFetch();
   }
 
-  getCancerTypes(){
+  getCancerTypes(type?){
 
     const id = this.routes.snapshot.params["id"];
 
-    this.cancerTypeService.getCancerTypes(id).subscribe( (resp) => {
+
+    const typeToFetch = type || this.cancerTree.nextItemToFetch();
+
+    this.cancerTypeService.getCancerTypes(id, typeToFetch).subscribe( (resp) => {
       this.CancerTypes = resp;
       this.crumbs = this.cancerTree.getBreadCrumbData();
 
@@ -75,6 +79,8 @@ export class CancertypeComponent {
   }
 
   showAddCancerType() {
+
+
     const type  =this.cancerTree.nextItemToFetch();
 
     if( type=== CANCERS.SUBCANCER || type === CANCERS.SUBCANCER2) {
@@ -87,6 +93,7 @@ export class CancertypeComponent {
   }
 
   showAddSubCancerType() {
+    this.navigateOnAdding = true;
     this.isAddSubCancerTypeModal = true;
   }
 
@@ -143,7 +150,8 @@ export class CancertypeComponent {
 
   addCancerTypes(event: CancerType) {
     this.cancerTypeService.addCancerTypes(event, CANCERS.SUBCANCER1).subscribe((resp) => {
-      this.getCancerTypes();
+      const type = this.cancerTree.getCurrentLevel();
+      this.getCancerTypes(type);
       this.addModal.hide();
     }, function (error) {
       alert('Person add error ' + event);
@@ -151,9 +159,10 @@ export class CancertypeComponent {
   }
 
   getUrlFix(id: number) {
+    const type = this.cancerTree.nextItemToFetch();
 
-    this.cancerTypeService.getCancerTypes(id).subscribe((resp) => {
-
+    this.cancerTypeService.addId(id);
+    this.cancerTypeService.getCancerTypes(id, type).subscribe((resp) => {
       this.CancerTypes = resp;
 
       this.crumbs = this.cancerTree.getBreadCrumbData();

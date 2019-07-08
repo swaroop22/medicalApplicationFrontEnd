@@ -56,7 +56,7 @@ export class PatientsComponent implements OnInit {
   }
 
   getPatients() {
-    this.cancerTypeService.getCancerTypes(undefined).subscribe((resp) => {
+    this.cancerTypeService.getCancerTypes(undefined, CANCERS.PATIENT).subscribe((resp) => {
       this.Patients = resp;
       this.crumbs = this.cancerTree.getBreadCrumbData();
     }, function (error) {
