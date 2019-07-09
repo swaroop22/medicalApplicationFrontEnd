@@ -18,13 +18,13 @@ export class AddsubcancertypesComponent implements OnChanges {
   @Input() Error: any;
   cancerTree: CancerTree;
   id: number;
-  public CancerTypes: any = [];
+  public dropDownData: any = [];
 
   dropDownForm: FormGroup;
-  public CancerType = {
+  public subCancerAddData = {
     title: '',
     id: 0,
-    subcancertypeid: 0
+    previousId: 0
   };
 
   constructor(private cancerTypeService: CancerTypeService,
@@ -34,7 +34,7 @@ export class AddsubcancertypesComponent implements OnChanges {
   }
 
   ngOnInit(): void {
-    this.getSubCancerDropDowns();
+    this.getLastLevelToAddSubLevelTo();
   }
 
   getSubCancerDropDowns() {
@@ -44,7 +44,7 @@ export class AddsubcancertypesComponent implements OnChanges {
 
     subCancerTypes.forEach((subCancer) => {
       controls[subCancer] = new FormControl()
-    })
+    });
 
     this.dropDownForm = new FormGroup(controls);
 
@@ -60,17 +60,14 @@ export class AddsubcancertypesComponent implements OnChanges {
   initEmptyUser() {
     var CancerType = {
       title: '',
-      id: 0,
-      subcancertypeid: 0
+      previousId: ''
     };
 
-    this.CancerType = JSON.parse(JSON.stringify(CancerType));
+    this.subCancerAddData = JSON.parse(JSON.stringify(CancerType));
   }
 
   okay() {
-    this.CancerType.id = this.id;
-    this.CancerType.subcancertypeid = this.id;
-    this.yes.emit(this.CancerType);
+    this.yes.emit(this.subCancerAddData);
   }
 
   close(event) {
@@ -78,7 +75,11 @@ export class AddsubcancertypesComponent implements OnChanges {
   }
 
   onSelect(event){
-    this.CancerType[event.key] = event.value;
+    this.subCancerAddData.previousId = event;
+  }
+
+  getLastLevelToAddSubLevelTo() {
+    this.dropDownData = this.cancerTreeService.cancer[this.cancerTreeService.getCurrentLevel()];
   }
 
 }

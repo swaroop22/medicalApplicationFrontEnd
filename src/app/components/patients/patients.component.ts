@@ -27,9 +27,6 @@ export class PatientsComponent implements OnInit {
   public Patient = {};
   errorMessage: string;
 
-
-
-
   public Patients: TreeNode[] = [];
 
   id: number;
@@ -48,7 +45,10 @@ export class PatientsComponent implements OnInit {
                 private cancerTree: CancerTreeService,
                 private route: Router) {
     this.getPatients();
-    this.crumbs = this.cancerTree.getBreadCrumbData();
+    this.crumbs = this.cancerTypeService.getBreadCrumbData();
+    if(this.route.url.indexOf('cancerTypes')>=0) {
+      this.route.navigateByUrl(this.route.url);
+    }
   }
 
   showAddPatient() {
@@ -56,9 +56,9 @@ export class PatientsComponent implements OnInit {
   }
 
   getPatients() {
-    this.cancerTypeService.getCancerTypes(undefined, CANCERS.PATIENT).subscribe((resp) => {
+    this.cancerTypeService.getCancerTypes().subscribe((resp) => {
       this.Patients = resp;
-      this.crumbs = this.cancerTree.getBreadCrumbData();
+      this.crumbs = this.cancerTypeService.getBreadCrumbData();
     }, function (error) {
       alert('Error in getting Patients');
     });

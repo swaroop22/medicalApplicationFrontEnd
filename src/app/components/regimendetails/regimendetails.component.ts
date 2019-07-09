@@ -37,7 +37,7 @@ export class RegimendetailsComponent implements OnInit {
               private route: Router,
               private cancerTree: CancerTreeService,) {
     this.getRegimens();
-    this.crumbs = this.cancerTree.getBreadCrumbData();
+    this.crumbs = this.cancerTypeService.getBreadCrumbData();
   }
 
   ngOnInit() {
@@ -109,9 +109,10 @@ export class RegimendetailsComponent implements OnInit {
   }
 
   getRegimens() {
-    this.cancerTypeService.getCancerTypes(this.routes.snapshot.params["id"], CANCERS.REGIMEN_DETAILS).subscribe((resp) => {
+    this.cancerTypeService.regimenId = this.routes.snapshot.params["id"];
+    this.cancerTypeService.getCancerTypes().subscribe((resp) => {
       this.RegimenDetails = resp;
-      this.crumbs = this.cancerTree.getBreadCrumbData();
+      this.crumbs = this.cancerTypeService.getBreadCrumbData();
     }, (error) => {
       alert('Error in getting medicines');
     });

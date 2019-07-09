@@ -24,7 +24,43 @@ export const routes: Routes = [
     },
   },
   {
-    path: 'cancerTypes/:id',
+    path: 'cancerTypes/:patientId',
+    component: CancertypeComponent,
+    data: {
+      title: 'cancerTypes',
+      breadcrumb: 'cancerTypes'
+
+    },
+  },
+  {
+    path: 'cancerTypes/:patientId/:cancerId',
+    component: CancertypeComponent,
+    data: {
+      title: 'cancerTypes',
+      breadcrumb: 'cancerTypes'
+
+    },
+  },
+  {
+    path: 'cancerTypes/:patientId/:cancerId/:subCancerType1id',
+    component: CancertypeComponent,
+    data: {
+      title: 'cancerTypes',
+      breadcrumb: 'cancerTypes'
+
+    },
+  },
+  {
+    path: 'cancerTypes/:patientId/:cancerId/:subCancerType1id/:subCancerType2Id',
+    component: CancertypeComponent,
+    data: {
+      title: 'cancerTypes',
+      breadcrumb: 'cancerTypes'
+
+    },
+  },
+  {
+    path: 'cancerTypes/:patientId/:cancerId/:subCancerType1id/:subCancerType2Id/:linkedId',
     component: CancertypeComponent,
     data: {
       title: 'cancerTypes',

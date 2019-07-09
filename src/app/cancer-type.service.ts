@@ -4,6 +4,8 @@ import {Observable} from 'rxjs/internal/Observable';
 import { map } from "rxjs/operators";
 import {CANCERS} from './constants/constants';
 import {CancerTreeService} from './services/cancer-tree.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Breadcrumb} from 'primeng/primeng';
 
 @Injectable()
 export class CancerTypeService {
@@ -13,8 +15,9 @@ export class CancerTypeService {
   private subCancer1Id;
   private subCancer2Id;
   private linkedId;
-  private regimenId;
+  public regimenId;
   constructor(private http: Http,
+              private route: ActivatedRoute,
               private cancerTree: CancerTreeService) {
     this.apiEndPointsMap.set(CANCERS.PATIENT, 'http://localhost:8092/patientController');
     this.apiEndPointsMap.set(CANCERS.CANCER, 'http://localhost:8092/cancerTypeControllerById');
@@ -24,9 +27,10 @@ export class CancerTypeService {
     this.apiEndPointsMap.set(CANCERS.REGIMEN_DETAILS, 'http://localhost:8092/regimenDetailController');
   }
 
-  getCancerTypes(id: number, type): Observable<any> {
-
-    let url = type === CANCERS.PATIENT ? `${this.apiEndPointsMap.get(type)}`: ( type === CANCERS.REGIMEN_DETAILS ? `${this.apiEndPointsMap.get(type)}/${id}/names` : this.getURL(id));
+  getCancerTypes(): Observable<any> {
+    this.getDataFromRoute();
+    const type = this.cancerTree.nextItemToFetch();
+    let url = type === CANCERS.PATIENT ? `${this.apiEndPointsMap.get(type)}`: ( type === CANCERS.REGIMEN_DETAILS ? `${this.apiEndPointsMap.get(type)}/${this.regimenId}/names` : this.getURL());
 
     if(type === CANCERS.SUBCANCER) {
       const payload = {
@@ -49,7 +53,7 @@ export class CancerTypeService {
     }
   }
 
-  getURL(cancerId?) {
+  getURL() {
     const fetchingItem = this.cancerTree.nextItemToFetch();
    if (fetchingItem === CANCERS.SUBCANCER1) {
       return this.apiEndPointsMap.get(CANCERS.SUBCANCER1) + `/${this.patientId}/${this.cancerTypeId}`;
@@ -58,7 +62,7 @@ export class CancerTypeService {
     } else if(fetchingItem === CANCERS.SUBCANCER) {
      return  this.apiEndPointsMap.get(CANCERS.SUBCANCER) + '/get';
    } else if (fetchingItem === CANCERS.CANCER) {
-      return this.apiEndPointsMap.get(CANCERS.CANCER) + `/${cancerId}`;
+      return this.apiEndPointsMap.get(CANCERS.CANCER) + `/${this.patientId}`;
     }
 
   }
@@ -110,4 +114,83 @@ export class CancerTypeService {
     }));
   }
 
+  getNextUrl() {
+    let url = 'cancerTypes/';
+    if(this.patientId) {
+      url = url + this.patientId;
+    }
+
+     if(this.cancerTypeId) {
+       url = url + '/' + this.cancerTypeId;
+    }
+     if(this.subCancer1Id) {
+       url = url + '/' +  this.subCancer1Id;
+    }
+     if(this.subCancer2Id) {
+       url = url + '/' + this.subCancer2Id;
+    }
+     if(this.linkedId) {
+       url = url + '/' + this.linkedId;
+    }
+
+     return url;
+  }
+
+  getLatestItemAdded() {
+    if (this.linkedId) {
+      return this.linkedId;
+    } else if (this.subCancer2Id) {
+      return this.subCancer2Id;
+    } else if (this.subCancer1Id) {
+      return this.subCancer1Id;
+    } else if (this.cancerTypeId) {
+      return this.cancerTypeId;
+    } else if (this.patientId) {
+      return this.patientId;
+    }
+  }
+
+  getDataFromRoute() {
+    this.patientId = this.route.children[0].snapshot.params["patientId"];
+    this.cancerTypeId = this.route.children[0].snapshot.params["cancerId"];
+    this.subCancer1Id = this.route.children[0].snapshot.params["subCancerType1id"];
+    this.subCancer2Id = this.route.children[0].snapshot.params["subCancerType2Id"];
+    this.linkedId = this.route.children[0].snapshot.params["linkedId"];
+  }
+
+  getBreadCrumbData() {
+    const crumbs = [];
+    const keys = Object.keys(this.cancerTree.cancer) || [];
+    keys.forEach((breadCrumb, index) => {
+      let url = '';
+      switch(breadCrumb) {
+        case CANCERS.PATIENT:
+          url = 'http://localhost:4200/patientTypes';
+          break;
+        case CANCERS.REGIMEN_DETAILS:
+          break;
+        case CANCERS.CANCER:
+          url = `http://localhost:4200/cancerTypes/${this.patientId}`;
+          break;
+        case CANCERS.SUBCANCER1:
+          url = `http://localhost:4200/cancerTypes/${this.patientId}/${this.cancerTypeId}`;
+          break;
+        case CANCERS.SUBCANCER2:
+          url = `http://localhost:4200/cancerTypes/${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}`;
+          break;
+        case CANCERS.SUBCANCER:
+          if(this.linkedId) {
+            url = `http://localhost:4200/cancerTypes//${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}/${this.subCancer2Id}/${this.linkedId}`;
+          } else{
+            url = `http://localhost:4200/cancerTypes//${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}/${this.subCancer2Id}`
+          }
+          break;
+      }
+
+      crumbs.push(
+        {label: breadCrumb, url: url, styleClass: 'ui-breadcrumb'},
+      );
+    });
+    return crumbs;
+  }
 }

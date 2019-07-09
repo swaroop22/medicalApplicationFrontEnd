@@ -56,7 +56,7 @@ export class SubcancertypesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.crumbs = this.cancerTree.getBreadCrumbData();
+    this.crumbs = this.cancerTypeService.getBreadCrumbData();
   }
 
   showAddSubCancerType() {
@@ -65,7 +65,7 @@ export class SubcancertypesComponent implements OnInit {
 
   getSubCancerTypes(){
     const that = this;
-    this.cancerTypeService.getCancerTypes(this.routes.snapshot.params["id"], '').subscribe(function (resp) {
+    this.cancerTypeService.getCancerTypes().subscribe(function (resp) {
       that.subCancerTypes = resp;
     }, function (error) {
       alert('Error in getting SubCancer Types');

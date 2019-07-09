@@ -47,32 +47,29 @@ export class CancertypeComponent {
               public subcancertypeService2: Subcancertype2Service,
               public subcancertypeService3: Subcancertype3Service) {
     this.getCancerTypes();
-    this.crumbs = this.cancerTree.getBreadCrumbData();
+    this.crumbs = this.cancerTypeService.getBreadCrumbData();
   }
 
   ngOnInit() {
     this.addButtonName = this.cancerTree.nextItemToFetch();
   }
 
-  getCancerTypes(type?){
+  getCancerTypes(){
 
-    const id = this.routes.snapshot.params["id"];
+    // const id = this.routes.snapshot.params["id"];
+    //
+    //
+    // const typeToFetch = type || this.cancerTree.nextItemToFetch();
 
-
-    const typeToFetch = type || this.cancerTree.nextItemToFetch();
-
-    this.cancerTypeService.getCancerTypes(id, typeToFetch).subscribe( (resp) => {
+    this.cancerTypeService.getCancerTypes().subscribe( (resp) => {
       this.CancerTypes = resp;
-      this.crumbs = this.cancerTree.getBreadCrumbData();
+      this.crumbs = this.cancerTypeService.getBreadCrumbData();
 
       if(this.CancerTypes.length === 0)
       {
-        this.route.navigateByUrl(this.url + '/' + id);
+        const latestItemAdded = this.cancerTypeService.getLatestItemAdded();
+        this.route.navigateByUrl('regimenDetails/' + latestItemAdded);
       }
-
-      console.log(resp);
-
-      this.ngOnInit();
     }, (error) => {
       alert('Error in cancer types');
     });
@@ -110,17 +107,17 @@ export class CancertypeComponent {
 
   onClose(event) {
     if (event === 'add') {
-      this.addModal.hide();
+      this.isAddSubCancerTypeModal = false;
     }  else if (event === 'edit') {
-      this.editModal.hide();
+      this.isEditModal = false;
     } else if (event === 'delete') {
-      this.deleteModal.hide();
+      this.isDeleteModal = false;
     }
   }
 
   onHide(event) {
     if (event === 'add') {
-      this.isAddCancerTypeModal = false;
+      this.isAddSubCancerTypeModal = false;
     }  else if (event === 'edit') {
       this.isEditModal = false;
     } else if (event === 'delete') {
@@ -148,11 +145,14 @@ export class CancertypeComponent {
     });
   }
 
-  addCancerTypes(event: CancerType) {
+  addCancerTypes(event) {
+
+    this.cancerTypeService.addId(event.previousId);
     this.cancerTypeService.addCancerTypes(event, CANCERS.SUBCANCER1).subscribe((resp) => {
       const type = this.cancerTree.getCurrentLevel();
-      this.getCancerTypes(type);
+      const url  = this.cancerTypeService.getNextUrl();
       this.addModal.hide();
+      this.route.navigateByUrl(url);
     }, function (error) {
       alert('Person add error ' + event);
     });
@@ -162,18 +162,22 @@ export class CancertypeComponent {
     const type = this.cancerTree.nextItemToFetch();
 
     this.cancerTypeService.addId(id);
-    this.cancerTypeService.getCancerTypes(id, type).subscribe((resp) => {
-      this.CancerTypes = resp;
 
-      this.crumbs = this.cancerTree.getBreadCrumbData();
+    const url = this.cancerTypeService.getNextUrl();
+    this.route.navigateByUrl(url);
 
-      if(this.CancerTypes.length === 0)
-      {
-        this.route.navigateByUrl('/regimenDetails/' + id);
-      }
-    }, function (error) {
-      alert('Error in getting SubCancer Types');
-    });
+    // this.cancerTypeService.getCancerTypes(id, type).subscribe((resp) => {
+    //   this.CancerTypes = resp;
+    //
+    //   this.crumbs = this.cancerTree.getBreadCrumbData();
+    //
+    //   if(this.CancerTypes.length === 0)
+    //   {
+    //     this.route.navigateByUrl('/regimenDetails/' + id);
+    //   }
+    // }, function (error) {
+    //   alert('Error in getting SubCancer Types');
+    // });
   }
 
 }

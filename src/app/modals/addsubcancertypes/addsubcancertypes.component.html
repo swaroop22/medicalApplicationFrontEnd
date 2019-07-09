@@ -10,7 +10,14 @@
       <form class="form">
         <div class="form-group">
           <label class="form-control-label">Sub CancerType Title</label>
-          <ck-editor name="editor1" type="text" class="form-control" [(ngModel)]="CancerType.title" skin="moono-lisa" language="en"></ck-editor>
+          <ck-editor name="editor1" type="text" class="form-control" [(ngModel)]="subCancerAddData.title" skin="moono-lisa" language="en"></ck-editor>
+        </div>
+        <div class="form-group">
+          <label class="form-control-label">Select Patient Types</label>
+          <select class="form-control" (change)="onSelect($event.target.value)" required>
+            <option>Select Your Patient Type</option>
+            <option *ngFor="let dropDown of dropDownData" [value]="dropDown.id">{{dropDown.title}}</option>
+          </select>
         </div>
       </form>
     </div>
