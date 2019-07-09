@@ -161,11 +161,20 @@ export class CancerTypeService {
   }
 
   getDataFromRoute() {
-    this.patientId = this.route.children[0].snapshot.params["patientId"];
-    this.cancerTypeId = this.route.children[0].snapshot.params["cancerId"];
-    this.subCancer1Id = this.route.children[0].snapshot.params["subCancerType1id"];
-    this.subCancer2Id = this.route.children[0].snapshot.params["subCancerType2Id"];
-    this.linkedId = this.route.children[0].snapshot.params["linkedId"];
+    this.patientId = this.patientId ? this.patientId: this.route.children[0].snapshot.params['patientId'];
+    this.cancerTypeId = this.cancerTypeId ? this.cancerTypeId : this.route.children[0].snapshot.params['cancerId'];
+    this.subCancer1Id = this.subCancer1Id ? this.subCancer1Id : this.route.children[0].snapshot.params['subCancerType1id'];
+    this.subCancer2Id = this.subCancer2Id ? this.subCancer2Id : this.route.children[0].snapshot.params['subCancerType2Id'];
+
+    if (!this.linkedId) {
+      this.linkedId = this.route.children[0].snapshot.params['linkedId'];
+    } else {
+      if (this.linkedIds.indexOf(this.linkedId) === -1) {
+        this.linkedIds.push(this.linkedId);
+      }
+      this.linkedId = this.route.children[0].snapshot.params['linkedId'];
+    }
+
   }
 
   getBreadCrumbData() {
@@ -199,20 +208,28 @@ export class CancerTypeService {
       );
     }
 
+    if (this.subCancer2Id) {
+      url = `http://localhost:4200/cancerTypes/${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}/${this.subCancer2Id}`;
+      crumbs.push(
+        {label: CANCERS.SUBCANCER + 3 + 'TYPE', url: url, styleClass: 'ui-breadcrumb'},
+      );
+    }
+
+
     if (this.linkedIds.length > 0) {
       this.linkedIds.forEach((linkedId, index) => {
         url = `http://localhost:4200/cancerTypes/${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}/${this.subCancer2Id}/${linkedId}`;
         crumbs.push(
-          {label: CANCERS.SUBCANCER + (3 + index) + 'TYPE', url: url, styleClass: 'ui-breadcrumb'},
+          {label: CANCERS.SUBCANCER + (4 + index) + 'TYPE', url: url, styleClass: 'ui-breadcrumb'},
         );
       });
 
     }
 
     if (this.linkedId) {
-      url = `http://localhost:4200/cancerTypes//${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}/${this.subCancer2Id}/${this.linkedId}`;
+      url = `http://localhost:4200/cancerTypes/${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}/${this.subCancer2Id}/${this.linkedId}`;
       crumbs.push(
-        {label: CANCERS.SUBCANCER + (3 + this.linkedIds.length) + 'TYPE', url: url, styleClass: 'ui-breadcrumb'},
+        {label: CANCERS.SUBCANCER + (4 + this.linkedIds.length) + 'TYPE', url: url, styleClass: 'ui-breadcrumb'},
       );
     }
 
