@@ -46,12 +46,12 @@ export class CancertypeComponent {
               private subcancertypeService: SubcancertypeService,
               public subcancertypeService2: Subcancertype2Service,
               public subcancertypeService3: Subcancertype3Service) {
-    this.getCancerTypes();
     this.crumbs = this.cancerTypeService.getBreadCrumbData();
   }
 
   ngOnInit() {
     this.addButtonName = this.cancerTree.nextItemToFetch();
+    this.getCancerTypes();
   }
 
   getCancerTypes(){
@@ -152,7 +152,11 @@ export class CancertypeComponent {
       const type = this.cancerTree.getCurrentLevel();
       const url  = this.cancerTypeService.getNextUrl();
       this.addModal.hide();
-      this.route.navigateByUrl(url);
+      if(this.routes.snapshot.paramMap.get('linkedId')) {
+        this.ngOnInit();
+      } else {
+        this.route.navigateByUrl(url);
+      }
     }, function (error) {
       alert('Person add error ' + event);
     });
