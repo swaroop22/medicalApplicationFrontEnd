@@ -36,7 +36,12 @@ export class RegimendetailsComponent implements OnInit {
               private routes: ActivatedRoute,
               private route: Router,
               private cancerTree: CancerTreeService,) {
-    this.getRegimens();
+    if(this.route.url == '/regimenDetails'){
+      this.getAllRegimens();
+    } else {
+      this.getRegimens();
+    }
+    console.log(this.cancerTypeService.getBreadCrumbData());
     this.crumbs = this.cancerTypeService.getBreadCrumbData();
   }
 
@@ -105,6 +110,15 @@ export class RegimendetailsComponent implements OnInit {
       that.addModal.hide();
     }, function (error) {
       alert('Medicine add error ' + event.firstName);
+    });
+  }
+
+  getAllRegimens(){
+    this.cancerTypeService. getAllCancerTypes().subscribe((resp) => {
+      this.RegimenDetails = resp;
+      this.crumbs = this.cancerTypeService.getBreadCrumbData();
+    }, (error) => {
+      alert('Error in getting medicines');
     });
   }
 

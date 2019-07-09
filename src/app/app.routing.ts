@@ -102,7 +102,13 @@ export const routes: Routes = [
     data: {
       title: 'subcancertypes3'
     },
-  }
+  }, {
+    path: 'regimenDetails',
+    component: RegimendetailsComponent,
+    data: {
+      title: 'regimenDetails'
+    },
+  },
 ];
 
 @NgModule({
