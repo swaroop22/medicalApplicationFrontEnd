@@ -64,6 +64,7 @@ export class CancertypeComponent {
 
       if(this.CancerTypes.length === 0)
       {
+        this.crumbs.splice(this.crumbs.length - 1, 1);
         this.crumbs.push({label: CANCERS.REGIMEN_DETAILS,styleClass: 'ui-breadcrumb'});
         this.cancerTypeService.setBreadCrumbData(this.crumbs);
         const latestItemAdded = this.cancerTypeService.cancerTypeId;
