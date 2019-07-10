@@ -126,7 +126,6 @@ export class RegimendetailsComponent implements OnInit {
     this.cancerTypeService.regimenId = this.routes.snapshot.params["id"];
     this.cancerTypeService.getCancerTypes().subscribe((resp) => {
       this.RegimenDetails = resp;
-      this.crumbs = this.cancerTypeService.getBreadCrumbData();
     }, (error) => {
       alert('Error in getting medicines');
     });

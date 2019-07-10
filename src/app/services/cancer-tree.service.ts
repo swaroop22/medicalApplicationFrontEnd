@@ -12,7 +12,7 @@ export class  CancerTreeService {
   constructor(private router: Router,
               private route: ActivatedRoute,) {}
 
-  addItem(json: any, type) {
+  addItem(json: any, type?) {
     switch (type) {
       case CANCERS.CANCER:
         this.addCancer(json);
@@ -27,7 +27,7 @@ export class  CancerTreeService {
         break;
 
       default:
-        this.addSubCancer(json);
+        this.addSubCancer(json, type);
         break;
     }
   }
@@ -45,10 +45,8 @@ export class  CancerTreeService {
     this.cancer[CANCERS.REGIMEN_DETAILS] = regimenDetails;
   }
 
-  addSubCancer(subCancers: CancerType[]) {
-    if(subCancers.length > 0) {
-      this.cancer[this.getNextItemName()] = subCancers;
-    }
+  addSubCancer(subCancers: CancerType[], type) {
+      this.cancer[type] = subCancers;
   }
 
   clearCurrentLevel() {
@@ -66,8 +64,8 @@ export class  CancerTreeService {
     //
     let currentLevel: string = this.getCurrentLevel();
 
-    if(currentLevel === CANCERS.SUBCANCER && currentLevel != CANCERS.SUBCANCER1 && currentLevel != CANCERS.SUBCANCER2) {
-      currentLevel = CANCERS.SUBCANCER + (Object.keys(this.cancer).length - 1);
+    if(Number(currentLevel.charAt(9)) > 2 || currentLevel === CANCERS.SUBCANCER2) {
+      currentLevel = CANCERS.SUBCANCER + (Object.keys(this.cancer).length - 1) + 'TYPE';
     } else if (currentLevel === CANCERS.PATIENT) {
       return CANCERS.CANCER
     }  else if (currentLevel === CANCERS.CANCER) {
@@ -78,33 +76,61 @@ export class  CancerTreeService {
     return currentLevel;
   }
 
+  clearTillLevel(levelId) {
 
+    const keys = Object.keys(this.cancer);
+    const index = keys.indexOf(levelId);
+    const newCancerTree = {};
+
+    for(let i=0; i< index; i++) {
+      newCancerTree[keys[i]] = this.cancer[keys[i]];
+    }
+
+    this.cancer = newCancerTree;
+  }
 
   nextItemToFetch() {
 
-    const data = this.getDataFromRoute();
+    let currentLevel: string = this.getCurrentLevel();
 
-    // const currentLevel = this.getCurrentLevel();
     if(this.router.url.indexOf('regime') >= 0) {
-      return CANCERS.REGIMEN_DETAILS;
+         return CANCERS.REGIMEN_DETAILS;
     }
-    else if(data.linkedId) {
-      return CANCERS.SUBCANCER;
-    }
-    else if(data.subCancer2Id) {
-      return CANCERS.SUBCANCER;
-    }
-    else if(data.subCancer1Id) {
-      return CANCERS.SUBCANCER2;
-    }
-    else if(data.cancerTypeId) {
-      return CANCERS.SUBCANCER1;
-    }
-    else if(data.patientId) {
-      return CANCERS.CANCER;
-    } else {
+
+    if (!this.cancer[CANCERS.PATIENT]) {
       return CANCERS.PATIENT
     }
+    else if (currentLevel === CANCERS.PATIENT) {
+      return CANCERS.CANCER
+    }  else if (currentLevel === CANCERS.CANCER) {
+      return CANCERS.SUBCANCER1
+    }  else if (currentLevel === CANCERS.SUBCANCER1) {
+      return CANCERS.SUBCANCER2
+    } else  {
+      return  CANCERS.SUBCANCER + (Object.keys(this.cancer).length - 1);
+    }
+  }
+    // const currentLevel = this.getCurrentLevel();
+    // if(this.router.url.indexOf('regime') >= 0) {
+    //   return CANCERS.REGIMEN_DETAILS;
+    // }
+    // else if(data.linkedId) {
+    //   return CANCERS.SUBCANCER;
+    // }
+    // else if(data.subCancer2Id) {
+    //   return CANCERS.SUBCANCER;
+    // }
+    // else if(data.subCancer1Id) {
+    //   return CANCERS.SUBCANCER2;
+    // }
+    // else if(data.cancerTypeId) {
+    //   return CANCERS.SUBCANCER1;
+    // }
+    // else if(data.patientId) {
+    //   return CANCERS.CANCER;
+    // } else {
+    //   return CANCERS.PATIENT
+    // }
 
 
     // }
@@ -119,7 +145,6 @@ export class  CancerTreeService {
     // } else if (Object.keys(this.cancer).length >= 4 && !this.cancer.hasOwnProperty(CANCERS.REGIMEN_DETAILS) && this.cancer.hasOwnProperty(CANCERS.SUBCANCER2)) {
     //   return CANCERS.SUBCANCER;
     // }
-  }
 
   getDataFromRoute() {
 

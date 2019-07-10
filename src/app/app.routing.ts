@@ -14,6 +14,7 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'patientTypes',
     pathMatch: 'full',
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'patientTypes',
@@ -22,6 +23,7 @@ export const routes: Routes = [
       title: 'patientTypes',
       breadcrumb: 'PatientsTypes'
     },
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'cancerTypes/:patientId',
@@ -31,6 +33,7 @@ export const routes: Routes = [
       breadcrumb: 'cancerTypes'
 
     },
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'cancerTypes/:patientId/:cancerId',
@@ -40,6 +43,7 @@ export const routes: Routes = [
       breadcrumb: 'cancerTypes'
 
     },
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'cancerTypes/:patientId/:cancerId/:subCancerType1id',
@@ -49,6 +53,7 @@ export const routes: Routes = [
       breadcrumb: 'cancerTypes'
 
     },
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'cancerTypes/:patientId/:cancerId/:subCancerType1id/:subCancerType2Id',
@@ -58,6 +63,7 @@ export const routes: Routes = [
       breadcrumb: 'cancerTypes'
 
     },
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'cancerTypes/:patientId/:cancerId/:subCancerType1id/:subCancerType2Id/:linkedId',
@@ -67,6 +73,7 @@ export const routes: Routes = [
       breadcrumb: 'cancerTypes'
 
     },
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'subCancerTypes/:id',
@@ -74,6 +81,7 @@ export const routes: Routes = [
     data: {
       title: 'subCancerTypes'
     },
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'editRegimenDetails',
@@ -81,6 +89,7 @@ export const routes: Routes = [
     data: {
       title: 'editRegimenDetails'
     },
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'regimenDetails/:id',
@@ -88,6 +97,7 @@ export const routes: Routes = [
     data: {
       title: 'regimenDetails'
     },
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'subCancerTypes2/:id',
@@ -95,6 +105,7 @@ export const routes: Routes = [
     data: {
       title: 'subcancertypes2'
     },
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'subCancerTypes3/:id',
@@ -102,12 +113,14 @@ export const routes: Routes = [
     data: {
       title: 'subcancertypes3'
     },
+    runGuardsAndResolvers: 'always'
   }, {
     path: 'regimenDetails',
     component: RegimendetailsComponent,
     data: {
       title: 'regimenDetails'
     },
+    runGuardsAndResolvers: 'always'
   },
 ];
 

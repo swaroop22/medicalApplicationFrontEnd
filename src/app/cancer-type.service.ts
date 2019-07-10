@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/internal/Observable';
 import { map } from "rxjs/operators";
 import {CANCERS} from './constants/constants';
 import {CancerTreeService} from './services/cancer-tree.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Route, Router} from '@angular/router';
 import {Breadcrumb} from 'primeng/primeng';
 
 @Injectable()
@@ -16,9 +16,11 @@ export class CancerTypeService {
   private subCancer2Id;
   private linkedId;
   private linkedIds = [];
+  private breadCrumbs = [];
   public regimenId;
   constructor(private http: Http,
               private route: ActivatedRoute,
+              private router: Router,
               private cancerTree: CancerTreeService) {
     this.apiEndPointsMap.set(CANCERS.PATIENT, 'http://localhost:8092/patientController');
     this.apiEndPointsMap.set(CANCERS.CANCER, 'http://localhost:8092/cancerTypeControllerById');
@@ -28,30 +30,110 @@ export class CancerTypeService {
     this.apiEndPointsMap.set(CANCERS.REGIMEN_DETAILS, 'http://localhost:8092/regimenDetailController');
   }
 
-  getCancerTypes(): Observable<any> {
+  getCancerTypes(typeToFetch?): Observable<any> {
     this.getDataFromRoute();
     const type = this.cancerTree.nextItemToFetch();
     let url = type === CANCERS.PATIENT ? `${this.apiEndPointsMap.get(type)}`: ( type === CANCERS.REGIMEN_DETAILS ? `${this.apiEndPointsMap.get(type)}/${this.regimenId}/names` : this.getURL());
 
-    if(type === CANCERS.SUBCANCER) {
-      const payload = {
-        patienttypeid: this.patientId,
-        cancerTypeId: this.cancerTypeId,
-        subcancertype1id: this.subCancer1Id,
-        subcancertype2id: this.subCancer2Id,
-        linkedSubCancerId: this.linkedId,
-      };
-      return this.http.post(url, payload).pipe(map( response => {
+    const payload = {
+      patienttypeid: this.patientId,
+      cancerTypeId: this.cancerTypeId,
+      subcancertype1id: this.subCancer1Id,
+      subcancertype2id: this.subCancer2Id,
+      linkedSubCancerId: this.linkedId,
+    };
+
+    if([CANCERS.PATIENT, CANCERS.CANCER, CANCERS.SUBCANCER1, CANCERS.SUBCANCER2, CANCERS.REGIMEN_DETAILS].indexOf(type) > -1 ) {
+      return this.http.get(url).pipe(map( response => {
         this.cancerTree.addItem(response.json(), type);
+        if(type !== CANCERS.REGIMEN_DETAILS) {
+          const id = this.cancerTree.getCurrentLevel();
+          this.breadCrumbs.push({label: id, styleClass: 'ui-breadcrumb', command: (event) => {
+              this.callAlert(event);
+            }});
+          // this.breadCrumbs.push({label: id, url: url, styleClass: 'ui-breadcrumb'});
+
+        }
+
         return response.json();
       }));
     }
     else {
-      return this.http.get(url).pipe(map( response => {
-        this.cancerTree.addItem(response.json(), type);
+
+      return this.http.post(url, payload).pipe(map( response => {
+        // if(type === CANCERS.SUBCANCER1 || type === CANCERS.SUBCANCER2) {
+        //
+        // } else {
+        //   this.cancerTree.addItem(response.json());
+        //
+        // }
+        const id = CANCERS.SUBCANCER + (this.breadCrumbs.length - 1) + 'TYPE' ;
+
+        if(response.json().length !== 0) {
+          this.cancerTree.addItem(response.json(), id);
+
+          const cl = this.cancerTree.getCurrentLevel();
+          this.breadCrumbs.push({label: cl, styleClass: 'ui-breadcrumb', command: (event) => {
+              this.callAlert(event);
+            }});
+          // this.breadCrumbs.push({label: id, url: url, styleClass: 'ui-breadcrumb'});
+
+        }
+
         return response.json();
       }));
     }
+  }
+
+  callAlert(event) {
+
+    const level = event.item.label;
+
+    const typeNumber = isNaN(level.charAt(9)) ? level.charAt(9) : Number(level.charAt(9));
+
+    if(typeNumber === 3) {
+      this.linkedIds = [];
+    } else if (typeNumber > 3 ) {
+      this.linkedIds = this.linkedIds.slice(0, (3 - this.linkedIds.length));
+    } else if (typeNumber === 2) {
+      this.linkedIds = [];
+      this.linkedId = undefined;
+    } else if (typeNumber === 1) {
+      this.linkedIds = [];
+      this.linkedId = undefined;
+      this.subCancer2Id = undefined;
+    } else if (typeNumber === 'E') {
+      this.linkedIds = [];
+      this.linkedId = undefined;
+      this.subCancer2Id = undefined;
+      this.subCancer1Id = undefined;
+      this.cancerTypeId  = undefined;
+    }  else if (typeNumber === 'P') {
+      this.linkedIds = [];
+      this.linkedId = undefined;
+      this.subCancer2Id = undefined;
+      this.subCancer1Id = undefined;
+      this.cancerTypeId  = undefined;
+      this.patientId = undefined;
+    }
+
+    this.refreshBreadCrumbs(level);
+    this.cancerTree.clearTillLevel(level);
+
+
+    this.router.navigateByUrl(this.getNextUrl())
+  }
+
+  refreshBreadCrumbs(level) {
+    let breadCrumbToSliceId = 0;
+    for(let i=0; i< this.breadCrumbs.length; i++) {
+      // newBreadCrumbs.push(this.breadCrumbs[i]);
+      if(this.breadCrumbs[i].label === level) {
+        breadCrumbToSliceId = i;
+      }
+    }
+
+    this.breadCrumbs = this.breadCrumbs.slice(0, breadCrumbToSliceId);
   }
 
   getURL() {
@@ -60,12 +142,11 @@ export class CancerTypeService {
       return this.apiEndPointsMap.get(CANCERS.SUBCANCER1) + `/${this.patientId}/${this.cancerTypeId}`;
     } else if (fetchingItem === CANCERS.SUBCANCER2) {
       return  this.apiEndPointsMap.get(CANCERS.SUBCANCER2) + `/${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}`;
-    } else if(fetchingItem === CANCERS.SUBCANCER) {
+    } else if(fetchingItem === CANCERS.CANCER) {
+     return this.apiEndPointsMap.get(CANCERS.CANCER) + `/${this.patientId}`;
+   } else {
      return  this.apiEndPointsMap.get(CANCERS.SUBCANCER) + '/get';
-   } else if (fetchingItem === CANCERS.CANCER) {
-      return this.apiEndPointsMap.get(CANCERS.CANCER) + `/${this.patientId}`;
-    }
-
+   }
   }
 
   getAllCancerTypes() : Observable<any>{
@@ -178,69 +259,43 @@ export class CancerTypeService {
   }
 
   getBreadCrumbData() {
-    const crumbs = [];
+    return this.breadCrumbs;
+  }
+
+  setBreadCrumbData(data: any[]) {
+    this.breadCrumbs = data;
+  }
+
+  getBreadCrumbUrl(payLoad) {
 
     let url = '';
 
-    url = 'http://localhost:4200/patientTypes';
-    crumbs.push(
-      {label: CANCERS.PATIENT, url: url, styleClass: 'ui-breadcrumb'},
-    );
+    url = 'patientTypes';
 
-    if (this.patientId) {
-      url = `http://localhost:4200/cancerTypes/${this.patientId}`;
-      crumbs.push(
-        {label: CANCERS.CANCER, url: url, styleClass: 'ui-breadcrumb'},
-      );
-    }
-
-    if (this.cancerTypeId) {
-      url = `http://localhost:4200/cancerTypes/${this.patientId}/${this.cancerTypeId}`;
-      crumbs.push(
-        {label: CANCERS.SUBCANCER1, url: url, styleClass: 'ui-breadcrumb'},
-      );
-    }
-
-    if (this.subCancer1Id) {
-      url = `http://localhost:4200/cancerTypes/${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}`;
-      crumbs.push(
-        {label: CANCERS.SUBCANCER2, url: url, styleClass: 'ui-breadcrumb'},
-      );
-    }
-
-    if (this.subCancer2Id) {
-      url = `http://localhost:4200/cancerTypes/${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}/${this.subCancer2Id}`;
-      crumbs.push(
-        {label: CANCERS.SUBCANCER + 3 + 'TYPE', url: url, styleClass: 'ui-breadcrumb'},
-      );
-    }
-
-
-    if (this.linkedIds.length > 0) {
-      this.linkedIds.forEach((linkedId, index) => {
-        url = `http://localhost:4200/cancerTypes/${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}/${this.subCancer2Id}/${linkedId}`;
-        crumbs.push(
-          {label: CANCERS.SUBCANCER + (4 + index) + 'TYPE', url: url, styleClass: 'ui-breadcrumb'},
-        );
-      });
+    if (payLoad.patienttypeid) {
+      url = `cancerTypes/${payLoad.patienttypeid}`;
 
     }
 
-    if (this.linkedId) {
-      url = `http://localhost:4200/cancerTypes/${this.patientId}/${this.cancerTypeId}/${this.subCancer1Id}/${this.subCancer2Id}/${this.linkedId}`;
-      crumbs.push(
-        {label: CANCERS.SUBCANCER + (4 + this.linkedIds.length) + 'TYPE', url: url, styleClass: 'ui-breadcrumb'},
-      );
+    if (payLoad.cancerTypeId) {
+      url = `cancerTypes/${payLoad.patienttypeid}/${payLoad.cancerTypeId}`;
+
+    }
+
+    if (payLoad.subcancertype1id) {
+      url = `cancerTypes/${payLoad.patienttypeid}/${payLoad.cancerTypeId}/${payLoad.subcancertype1id}`;
+
+    }
+
+    if (payLoad.subcancertype2id) {
+      url = `cancerTypes/${payLoad.patienttypeid}/${payLoad.cancerTypeId}/${payLoad.subcancertype1id}/${payLoad.subcancertype2id}`;
     }
 
 
-    if (this.regimenId) {
-      url = 'http://localhost:4200/regimenDetails';
-      crumbs.push(
-        {label: CANCERS.REGIMEN_DETAILS, url: url, styleClass: 'ui-breadcrumb'},
-      );
+    if (payLoad.linkedSubCancerId) {
+      url = `cancerTypes/${payLoad.patienttypeid}/${payLoad.cancerTypeId}/${payLoad.subcancertype1id}/${payLoad.subcancertype2id}/${payLoad.linkedSubCancerId}`;
     }
 
-    return crumbs;
+    return url;
   }
 }

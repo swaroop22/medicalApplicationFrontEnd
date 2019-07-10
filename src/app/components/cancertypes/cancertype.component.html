@@ -1,5 +1,5 @@
 <ul class="breadcrumb">
-<p-breadcrumb [style]="" [model]="crumbs" ></p-breadcrumb>
+<p-breadcrumb [style]="" (itemClick)="routeToPage(event, item)" [model]="crumbs" ></p-breadcrumb>
   <button class="btn btn-primary pull-right bread-crumb-button" (click)="showAddSubCancerType()">Add {{cancerTree.getNextItemName()}}</button>
 </ul>
 
