@@ -11,7 +11,7 @@ import {Breadcrumb} from 'primeng/primeng';
 export class CancerTypeService {
   private apiEndPointsMap: Map<string, string> = new Map();
   private patientId;
-  private cancerTypeId;
+  cancerTypeId;
   private subCancer1Id;
   private subCancer2Id;
   private linkedId;
@@ -33,7 +33,7 @@ export class CancerTypeService {
   getCancerTypes(typeToFetch?): Observable<any> {
     this.getDataFromRoute();
     const type = this.cancerTree.nextItemToFetch();
-    let url = type === CANCERS.PATIENT ? `${this.apiEndPointsMap.get(type)}`: ( type === CANCERS.REGIMEN_DETAILS ? `${this.apiEndPointsMap.get(type)}/${this.regimenId}/names` : this.getURL());
+    let url = type === CANCERS.PATIENT ? `${this.apiEndPointsMap.get(type)}`: ( type === CANCERS.REGIMEN_DETAILS ? `${this.apiEndPointsMap.get(type)}/${this.cancerTypeId}/names` : this.getURL());
 
     const payload = {
       patienttypeid: this.patientId,

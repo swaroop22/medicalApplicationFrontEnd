@@ -66,7 +66,7 @@ export class CancertypeComponent {
       {
         this.crumbs.push({label: CANCERS.REGIMEN_DETAILS,styleClass: 'ui-breadcrumb'});
         this.cancerTypeService.setBreadCrumbData(this.crumbs);
-        const latestItemAdded = this.cancerTypeService.getLatestItemAdded();
+        const latestItemAdded = this.cancerTypeService.cancerTypeId;
         this.route.navigateByUrl('regimenDetails/' + latestItemAdded);
       }
     }, (error) => {
