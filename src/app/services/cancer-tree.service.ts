@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {PatientType} from '../state/PatientType';
 import {CANCERS} from '../constants/constants';
 import {CancerType} from '../state/CancerType';
-import {createForJitStub} from '@angular/compiler/src/aot/summary_serializer';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Injectable()
@@ -97,7 +96,7 @@ export class  CancerTreeService {
          return CANCERS.REGIMEN_DETAILS;
     }
 
-    if (!this.cancer[CANCERS.PATIENT]) {
+    if (!this.cancer[CANCERS.PATIENT] || this.router.url.indexOf('patientTypes') >= 0) {
       return CANCERS.PATIENT
     }
     else if (currentLevel === CANCERS.PATIENT) {
@@ -110,41 +109,6 @@ export class  CancerTreeService {
       return  CANCERS.SUBCANCER + (Object.keys(this.cancer).length - 1);
     }
   }
-    // const currentLevel = this.getCurrentLevel();
-    // if(this.router.url.indexOf('regime') >= 0) {
-    //   return CANCERS.REGIMEN_DETAILS;
-    // }
-    // else if(data.linkedId) {
-    //   return CANCERS.SUBCANCER;
-    // }
-    // else if(data.subCancer2Id) {
-    //   return CANCERS.SUBCANCER;
-    // }
-    // else if(data.subCancer1Id) {
-    //   return CANCERS.SUBCANCER2;
-    // }
-    // else if(data.cancerTypeId) {
-    //   return CANCERS.SUBCANCER1;
-    // }
-    // else if(data.patientId) {
-    //   return CANCERS.CANCER;
-    // } else {
-    //   return CANCERS.PATIENT
-    // }
-
-
-    // }
-    // else if (!this.cancer.hasOwnProperty(CANCERS.PATIENT)) {
-    //   return CANCERS.PATIENT;
-    // } else if (!this.cancer.hasOwnProperty(CANCERS.CANCER)) {
-    //   return CANCERS.CANCER;
-    // } else if (!this.cancer.hasOwnProperty(CANCERS.SUBCANCER1)) {
-    //   return CANCERS.SUBCANCER1;
-    // } else if (!this.cancer.hasOwnProperty(CANCERS.SUBCANCER2)) {
-    //   return CANCERS.SUBCANCER2;
-    // } else if (Object.keys(this.cancer).length >= 4 && !this.cancer.hasOwnProperty(CANCERS.REGIMEN_DETAILS) && this.cancer.hasOwnProperty(CANCERS.SUBCANCER2)) {
-    //   return CANCERS.SUBCANCER;
-    // }
 
   getDataFromRoute() {
 

@@ -52,7 +52,8 @@
 
 <app-addsubcancertypes *ngIf="isAddSubCancerTypeModal" (onHide)="onHide('add')" [config]="{ show: true }" bsModal
                        #addModal="bs-modal" (yes)="addCancerTypes($event)" (cancel)="onClose('add')" class="modal fade"
-                       [Error]="addCancerTypeError"></app-addsubcancertypes>
+                       [Error]="addCancerTypeError">
+</app-addsubcancertypes>
 
 
 <app-editcancertypes *ngIf="isEditModal" (onHide)="onHide('edit')" [config]="{ show: true }" bsModal

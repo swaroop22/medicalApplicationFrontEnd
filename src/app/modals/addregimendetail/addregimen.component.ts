@@ -39,9 +39,6 @@ export class AddregimenComponent implements OnChanges {
               private subCancerType2Service: Subcancertype2Service,
               private subCancerType3Service: Subcancertype3Service,
               private routes: ActivatedRoute) {
-    this.getSubCancerTypes();
-    this.getSubCancerTypes2();
-    this.getSubCancerTypes3();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -80,33 +77,6 @@ export class AddregimenComponent implements OnChanges {
 
   onSelect(event){
     this.id2 = event;
-  }
-
-  getSubCancerTypes(){
-    const that = this;
-    this.subCancerType1Service.getAllSubCancerTypes1().subscribe(function (resp) {
-      that.subCancerTypes = resp;
-    }, function (error) {
-      alert('Error in getting SubCancer Types');
-    });
-  }
-
-  getSubCancerTypes2(){
-    const that = this;
-    this.subCancerType2Service.getAllSubCancerTypes2().subscribe(function (resp) {
-      that.subCancerTypes2 = resp;
-    }, function (error) {
-      alert('Error in getting SubCancer Types');
-    });
-  }
-
-  getSubCancerTypes3(){
-    const that = this;
-    this.subCancerType3Service.getAllSubCancerTypes3().subscribe(function (resp) {
-      that.subCancerTypes3 = resp;
-    }, function (error) {
-      alert('Error in getting SubCancer Types');
-    });
   }
 
   onSelect2(event){

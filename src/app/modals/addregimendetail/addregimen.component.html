@@ -36,27 +36,6 @@
           <label class="form-control-label">Brand Names</label>
           <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.brandNames">
         </div>
-        <div class="form-group">
-          <label class="form-control-label">Select SubCancer Types</label>
-          <select class="form-control" (change)="onSelect($event.target.value)" required>
-            <option>Select Your Patient Type</option>
-            <option *ngFor="let subCancerType of subCancerTypes" [value]="subCancerType.id">{{subCancerType.title}}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-control-label">Select SubCancer2 Types</label>
-          <select class="form-control" (change)="onSelect($event.target.value)" required>
-            <option>Select Your Patient Type</option>
-            <option *ngFor="let subCancerType of subCancerTypes2" [value]="subCancerType.id">{{subCancerType.title}}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-control-label">Select SubCancer3 Types</label>
-          <select class="form-control" (change)="onSelect($event.target.value)" required>
-            <option>Select Your Patient Type</option>
-            <option *ngFor="let subCancerType of subCancerTypes3" [value]="subCancerType.id">{{subCancerType.title}}</option>
-          </select>
-        </div>
       </form>
     </div>
     <div class="modal-footer">

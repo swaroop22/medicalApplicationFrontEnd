@@ -104,7 +104,6 @@ export class RegimendetailsComponent implements OnInit {
 
   addRegimenDetail(event) {
     const that = this;
-    event.dob = new Date(event.dob);
     this.RegimenDetailService.addRegimenDetail(event).subscribe(function (resp) {
       that.getRegimens();
       that.addModal.hide();
