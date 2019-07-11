@@ -48,9 +48,19 @@ export class CancerTypeService {
         this.cancerTree.addItem(response.json(), type);
         if(type !== CANCERS.REGIMEN_DETAILS) {
           const id = this.cancerTree.getCurrentLevel();
-          this.breadCrumbs.push({label: id, styleClass: 'ui-breadcrumb', command: (event) => {
-              this.callAlert(event);
-            }});
+
+          let breadCrumbPresent = false;
+          this.breadCrumbs.forEach(breadCrumb => {
+            if(breadCrumb.label === id) {
+              breadCrumbPresent = true;
+            }
+          });
+
+          if(!breadCrumbPresent) {
+            this.breadCrumbs.push({label: id, styleClass: 'ui-breadcrumb', command: (event) => {
+                this.callAlert(event);
+              }});
+          }
           // this.breadCrumbs.push({label: id, url: url, styleClass: 'ui-breadcrumb'});
 
         }
@@ -73,9 +83,19 @@ export class CancerTypeService {
           this.cancerTree.addItem(response.json(), id);
 
           const cl = this.cancerTree.getCurrentLevel();
-          this.breadCrumbs.push({label: cl, styleClass: 'ui-breadcrumb', command: (event) => {
-              this.callAlert(event);
-            }});
+
+          let breadCrumbPresent = false;
+          this.breadCrumbs.forEach(breadCrumb => {
+            if(breadCrumb.label === cl) {
+              breadCrumbPresent = true;
+            }
+          });
+
+          if(!breadCrumbPresent) {
+            this.breadCrumbs.push({label: cl, styleClass: 'ui-breadcrumb', command: (event) => {
+                this.callAlert(event);
+              }});
+          }
           // this.breadCrumbs.push({label: id, url: url, styleClass: 'ui-breadcrumb'});
 
         }
