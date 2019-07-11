@@ -79,7 +79,6 @@ export class CancerTypeService {
         // }
         const id = CANCERS.SUBCANCER + (this.breadCrumbs.length - 1) + 'TYPE' ;
 
-        if(response.json().length !== 0) {
           this.cancerTree.addItem(response.json(), id);
 
           const cl = this.cancerTree.getCurrentLevel();
@@ -98,7 +97,6 @@ export class CancerTypeService {
           }
           // this.breadCrumbs.push({label: id, url: url, styleClass: 'ui-breadcrumb'});
 
-        }
 
         return response.json();
       }));
