@@ -129,4 +129,7 @@ export class PatientsComponent implements OnInit {
     });
   }
 
+  goToAllRegiments() {
+    this.route.navigateByUrl('regimenDetails/0');
+  }
 }

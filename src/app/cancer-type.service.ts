@@ -33,7 +33,7 @@ export class CancerTypeService {
   getCancerTypes(typeToFetch?): Observable<any> {
     this.getDataFromRoute();
     const type = this.cancerTree.nextItemToFetch();
-    let url = type === CANCERS.PATIENT ? `${this.apiEndPointsMap.get(type)}`: ( type === CANCERS.REGIMEN_DETAILS ? `${this.apiEndPointsMap.get(type)}/${this.cancerTypeId}/names` : this.getURL());
+    let url = type === CANCERS.PATIENT ? `${this.apiEndPointsMap.get(type)}`: ( type === CANCERS.REGIMEN_DETAILS ? `${this.apiEndPointsMap.get(type)}/${this.cancerTypeId || 0}/names` : this.getURL());
 
     const payload = {
       patienttypeid: this.patientId,
@@ -207,10 +207,10 @@ export class CancerTypeService {
 
   getNextUrl() {
     let url = 'cancerTypes/';
+
     if(this.patientId) {
       url = url + this.patientId;
     }
-
      if(this.cancerTypeId) {
        url = url + '/' + this.cancerTypeId;
     }
@@ -223,6 +223,9 @@ export class CancerTypeService {
      if(this.linkedId) {
        url = url + '/' + this.linkedId;
     }
+     if(url === 'cancerTypes/') {
+       url = 'patientTypes'
+     }
 
      return url;
   }

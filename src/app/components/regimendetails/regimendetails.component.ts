@@ -116,7 +116,9 @@ export class RegimendetailsComponent implements OnInit {
   getAllRegimens(){
     this.cancerTypeService. getAllCancerTypes().subscribe((resp) => {
       this.RegimenDetails = resp;
-      this.crumbs = this.cancerTypeService.getBreadCrumbData();
+      this.crumbs = [{label: 'PATIENTTYPE', styleClass: 'ui-breadcrumb', command: (event) => {
+          this.route.navigateByUrl('patientTypes')
+        }}];
     }, (error) => {
       alert('Error in getting medicines');
     });

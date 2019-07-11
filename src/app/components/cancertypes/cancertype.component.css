@@ -41,3 +41,17 @@ ul.breadcrumb[_ngcontent-yqc-c0] {
   background-color: white;
   border-bottom: 1px solid #c2cfd6;
 }
+
+.bread-crumb-container {
+  width: 90%;
+}
+
+
+.b-c-container {
+  display: flex;
+}
+
+.button-right {
+  align-self: end;
+}
+
