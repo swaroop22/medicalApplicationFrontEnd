@@ -8,6 +8,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class  CancerTreeService {
   cancer: any = {};
 
+  parentCancers = [];
+  subCancers = [];
+  regimenDetails = [];
+
+  currentCancer = {};
+
   constructor(private router: Router,
               private route: ActivatedRoute,) {}
 
@@ -53,39 +59,19 @@ export class  CancerTreeService {
   }
 
   getCurrentLevel() {
-    return Object.keys(this.cancer)[Object.keys(this.cancer).length -1];
+    if(this.parentCancers && this.parentCancers.length > 0) {
+      return 'SUBCANCER' + this.parentCancers.length + 'TYPE';
+    } else if (!this.parentCancers){
+      return 'PATIENTTYPE';
+    }
   }
 
   getNextItemName() {
-    // const newSubCancerLevel = Object.keys(this.cancer).length - 1; // removing the patient and cancer types
-    //
-    // return CANCERS.SUBCANCER + newSubCancerLevel + 'TYPE'
-    //
-    let currentLevel: string = this.getCurrentLevel();
-
-    if(Number(currentLevel.charAt(9)) > 2 || currentLevel === CANCERS.SUBCANCER2) {
-      currentLevel = CANCERS.SUBCANCER + (Object.keys(this.cancer).length - 1) + 'TYPE';
-    } else if (currentLevel === CANCERS.PATIENT) {
-      return CANCERS.CANCER
-    }  else if (currentLevel === CANCERS.CANCER) {
-      return CANCERS.SUBCANCER1
-    }  else if (currentLevel === CANCERS.SUBCANCER1) {
-      return CANCERS.SUBCANCER2
+    if(this.parentCancers && this.parentCancers.length > 0) {
+      return 'SUBCANCER' + this.parentCancers.length + 'TYPE';
+    } else if (!this.parentCancers){
+      return 'CANCERYPE';
     }
-    return currentLevel;
-  }
-
-  clearTillLevel(levelId) {
-
-    const keys = Object.keys(this.cancer);
-    const index = keys.indexOf(levelId);
-    const newCancerTree = {};
-
-    for(let i=0; i< index; i++) {
-      newCancerTree[keys[i]] = this.cancer[keys[i]];
-    }
-
-    this.cancer = newCancerTree;
   }
 
   nextItemToFetch() {
@@ -110,15 +96,11 @@ export class  CancerTreeService {
     }
   }
 
-  getDataFromRoute() {
-
-    return {
-    patientId : this.route.children[0].snapshot.params["patientId"],
-    cancerTypeId : this.route.children[0].snapshot.params["cancerId"],
-    subCancer1Id : this.route.children[0].snapshot.params["subCancerType1id"],
-    subCancer2Id : this.route.children[0].snapshot.params["subCancerType2Id"],
-    linkedId : this.route.children[0].snapshot.params["linkedId"]
-    };
-
+  processResponse(json: any) {
+    this.parentCancers  = json.parentCancers;
+    this.subCancers = json.subCancers;
+    this.regimenDetails = json.regimenDetails;
   }
+
+
 }

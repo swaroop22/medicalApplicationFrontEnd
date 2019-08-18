@@ -43,10 +43,7 @@ export class CancertypeComponent {
   constructor(private cancerTypeService: CancerTypeService,
               private routes: ActivatedRoute,
               private route: Router,
-              private cancerTree: CancerTreeService,
-              private subcancertypeService: SubcancertypeService,
-              public subcancertypeService2: Subcancertype2Service,
-              public subcancertypeService3: Subcancertype3Service) {
+              private cancerTree: CancerTreeService) {
   }
 
   ngOnInit() {
@@ -57,8 +54,8 @@ export class CancertypeComponent {
   }
 
   getCancerTypes(){
-   this.cancerTypeService.getCancerTypes().subscribe( (resp) => {
-      this.CancerTypes = resp;
+   this.cancerTypeService.getCancerById().subscribe( (resp) => {
+      this.CancerTypes = resp.subCancers;
       this.crumbs = this.cancerTypeService.getBreadCrumbData();
       this.addButtonName = this.cancerTree.nextItemToFetch();
 
@@ -68,7 +65,9 @@ export class CancertypeComponent {
         this.crumbs.push({label: CANCERS.REGIMEN_DETAILS,styleClass: 'ui-breadcrumb'});
         this.cancerTypeService.setBreadCrumbData(this.crumbs);
         const latestItemAdded = this.cancerTypeService.cancerTypeId;
-        this.route.navigateByUrl('regimenDetails/' + latestItemAdded);
+        if(resp.id) {
+          this.route.navigateByUrl('regimenDetails/' + resp.id);
+        }
       }
     }, (error) => {
       alert('Error in cancer types');
@@ -78,15 +77,7 @@ export class CancertypeComponent {
   showAddCancerType() {
 
 
-    const type = this.cancerTree.nextItemToFetch();
-
-    if( type=== CANCERS.SUBCANCER || type === CANCERS.SUBCANCER2) {
-      this.isAddSubCancerTypeModal = true;
-      this.isAddCancerTypeModal = false;
-    } else {
-      this.isAddSubCancerTypeModal = false;
-      this.isAddCancerTypeModal = true;
-    }
+    this.isAddSubCancerTypeModal = true;
   }
 
   showAddSubCancerType() {
@@ -127,7 +118,7 @@ export class CancertypeComponent {
 
   editCancerTypes(data){
     const that = this;
-    this.cancerTypeService.editCancerTypes(data, CANCERS.SUBCANCER1).subscribe(function (resp) {
+    this.cancerTypeService.editCancerTypes(data).subscribe(function (resp) {
       that.getCancerTypes();
       that.editModal.hide();
     }, function (error) {
@@ -147,8 +138,8 @@ export class CancertypeComponent {
 
   addCancerTypes(event) {
 
-    this.cancerTypeService.addId(event.previousId);
-    this.cancerTypeService.addCancerTypes(event, CANCERS.SUBCANCER1).subscribe((resp) => {
+    // this.cancerTypeService.addId(event.previousId);
+    this.cancerTypeService.addCancerTypes(event).subscribe((resp) => {
       const type = this.cancerTree.getCurrentLevel();
       const url  = this.cancerTypeService.getNextUrl();
       this.addModal.hide();
@@ -163,32 +154,7 @@ export class CancertypeComponent {
   }
 
   getUrlFix(id: number) {
-
-    this.cancerTypeService.addId(id);
-
-    const url = this.cancerTypeService.getNextUrl();
-
-    if(this.routes.snapshot.paramMap.get('linkedId')) {
-      this.route.navigate([url], {
-        queryParams: {refresh: new Date().getTime()} } );
-      // this.ngOnInit();
-    } else {
-      this.route.navigateByUrl(url);
-    }
-
-
-    // this.cancerTypeService.getCancerTypes(id, type).subscribe((resp) => {
-    //   this.CancerTypes = resp;
-    //
-    //   this.crumbs = this.cancerTree.getBreadCrumbData();
-    //
-    //   if(this.CancerTypes.length === 0)
-    //   {
-    //     this.route.navigateByUrl('/regimenDetails/' + id);
-    //   }
-    // }, function (error) {
-    //   alert('Error in getting SubCancer Types');
-    // });
+    this.route.navigateByUrl('subCancers/' + id);
   }
 
   routeToPage(event, item) {

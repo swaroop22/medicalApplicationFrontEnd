@@ -14,7 +14,6 @@ import { CKEditorModule } from 'ngx-ckeditor';
 import {PatientsComponent} from './components/patients/patients.component';
 import {RegimendetailsComponent} from './components/regimendetails/regimendetails.component';
 import {CancertypeComponent} from './components/cancertypes/cancertype.component';
-import {SubcancertypesComponent} from './components/subcancertypes/subcancertypes.component';
 import {BreadcrumbsModule} from "ng6-breadcrumbs";
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {AddpatienttypesComponent} from './modals/addpatienttypes/addpatienttypes.component';
@@ -26,10 +25,8 @@ import {DeletecancertypesComponent} from './modals/deletecancertypes/deletecance
 import {AddsubcancertypesComponent} from './modals/addsubcancertypes/addsubcancertypes.component';
 import {DeletesubcancertypesComponent} from './modals/deletesubcancertypes/deletesubcancertypes.component';
 import {EditsubcancertypesComponent} from './modals/editsubcancertypes/editsubcancertypes.component';
-import {Subcancertypes2Component} from './components/subcancertype2/subcancertypes2.component';
 
 import {TreeTableModule} from 'primeng/treetable';
-import {Subcancertypes3Component} from './components/subcancertype3/subcancertypes3.component';
 import {CancerTreeService} from './services/cancer-tree.service';
 import {KeysPipe} from './pipes/keys.pipe';
 
@@ -42,7 +39,6 @@ import {KeysPipe} from './pipes/keys.pipe';
     DeleteregimenComponent,
     PatientsComponent,
     RegimendetailsComponent,
-    SubcancertypesComponent,
     CancertypeComponent,
     AddpatienttypesComponent,
     DeletepatienttypesComponent,
@@ -53,8 +49,6 @@ import {KeysPipe} from './pipes/keys.pipe';
     AddsubcancertypesComponent,
     DeletesubcancertypesComponent,
     EditsubcancertypesComponent,
-    Subcancertypes2Component,
-    Subcancertypes3Component,
     KeysPipe
   ],
   imports: [

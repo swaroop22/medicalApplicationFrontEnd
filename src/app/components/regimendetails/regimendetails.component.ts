@@ -113,8 +113,8 @@ export class RegimendetailsComponent implements OnInit {
   }
 
   getAllRegimens(){
-    this.cancerTypeService. getAllCancerTypes().subscribe((resp) => {
-      this.RegimenDetails = resp;
+    this.cancerTypeService.getRegimenById().subscribe((resp) => {
+      this.RegimenDetails = resp.regimenDetail;
       this.crumbs = [{label: 'PATIENTTYPE', styleClass: 'ui-breadcrumb', command: (event) => {
           this.route.navigateByUrl('patientTypes')
         }}];
@@ -124,9 +124,10 @@ export class RegimendetailsComponent implements OnInit {
   }
 
   getRegimens() {
+    const regimenId = this.routes.snapshot.params["id"];
     this.cancerTypeService.regimenId = this.routes.snapshot.params["id"];
-    this.cancerTypeService.getCancerTypes().subscribe((resp) => {
-      this.RegimenDetails = resp;
+    this.cancerTypeService.getRegimenById(regimenId).subscribe((resp) => {
+      this.RegimenDetails = resp.regimenDetail;
     }, (error) => {
       alert('Error in getting medicines');
     });
@@ -134,7 +135,7 @@ export class RegimendetailsComponent implements OnInit {
 
   deleteRegimenDetail(data) {
     const that = this;
-    this.RegimenDetailService.deleteRegimenDetail(data.subCancerTypeId2).subscribe(function (resp) {
+    this.RegimenDetailService.deleteRegimenDetail(data.id).subscribe(function (resp) {
       that.getRegimens();
       that.deleteModal.hide();
     }, function (error) {
