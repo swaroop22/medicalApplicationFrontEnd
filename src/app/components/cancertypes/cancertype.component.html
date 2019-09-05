@@ -19,14 +19,22 @@
                 <tr>
                   <th>PatientType Id</th>
                   <th>Cancer Type</th>
+                  <th *ngIf="cancerTree?.getCurrentLevel() === 'SUBCANCER1TYPE'">Sub Type</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let cancerType of CancerTypes">
-                  <td >{{cancerType.patienttypeid}}</td>
+                  <td >{{cancerType.patientType}}</td>
                   <td >                         <a  href="javascript:void(0)" (click)="getUrlFix(cancerType.id)">{{cancerType.title}}</a></td>
+                  <td>
+                    <span class="badge badge-primary regimen-type-badge"
+                          *ngFor="let type of generateTreeNodesForRegimens(cancerType?.regimenDetails)"
+                          [routerLink]="'/regimenDetails/' + cancerType?.id +'/'+ type">
+                      {{type}}
+                    </span>
+                  </td>
                   <td>
                     <i class="fa fa-pencil" data-toggle="tooltip" placement="top" tooltip="Edit CancerType"
                        (click)="edit(cancerType)"></i>
@@ -42,6 +50,7 @@
 
                 </tbody>
               </table>
+
             </div>
           </div>
         </div>
@@ -50,7 +59,10 @@
   </div>
 </div>
 
-<app-addsubcancertypes *ngIf="isAddSubCancerTypeModal" (onHide)="onHide('add')" [config]="{ show: true }" bsModal
+<app-addsubcancertypes *ngIf="isAddSubCancerTypeModal" (onHide)="onHide('add')"
+                       [addingNextLevel]="addingNextLevel"
+                       [currentLevelCancers]="CancerTypes"
+                       [config]="{ show: true }" bsModal
                        #addModal="bs-modal" (yes)="addCancerTypes($event)" (cancel)="onClose('add')" class="modal fade"
                        [Error]="addCancerTypeError">
 </app-addsubcancertypes>

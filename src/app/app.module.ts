@@ -29,6 +29,7 @@ import {EditsubcancertypesComponent} from './modals/editsubcancertypes/editsubca
 import {TreeTableModule} from 'primeng/treetable';
 import {CancerTreeService} from './services/cancer-tree.service';
 import {KeysPipe} from './pipes/keys.pipe';
+import {DropdownModule} from 'primeng/primeng';
 
 
 @NgModule({
@@ -63,7 +64,9 @@ import {KeysPipe} from './pipes/keys.pipe';
     BreadcrumbsModule,
     BreadcrumbModule,
     TreeTableModule,
-    HttpModule],
+    HttpModule,
+    DropdownModule
+  ],
   entryComponents: [
     PatientsComponent,
     CancertypeComponent

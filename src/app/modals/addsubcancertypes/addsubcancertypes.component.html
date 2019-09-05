@@ -12,17 +12,27 @@
           <label class="form-control-label">Sub CancerType Title</label>
           <ck-editor name="editor1" type="text" class="form-control" [(ngModel)]="subCancerAddData.title" skin="moono-lisa" language="en"></ck-editor>
         </div>
-        <div class="form-group">
-          <label class="form-control-label">Select Patient Types</label>
-          <select class="form-control" (change)="onSelect($event.target.value)" required>
-            <option>Select Your Patient Type</option>
-            <option *ngFor="let dropDown of dropDownData" [value]="dropDown.id">{{dropDown.title}}</option>
-          </select>
-        </div>
       </form>
+
+      <div class="form-group" *ngIf="addingNextLevel">
+        <label class="form-control-label">Select Cancer Type</label>
+        <select class="form-control" (change)="onParentSelected($event?.target?.value)" required>
+          <option>Select Cancer Type</option>
+          <option *ngFor="let  cancer of currentLevelCancers" [value]="cancer?.id">{{cancer?.title}}</option>
+        </select>
+      </div>
+
+      <div class="form-group" *ngIf="cancerTreeService?.getCurrentLevel() == 'SUBCANCER1TYPE'">
+        <label class="form-control-label">Select Sub Cancer Type</label>
+        <select class="form-control" (change)="onSelect($event?.target?.value)" required>
+          <option>Select Sub Cancer Type</option>
+          <option *ngFor="let dropDown of dropDownData" [value]="dropDown">{{dropDown}}</option>
+        </select>
+      </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-primary" (click)="okay()">Ok</button>
+      <button class="btn btn-primary"
+              [disabled]="!subCancerAddData.title" (click)="okay()">Ok</button>
     </div>
   </div>
 </div>

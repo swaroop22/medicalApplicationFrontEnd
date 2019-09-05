@@ -62,15 +62,15 @@ export class  CancerTreeService {
     if(this.parentCancers && this.parentCancers.length > 0) {
       return 'SUBCANCER' + this.parentCancers.length + 'TYPE';
     } else if (!this.parentCancers){
-      return 'PATIENTTYPE';
+      return 'CANCERYPE';
     }
   }
 
   getNextItemName() {
     if(this.parentCancers && this.parentCancers.length > 0) {
-      return 'SUBCANCER' + this.parentCancers.length + 'TYPE';
+      return 'SUBCANCER' + (this.parentCancers.length + 1) + 'TYPE';
     } else if (!this.parentCancers){
-      return 'CANCERYPE';
+      return 'SUBCANCER1TYPE';
     }
   }
 

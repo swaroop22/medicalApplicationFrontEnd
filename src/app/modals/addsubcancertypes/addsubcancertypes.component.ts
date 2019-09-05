@@ -16,6 +16,9 @@ export class AddsubcancertypesComponent implements OnChanges {
   @Output() yes = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Input() Error: any;
+  @Input() addingNextLevel:boolean;
+  @Input() currentLevelCancers: any[];
+
   cancerTree: CancerTree;
   id: number;
   public dropDownData: any = [];
@@ -24,7 +27,8 @@ export class AddsubcancertypesComponent implements OnChanges {
   public subCancerAddData = {
     title: '',
     id: 0,
-    previousId: 0
+    subCancerType: '',
+    parentId: undefined
   };
 
   constructor(private cancerTypeService: CancerTypeService,
@@ -74,12 +78,16 @@ export class AddsubcancertypesComponent implements OnChanges {
     this.cancel.emit(event);
   }
 
+  onParentSelected(event) {
+    this.subCancerAddData.parentId = event;
+  }
+
   onSelect(event){
-    this.subCancerAddData.previousId = event;
+    this.subCancerAddData.subCancerType = event;
   }
 
   getLastLevelToAddSubLevelTo() {
-    this.dropDownData = this.cancerTreeService.cancer[this.cancerTreeService.getCurrentLevel()];
+    this.dropDownData = ['NEOADJUVANT', 'ADJUVANT', 'METASTATIC'];
   }
 
 }

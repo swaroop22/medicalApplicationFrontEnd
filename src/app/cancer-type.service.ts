@@ -5,7 +5,8 @@ import { map } from "rxjs/operators";
 import {CANCERS} from './constants/constants';
 import {CancerTreeService} from './services/cancer-tree.service';
 import {ActivatedRoute, Route, Router} from '@angular/router';
-import {Breadcrumb} from 'primeng/primeng';
+import {Breadcrumb, MenuItem} from 'primeng/primeng';
+import {CancerResponse} from './state/CancerResponse';
 
 @Injectable()
 export class CancerTypeService {
@@ -72,6 +73,13 @@ export class CancerTypeService {
     }));
   }
 
+  getRegimenByIdAndType(id?, type?) {
+    return this.http.get(`${this.apiEndPointsMap.get(CANCERS.REGIMEN_DETAILS)}/${id || 0}/type/${type}`).pipe(map( response => {
+      return response.json();
+    }));
+  }
+
+
   getURL() {
     const patientId = this.route.children[0].snapshot.params["patientId"];
     const cancerId = this.route.children[0].snapshot.params["cancerId"];
@@ -94,9 +102,10 @@ export class CancerTypeService {
     const cancerId = this.route.children[0].snapshot.params["cancerId"];
 
     const payload = {
-      patientType: patientId,
-      parentId: cancerId,
-      title: obj.title
+      patientType: obj.patientId || patientId,
+      parentId: obj.parentId || cancerId,
+      title: obj.title,
+      subCancerType: obj.subCancerType
     };
 
     const url = this.apiEndPointsMap.get(CANCERS.CANCER_ADD);
@@ -144,9 +153,39 @@ export class CancerTypeService {
   }
 
 
+  getBreadCrumbData(response?: CancerResponse) {
+    const crumbs: MenuItem[] = [];
 
-  getBreadCrumbData() {
-    return this.breadCrumbs;
+    crumbs.push({
+      label: 'PATIENTTYPE', styleClass: 'ui-breadcrumb', command: (event) => {
+        this.router.navigateByUrl('patientTypes');
+      }
+    });
+
+    if(response && response.patientType) {
+      crumbs.push({
+        label: 'CANCERTYPE', styleClass: 'ui-breadcrumb', command: (event) => {
+          this.router.navigateByUrl('cancerTypes/' + response.patientType );
+        }
+      });
+    }
+
+    if (response && response.parentCancers) {
+
+
+      for(let i=0; i< response.parentCancers.length; i++) {
+         crumbs.push({
+            label: 'SUBCANCER' + (i + 1) + 'TYPE', styleClass: 'ui-breadcrumb', command: (event) => {
+              this.router.navigateByUrl('subCancers/' + response.parentCancers[i].id);
+            }
+          });
+
+        }
+
+    }
+
+
+    return crumbs;
   }
 
   setBreadCrumbData(data: any[]) {

@@ -42,10 +42,10 @@ export class RegimendetailsComponent implements OnInit {
       this.getRegimens();
     }
     console.log(this.cancerTypeService.getBreadCrumbData());
-    this.crumbs = this.cancerTypeService.getBreadCrumbData();
   }
 
   ngOnInit() {
+
   }
 
   /**
@@ -115,22 +115,44 @@ export class RegimendetailsComponent implements OnInit {
   getAllRegimens(){
     this.cancerTypeService.getRegimenById().subscribe((resp) => {
       this.RegimenDetails = resp.regimenDetail;
-      this.crumbs = [{label: 'PATIENTTYPE', styleClass: 'ui-breadcrumb', command: (event) => {
-          this.route.navigateByUrl('patientTypes')
-        }}];
+      this.crumbs = this.getCrumbs(this.cancerTypeService.getBreadCrumbData(resp));
     }, (error) => {
       alert('Error in getting medicines');
     });
   }
 
+  getCrumbs(crumbs: MenuItem[]) {
+    const regimenType = this.routes.snapshot.params["regimenType"];
+    if(regimenType) {
+      crumbs.push({label: regimenType, styleClass: 'ui-breadcrumb'});
+    }
+    else {
+      crumbs.push({label: 'REGIMENDETAILS', styleClass: 'ui-breadcrumb'});
+    }
+
+    return crumbs;
+  }
+
   getRegimens() {
     const regimenId = this.routes.snapshot.params["id"];
     this.cancerTypeService.regimenId = this.routes.snapshot.params["id"];
-    this.cancerTypeService.getRegimenById(regimenId).subscribe((resp) => {
-      this.RegimenDetails = resp.regimenDetail;
-    }, (error) => {
-      alert('Error in getting medicines');
-    });
+    const regimenType = this.routes.snapshot.params["regimenType"];
+    if (regimenType) {
+      this.cancerTypeService.getRegimenByIdAndType(regimenId, regimenType).subscribe((resp) => {
+        this.RegimenDetails = resp.regimenDetail;
+        this.crumbs = this.getCrumbs(this.cancerTypeService.getBreadCrumbData(resp));
+      }, (error) => {
+        alert('Error in getting medicines');
+      });
+    }
+    else {
+      this.cancerTypeService.getRegimenById(regimenId).subscribe((resp) => {
+        this.RegimenDetails = resp.regimenDetail;
+        this.crumbs = this.getCrumbs(this.cancerTypeService.getBreadCrumbData(resp));
+      }, (error) => {
+        alert('Error in getting medicines');
+      });
+    }
   }
 
   deleteRegimenDetail(data) {

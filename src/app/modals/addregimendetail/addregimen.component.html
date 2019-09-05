@@ -36,6 +36,15 @@
           <label class="form-control-label">Brand Names</label>
           <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.brandNames">
         </div>
+        <div class="form-group">
+          <label class="form-control-label">Regimen Type</label>
+          <p-dropdown [options]="levelOptions" [(ngModel)]="RegimenDetail.regimenType" [ngModelOptions]="{standalone: true}" editable="true" placeholder="Select a regimen type"></p-dropdown>
+<!--          <label class="form-control-label">Select Cancer Type</label>-->
+<!--          <select class="form-control" (change)="onRegimenTypeSelected($event?.target?.value)" required>-->
+<!--            <option>Select Cancer Type</option>-->
+<!--            <option *ngFor="let  level of regimenLevels" [value]="level">{{level}}</option>-->
+<!--          </select>-->
+        </div>
       </form>
     </div>
     <div class="modal-footer">

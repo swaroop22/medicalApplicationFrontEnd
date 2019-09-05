@@ -89,6 +89,14 @@ export const routes: Routes = [
     runGuardsAndResolvers: 'always'
   },
   {
+    path: 'regimenDetails/:id/:regimenType',
+    component: RegimendetailsComponent,
+    data: {
+      title: 'regimenDetails'
+    },
+    runGuardsAndResolvers: 'always'
+  },
+  {
     path: 'regimenDetails',
     component: RegimendetailsComponent,
     data: {
