@@ -157,15 +157,16 @@ export class CancerTypeService {
     const crumbs: MenuItem[] = [];
 
     crumbs.push({
-      label: 'PATIENTTYPE', styleClass: 'ui-breadcrumb', command: (event) => {
+      label: 'HOME', styleClass: 'ui-breadcrumb', command: (event) => {
         this.router.navigateByUrl('patientTypes');
       }
     });
 
     if(response && response.patientType) {
       crumbs.push({
-        label: 'CANCERTYPE', styleClass: 'ui-breadcrumb', command: (event) => {
-          this.router.navigateByUrl('cancerTypes/' + response.patientType );
+        label: response.patientTitle, styleClass: 'ui-breadcrumb', command: (event) => {
+          //this.router.navigateByUrl('patientTypes/' + response.patientType );
+          this.router.navigateByUrl('patientTypes');
         }
       });
     }
@@ -174,13 +175,21 @@ export class CancerTypeService {
 
 
       for(let i=0; i< response.parentCancers.length; i++) {
-         crumbs.push({
-            label: 'SUBCANCER' + (i + 1) + 'TYPE', styleClass: 'ui-breadcrumb', command: (event) => {
-              this.router.navigateByUrl('subCancers/' + response.parentCancers[i].id);
+        if (i === 0) {
+          crumbs.push({
+            label: response.parentCancers[i].title, styleClass: 'ui-breadcrumb', command: (event) => {
+              this.router.navigateByUrl('cancerTypes/' + response.patientType);
+            }
+          });
+        } else {
+          crumbs.push({
+            label: response.parentCancers[i].title, styleClass: 'ui-breadcrumb', command: (event) => {
+              this.router.navigateByUrl('subCancers/' + response.parentCancers[i-1].id);
             }
           });
 
         }
+      }
 
     }
 
