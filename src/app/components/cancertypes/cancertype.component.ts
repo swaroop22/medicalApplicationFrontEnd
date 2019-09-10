@@ -168,7 +168,7 @@ export class CancertypeComponent {
     const data = {};
     if(regimenData) {
       regimenData.forEach((regimen) => {
-        if(regimen.regimenType) {
+        if(regimen && regimen.regimenType) {
           data[regimen.regimenType] = regimen.regimenType;
         }
       });
