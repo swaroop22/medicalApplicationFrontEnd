@@ -63,6 +63,17 @@ export class RegimenDetailService {
     })
   }
 
+  addRegimenDetailWithSubCancerType(obj): Observable<any> {
+    //obj.subCancerTypeId3 = Number(this.route.children[0].snapshot.params["id"]);
+    var url = this.ApiUrl + '/add';
+    return this.http.post(url, obj).pipe(map( response => {
+      return response.json();
+    }))
+    onerror: ( (error) => {
+      return error;
+    })
+  }
+
   updateRegimenDetail(obj): Observable<any> {
     return this.http.put(this.ApiUrl + '/' + obj.id, obj).pipe(map( response => {
       return response.json();

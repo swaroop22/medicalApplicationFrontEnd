@@ -11,11 +11,12 @@ import {SelectItem} from 'primeng/api';
   templateUrl: './addregimen.component.html',
   styleUrls: ['./addregimen.component.scss']
 })
-export class AddregimenComponent implements OnChanges {
+export class AddregimenComponent {
 
   @Output() yes = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Input() Error: any;
+  @Input() cancers: any[];
   id2: number;
   id3: number;
   id4: number;
@@ -29,6 +30,7 @@ export class AddregimenComponent implements OnChanges {
     dosageModifications: '',
     brandNames: '',
     regimenType: '',
+    subCancerTypeId3: undefined,
     id2: 0,
     id3: 0,
     id4: 0,
@@ -64,29 +66,6 @@ export class AddregimenComponent implements OnChanges {
     })
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (!changes.Error.currentValue.login) {
-      this.initEmptyUser();
-    }
-  }
-
-  initEmptyUser() {
-    const RegimenDetail = {
-      dispName: '',
-      name: '',
-      schedule: '',
-      emetogenicPotential: '',
-      reference: '',
-      dosageModifications: '',
-      brandNames: '',
-      id2: 0,
-      id3: 0,
-      id4: 0,
-
-    };
-    this.RegimenDetail = JSON.parse(JSON.stringify(RegimenDetail));
-  }
-
   okay() {
 
     if(this.regimenLevels.indexOf(this.RegimenDetail.regimenType) < 0) {
@@ -119,5 +98,9 @@ export class AddregimenComponent implements OnChanges {
 
   onSelect3(event){
     this.id4 = event;
+  }
+
+  onCancerTypeSelected(value: any) {
+    this.RegimenDetail.subCancerTypeId3 = value;
   }
 }

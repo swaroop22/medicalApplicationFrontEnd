@@ -30,6 +30,7 @@ import {TreeTableModule} from 'primeng/treetable';
 import {CancerTreeService} from './services/cancer-tree.service';
 import {KeysPipe} from './pipes/keys.pipe';
 import {DropdownModule} from 'primeng/primeng';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import {DropdownModule} from 'primeng/primeng';
     BreadcrumbsModule,
     BreadcrumbModule,
     TreeTableModule,
+    BrowserAnimationsModule,
     HttpModule,
     DropdownModule
   ],

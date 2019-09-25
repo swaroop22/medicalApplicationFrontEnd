@@ -11,6 +11,7 @@ import {CANCERS} from '../../constants/constants';
 import {CancerTree} from '../../state/CancerTree';
 import {CancerTreeService} from '../../services/cancer-tree.service';
 import {filter} from 'rxjs/operators';
+import {RegimenDetailService} from '../../regimen-detail.service';
 
 @Component({
   selector: 'app-cancertype',
@@ -46,10 +47,12 @@ export class CancertypeComponent {
   files: TreeNode[];
 
   cols: any[];
+  displayAddRegimen: boolean;
 
   constructor(private cancerTypeService: CancerTypeService,
               private routes: ActivatedRoute,
               private route: Router,
+              private regimenDetailService: RegimenDetailService,
               private cancerTree: CancerTreeService) {
   }
 
@@ -110,6 +113,9 @@ export class CancertypeComponent {
       this.isEditModal = false;
     } else if (event === 'delete') {
       this.isDeleteModal = false;
+    }
+    else if (event === 'regimen') {
+      this.displayAddRegimen = false;
     }
   }
 
@@ -174,5 +180,18 @@ export class CancertypeComponent {
       });
     }
     return Object.keys(data);
+  }
+
+  showAddRegimen() {
+    this.displayAddRegimen = true;
+  }
+
+  addRegimenDetail(regimen: any) {
+    this.regimenDetailService.addRegimenDetailWithSubCancerType(regimen).subscribe((resp) => {
+      this.displayAddRegimen = false;
+      this.ngOnInit();
+    }, (error) => {
+      alert('Regimen add failed');
+    });
   }
 }
