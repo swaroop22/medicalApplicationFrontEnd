@@ -37,6 +37,18 @@
           <label class="form-control-label">Brand Names</label>
           <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.brandNames">
         </div>
+        <div class="form-group regimen-cancer-select-container">
+          <label class="form-control-label">Associate to Cancer</label>
+          <p-multiSelect [panelStyle]="{minWidth: '250px'}"
+                         [options]="cancerList" name="selectedCancers"
+                         [filter]="true" filterBy="label"
+                         [(ngModel)]="selectedCancers"
+                         [virtualScroll]="true" itemSize="5">
+            <ng-template let-cancer pTemplate="item">
+              <span >{{cancer.label}}</span>
+            </ng-template>
+          </p-multiSelect>
+        </div>
       </form>
     </div>
     <div class="modal-footer">

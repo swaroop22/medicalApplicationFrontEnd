@@ -1,5 +1,6 @@
 
 export class CancerType {
+  id?: string;
   title?: string;
   patienttypeid?: number;
   parentId?: string;

@@ -26,3 +26,14 @@ body{
   padding-top:20px;
   padding-bottom: 20px;
 }
+
+.ui-multiselect-item {
+  padding: 15px !important;
+  height: 15px !important;
+}
+
+
+.ui-multiselect-item.ui-state-highlight {
+  background-color: white !important;
+  color: black !important;
+}

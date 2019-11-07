@@ -26,8 +26,8 @@ export class CancerTypeService {
     this.apiEndPointsMap.set(CANCERS.PATIENT, 'http://localhost:8092/patientController');
     this.apiEndPointsMap.set(CANCERS.CANCER, 'http://localhost:8092/getCancersByPatient');
     this.apiEndPointsMap.set(CANCERS.CANCER_ADD, 'http://localhost:8092/cancerTypeControllerById/add');
-    this.apiEndPointsMap.set(CANCERS.CANCER_DELETE, 'http://localhost:8092//cancerTypeControllerById/');
-    this.apiEndPointsMap.set(CANCERS.CANCER_EDIT, 'http://localhost:8092//cancerTypeControllerById/edit');
+    this.apiEndPointsMap.set(CANCERS.CANCER_DELETE, 'http://localhost:8092/cancerTypeControllerById/');
+    this.apiEndPointsMap.set(CANCERS.CANCER_EDIT, 'http://localhost:8092/cancerTypeControllerById/edit');
     this.apiEndPointsMap.set(CANCERS.SUBCANCER1, 'http://localhost:8092/getCancersByParentId');
     this.apiEndPointsMap.set(CANCERS.REGIMEN_DETAILS, 'http://localhost:8092/regimenDetailController');
   }
@@ -69,6 +69,12 @@ export class CancerTypeService {
 
   getRegimenById(id?) {
     return this.http.get(`${this.apiEndPointsMap.get(CANCERS.REGIMEN_DETAILS)}/${id || 0}/names`).pipe(map( response => {
+      return response.json();
+    }));
+  }
+
+  getAllCancerNames() {
+    return this.http.get(`http://localhost:8092/getAllCancerNames`).pipe(map( response => {
       return response.json();
     }));
   }
