@@ -23,19 +23,21 @@
         </div>
         <div class="form-group">
           <label class="form-control-label">Emetogenic Potential</label>
-          <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.emetogenicPotential">
+          <textarea type="textarea" class="form-control" placeholder="emetogenicPotential" name="emetogenicPotential" [(ngModel)]="RegimenDetail.emetogenicPotential"></textarea>
         </div>
         <div class="form-group">
           <label class="form-control-label">Reference</label>
-          <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.reference">
+          <textarea type="textarea" class="form-control" placeholder="reference" name="reference" [(ngModel)]="RegimenDetail.reference"></textarea>
         </div>
         <div class="form-group">
           <label class="form-control-label">Dosage Modifications</label>
-          <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.dosageModifications">
+          <ck-editor type="text" class="form-control"  placeholder="dosageModifications"
+                     name="dosageModifications" [(ngModel)]="RegimenDetail.dosageModifications"
+                     skin="moono-lisa" language="en"></ck-editor>
         </div>
         <div class="form-group">
           <label class="form-control-label">Brand Names</label>
-          <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.brandNames">
+          <textarea type="textarea" class="form-control" placeholder="brandNames" name="brandNames" [(ngModel)]="RegimenDetail.brandNames"></textarea>
         </div>
         <div class="form-group regimen-cancer-select-container">
           <label class="form-control-label">Associate to Cancer</label>
@@ -43,11 +45,16 @@
                          [options]="cancerList" name="selectedCancers"
                          [filter]="true" filterBy="label"
                          [(ngModel)]="selectedCancers"
-                         [virtualScroll]="true" itemSize="5">
+                         [virtualScroll]="true" itemSize="5"
+          >
+
             <ng-template let-cancer pTemplate="item">
               <span >{{cancer.label}}</span>
             </ng-template>
           </p-multiSelect>
+          <p>
+            <span *ngFor="let cancer of selectedCancers">{{cancer.title}} ;</span>
+          </p>
         </div>
       </form>
     </div>

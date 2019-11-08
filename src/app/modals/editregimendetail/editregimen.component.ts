@@ -28,8 +28,10 @@ export class EditregimenComponent{
               private subCancerType2Service: Subcancertype2Service,
               private subCancerType3Service: Subcancertype3Service,
               private cancerService: CancerTypeService) {
+  }
 
-    cancerService.getAllCancerNames().subscribe(cancerList => {
+  ngOnInit() {
+    this.cancerService.getAllCancerNames().subscribe(cancerList => {
       (cancerList.allCancers || []).forEach(cancer => {
 
         if(cancer && cancer.length >= 1) {
@@ -40,15 +42,18 @@ export class EditregimenComponent{
             label: cancerType.title,
             value: cancerType
           })
+
+          if(cancerType.id === this.RegimenDetail.subCancerTypeId3)
+          {
+            this.selectedCancers.push(cancerType);
+          }
         }
       })
     })
   }
 
   okay() {
-    this.RegimenDetail.id = this.id;
-    this.RegimenDetail.id2 = this.id2;
-    this.RegimenDetail.id3 = this.id3;
+    this.RegimenDetail.selectedCancers = this.selectedCancers;
     this.yes.emit(this.RegimenDetail);
   }
 

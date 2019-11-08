@@ -167,11 +167,23 @@ export class RegimendetailsComponent implements OnInit {
 
   editRegimenDetail(data) {
     const that = this;
-    this.RegimenDetailService.updateRegimenDetail(data).subscribe(function (resp) {
-      that.getRegimens();
-      that.editModal.hide();
-    }, function (error) {
-      alert('Error to update medicine ' + data.firstName);
-    });
+
+    if (data.selectedCancers && data.selectedCancers.length > 0) {
+      data.selectedCancers.forEach(cancer => {
+
+        //this check to exclude double inserts
+        if(cancer.id !== data.subCancerTypeId3) {
+        const regimenForEachCancer = data;
+        regimenForEachCancer.selectedCancers = undefined;
+        regimenForEachCancer.subCancerTypeId3 = cancer.id;
+          this.RegimenDetailService.updateRegimenDetail(regimenForEachCancer).subscribe(function (resp) {
+            that.getRegimens();
+            that.editModal.hide();
+          }, function (error) {
+            alert('Error to update medicine ' + data.firstName);
+          });
+        }
+      });
+    }
   }
 }
