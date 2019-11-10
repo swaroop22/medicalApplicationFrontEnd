@@ -5,6 +5,7 @@ import {Subcancertype2Service} from '../../subcancertype2.service';
 import {Subcancertype3Service} from '../../subcancertype3.service';
 import {RegimenDetailService} from '../../regimen-detail.service';
 import {SelectItem} from 'primeng/api';
+import {CancerTypeService} from '../../cancer-type.service';
 
 @Component({
   selector: 'app-addregimen',
@@ -30,7 +31,7 @@ export class AddregimenComponent {
     dosageModifications: '',
     brandNames: '',
     regimenType: '',
-    subCancerTypeId3: undefined,
+    subCancerTypeId3: '',
     id2: 0,
     id3: 0,
     id4: 0,
@@ -44,15 +45,32 @@ export class AddregimenComponent {
 
   public regimenLevels: string[] = [];
 
+  cancerList: any[] = [];
+  selectedCancers: any[] = [];
 
   constructor(private subCancerType1Service: SubcancertypeService,
               private subCancerType2Service: Subcancertype2Service,
               private subCancerType3Service: Subcancertype3Service,
               private regimenDetailService: RegimenDetailService,
+              private cancerService: CancerTypeService,
               private routes: ActivatedRoute) {
   }
 
   ngOnInit() {
+
+    if(this.cancers && this.cancers.length > 0) {
+      this.cancers.forEach(cancer => {
+        this.cancerList.push({
+          label: cancer.title,
+          value: cancer
+        })
+      })
+    } else {
+      this.cancerService.getAllCancerNames().subscribe(cancers => {
+        this.cancerList = cancers;
+      });
+    }
+
     this.regimenDetailService.getRegimenLevelTypes().subscribe((types) => {
       this.regimenLevels = types;
       if(types.length > 0) {
@@ -67,18 +85,13 @@ export class AddregimenComponent {
   }
 
   okay() {
-
+    this.populateSubCancerLevels();
     if(this.regimenLevels.indexOf(this.RegimenDetail.regimenType) < 0) {
       this.regimenDetailService.addRegimenLevel(this.RegimenDetail.regimenType).subscribe(() => {
-        this.RegimenDetail.id2 = this.id2;
-        this.RegimenDetail.id3 = this.id3;
-        this.RegimenDetail.id4 = this.id4;
         this.yes.emit(this.RegimenDetail);
       })
     } else {
-      this.RegimenDetail.id2 = this.id2;
-      this.RegimenDetail.id3 = this.id3;
-      this.RegimenDetail.id4 = this.id4;
+
       this.yes.emit(this.RegimenDetail);
     }
 
@@ -100,7 +113,18 @@ export class AddregimenComponent {
     this.id4 = event;
   }
 
-  onCancerTypeSelected(value: any) {
-    this.RegimenDetail.subCancerTypeId3 = value;
+  populateSubCancerLevels() {
+    this.selectedCancers.forEach(selectedCancer => {
+      if(this.RegimenDetail.subCancerTypeId3) {
+        this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + ',';
+      } else {
+        this.RegimenDetail.subCancerTypeId3 = '' + selectedCancer.id;
+      }
+
+      if(this.RegimenDetail.subCancerTypeId3 &&
+        this.RegimenDetail.subCancerTypeId3.indexOf(selectedCancer.id) < 0) {
+        this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + selectedCancer.id;
+      }
+    });
   }
 }

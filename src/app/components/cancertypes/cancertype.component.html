@@ -10,7 +10,9 @@
       <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
         <div class="card">
           <div class="card-header">
-
+            <div class="pull-left">
+              <h4 *ngIf="cancerTree.getCurrentLevel() !== 'CANCERYPE'">Sub </h4><h4>Cancers</h4>
+            </div>
             <div class="pull-right">
               <button class="btn btn-primary m-10" (click)="showAddRegimen()">Add Regimen
             </button>
@@ -55,6 +57,17 @@
               </table>
 
             </div>
+          </div>
+        </div>
+        <div class="card" *ngIf="regimenDetails?.length > 0">
+          <div class="card-header">
+
+            <div class="pull-left">
+              <h4>Regimen for Cancer</h4>
+            </div>
+          </div>
+          <div class="card-block">
+            <app-regimendetails [RegimenDetails]="regimenDetails"></app-regimendetails>
           </div>
         </div>
       </div>

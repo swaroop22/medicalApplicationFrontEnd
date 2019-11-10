@@ -53,7 +53,11 @@ export class RegimenDetailService {
   }
 
   addRegimenDetail(obj): Observable<any> {
-    obj.subCancerTypeId3 = Number(this.route.children[0].snapshot.params["id"]);
+    const idFromUrl = Number(this.route.children[0].snapshot.params["id"]);
+    if(idFromUrl && idFromUrl !== 0)
+    {
+      obj.subCancerTypeId3 = Number(this.route.children[0].snapshot.params["id"]);
+    }
     var url = this.ApiUrl + '/add';
     return this.http.post(url, obj).pipe(map( response => {
       return response.json();

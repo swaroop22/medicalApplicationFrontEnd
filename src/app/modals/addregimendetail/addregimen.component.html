@@ -22,35 +22,42 @@
         </div>
         <div class="form-group">
           <label class="form-control-label">Emetogenic Potential</label>
-          <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.emetogenicPotential">
+          <input type="text" class="form-control" placeholder="emetogenicPotential" name="emetogenicPotential" [(ngModel)]="RegimenDetail.emetogenicPotential">
         </div>
         <div class="form-group">
           <label class="form-control-label">Reference</label>
-          <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.reference">
+          <input type="text" class="form-control" placeholder="reference" name="reference" [(ngModel)]="RegimenDetail.reference">
         </div>
         <div class="form-group">
           <label class="form-control-label">Dosage Modifications</label>
-          <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.dosageModifications">
+          <input type="text" class="form-control" placeholder="dosageModifications" name="dosageModifications" [(ngModel)]="RegimenDetail.dosageModifications">
         </div>
         <div class="form-group">
           <label class="form-control-label">Brand Names</label>
-          <input type="text" class="form-control" placeholder="Occupation" name="occupation" [(ngModel)]="RegimenDetail.brandNames">
-        </div>
-        <div class="form-group" *ngIf="cancers?.length > 0">
-          <label class="form-control-label">Select Cancer Type</label>
-          <select class="form-control" (change)="onCancerTypeSelected($event?.target?.value)" required>
-            <option>Select Cancer Type</option>
-            <option *ngFor="let  cancer of cancers" [value]="cancer?.id">{{cancer?.title}}</option>
-          </select>
+          <input type="text" class="form-control" placeholder="brandNames" name="brandNames" [(ngModel)]="RegimenDetail.brandNames">
         </div>
         <div class="form-group">
           <label class="form-control-label">Regimen Type</label>
-          <p-dropdown [options]="levelOptions" [(ngModel)]="RegimenDetail.regimenType" [ngModelOptions]="{standalone: true}" editable="true" placeholder="Select a regimen type"></p-dropdown>
-<!--          <label class="form-control-label">Select Cancer Type</label>-->
-<!--          <select class="form-control" (change)="onRegimenTypeSelected($event?.target?.value)" required>-->
-<!--            <option>Select Cancer Type</option>-->
-<!--            <option *ngFor="let  level of regimenLevels" [value]="level">{{level}}</option>-->
-<!--          </select>-->
+          <p-dropdown [options]="levelOptions" [(ngModel)]="RegimenDetail.regimenType" [ngModelOptions]="{standalone: true}"
+                      editable="true" placeholder="Select a regimen type"></p-dropdown>
+        </div>
+        <div class="form-group regimen-cancer-select-container">
+          <label class="form-control-label">Associate to Cancer</label>
+          <div>
+            <p-multiSelect [defaultLabel]="'Select Cancers To Associate'"
+                           [panelStyle]="{minWidth: '250px'}"
+                           [options]="cancerList" name="selectedCancers"
+                           [filter]="true" filterBy="label"
+                           [(ngModel)]="selectedCancers"
+                           [virtualScroll]="true" itemSize="5">
+              <ng-template let-cancer pTemplate="item">
+                <span >{{cancer.label}}</span>
+              </ng-template>
+            </p-multiSelect>
+          </div>
+          <p>
+            <span *ngFor="let cancer of selectedCancers">{{cancer.title}} ;</span>
+          </p>
         </div>
       </form>
     </div>

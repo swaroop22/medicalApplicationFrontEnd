@@ -11,6 +11,7 @@ export class  CancerTreeService {
   parentCancers = [];
   subCancers = [];
   regimenDetails = [];
+  allCancers: any[] = [];
 
   currentCancer = {};
 

@@ -7,6 +7,8 @@ import {CancerTreeService} from './services/cancer-tree.service';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {Breadcrumb, MenuItem} from 'primeng/primeng';
 import {CancerResponse} from './state/CancerResponse';
+import {of} from 'rxjs';
+import {CancerType} from './state/CancerType';
 
 @Injectable()
 export class CancerTypeService {
@@ -30,6 +32,7 @@ export class CancerTypeService {
     this.apiEndPointsMap.set(CANCERS.CANCER_EDIT, 'http://localhost:8092/cancerTypeControllerById/edit');
     this.apiEndPointsMap.set(CANCERS.SUBCANCER1, 'http://localhost:8092/getCancersByParentId');
     this.apiEndPointsMap.set(CANCERS.REGIMEN_DETAILS, 'http://localhost:8092/regimenDetailController');
+    this.getAllCancerNames().subscribe(cancers => {});
   }
 
   getCancerById(typeToFetch?): Observable<any> {
@@ -74,8 +77,29 @@ export class CancerTypeService {
   }
 
   getAllCancerNames() {
+    if(this.cancerTree.allCancers.length > 0) {
+      return of(this.cancerTree.allCancers);
+    }
+
     return this.http.get(`http://localhost:8092/getAllCancerNames`).pipe(map( response => {
-      return response.json();
+      let cancerList = [];
+      (response.json().allCancers || []).forEach(cancer => {
+
+        if (cancer && cancer.length >= 1) {
+          const cancerType: CancerType = new CancerType();
+          cancerType.title = cancer[1];
+          cancerType.id = cancer[0];
+          cancerList.push({
+            label: cancerType.title,
+            value: cancerType
+          })
+
+        }
+      });
+
+      this.cancerTree.allCancers = cancerList;
+
+      return cancerList;
     }));
   }
 

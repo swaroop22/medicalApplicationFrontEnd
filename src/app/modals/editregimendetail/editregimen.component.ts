@@ -31,29 +31,30 @@ export class EditregimenComponent{
   }
 
   ngOnInit() {
-    this.cancerService.getAllCancerNames().subscribe(cancerList => {
-      (cancerList.allCancers || []).forEach(cancer => {
+   this.cancerService.getAllCancerNames().subscribe(cancers => {
+     this.cancerList = cancers;
 
-        if(cancer && cancer.length >= 1) {
-          const cancerType: CancerType = new CancerType();
-          cancerType.title = cancer[1];
-          cancerType.id = cancer[0];
-          this.cancerList.push({
-            label: cancerType.title,
-            value: cancerType
-          })
-
-          if(cancerType.id === this.RegimenDetail.subCancerTypeId3)
-          {
-            this.selectedCancers.push(cancerType);
-          }
-        }
-      })
-    })
+     cancers.forEach(cancerSelectItem => {
+       if(this.RegimenDetail.subCancerTypeId3 && this.RegimenDetail.subCancerTypeId3.length > 0) {
+         this.RegimenDetail.subCancerTypeId3.split(",").forEach(cancerIndex =>{
+           if (cancerSelectItem.value.id == cancerIndex) {
+             this.selectedCancers.push(cancerSelectItem.value);
+           }
+         })
+       }
+     })
+   })
   }
 
   okay() {
-    this.RegimenDetail.selectedCancers = this.selectedCancers;
+    this.selectedCancers.forEach(selectedCancer => {
+      if(this.RegimenDetail.subCancerTypeId3) {
+        this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + ',';
+      }
+
+      this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + selectedCancer.id;
+    });
+
     this.yes.emit(this.RegimenDetail);
   }
 

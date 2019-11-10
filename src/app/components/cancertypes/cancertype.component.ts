@@ -37,6 +37,7 @@ export class CancertypeComponent {
   public subCancerType2 = {};
   public subCancerType3  = {};
   public url: string;
+  public regimenDetails = [];
   id: number;
 
   navigateOnAdding: boolean = false;
@@ -68,7 +69,7 @@ export class CancertypeComponent {
       this.CancerTypes = resp.subCancers;
       this.crumbs = this.cancerTypeService.getBreadCrumbData(resp);
       this.addButtonName = this.cancerTree.nextItemToFetch();
-
+      this.regimenDetails = resp.regimenDetail;
       if(this.CancerTypes.length === 0)
       {
         this.crumbs.splice(this.crumbs.length - 1, 1);
