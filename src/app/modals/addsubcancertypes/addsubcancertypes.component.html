@@ -21,14 +21,6 @@
           <option *ngFor="let  cancer of currentLevelCancers" [value]="cancer?.id">{{cancer?.title}}</option>
         </select>
       </div>
-
-      <div class="form-group" *ngIf="cancerTreeService?.getCurrentLevel() == 'SUBCANCER1TYPE'">
-        <label class="form-control-label">Select Sub Cancer Type</label>
-        <select class="form-control" (change)="onSelect($event?.target?.value)" required>
-          <option>Select Sub Cancer Type</option>
-          <option *ngFor="let dropDown of dropDownData" [value]="dropDown">{{dropDown}}</option>
-        </select>
-      </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-primary"

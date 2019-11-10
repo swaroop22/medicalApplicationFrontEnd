@@ -18,6 +18,7 @@ export class AddregimenComponent {
   @Output() cancel = new EventEmitter();
   @Input() Error: any;
   @Input() cancers: any[];
+  @Input() preSelectedCancer: string;
   id2: number;
   id3: number;
   id4: number;
@@ -58,6 +59,10 @@ export class AddregimenComponent {
 
   ngOnInit() {
 
+    if(this.preSelectedCancer) {
+      this.RegimenDetail.subCancerTypeId3 = this.preSelectedCancer;
+    }
+
     if(this.cancers && this.cancers.length > 0) {
       this.cancers.forEach(cancer => {
         this.cancerList.push({
@@ -91,7 +96,6 @@ export class AddregimenComponent {
         this.yes.emit(this.RegimenDetail);
       })
     } else {
-
       this.yes.emit(this.RegimenDetail);
     }
 

@@ -12,6 +12,7 @@ import {CancerTree} from '../../state/CancerTree';
 import {CancerTreeService} from '../../services/cancer-tree.service';
 import {filter} from 'rxjs/operators';
 import {RegimenDetailService} from '../../regimen-detail.service';
+import {RegimendetailsComponent} from '../regimendetails/regimendetails.component';
 
 @Component({
   selector: 'app-cancertype',
@@ -24,6 +25,7 @@ export class CancertypeComponent {
   @ViewChild('addModal') public addModal: ModalDirective;
   @ViewChild('deleteModal') public deleteModal: ModalDirective;
   @ViewChild('editModal') public editModal: ModalDirective;
+  @ViewChild('regimenDetailComponent') public regimenDetailComponent: RegimendetailsComponent;
 
   addingNextLevel: boolean;
 
@@ -38,6 +40,7 @@ export class CancertypeComponent {
   public subCancerType3  = {};
   public url: string;
   public regimenDetails = [];
+  currentCancerId = '';
   id: number;
 
   navigateOnAdding: boolean = false;
@@ -49,6 +52,9 @@ export class CancertypeComponent {
 
   cols: any[];
   displayAddRegimen: boolean;
+  isEditRegimenModal: boolean;
+  isDeleteRegimenModal: boolean;
+  RegimenDetail: any;
 
   constructor(private cancerTypeService: CancerTypeService,
               private routes: ActivatedRoute,
@@ -70,6 +76,7 @@ export class CancertypeComponent {
       this.crumbs = this.cancerTypeService.getBreadCrumbData(resp);
       this.addButtonName = this.cancerTree.nextItemToFetch();
       this.regimenDetails = resp.regimenDetail;
+      this.currentCancerId = resp.id;
       if(this.CancerTypes.length === 0)
       {
         this.crumbs.splice(this.crumbs.length - 1, 1);
@@ -114,9 +121,12 @@ export class CancertypeComponent {
       this.isEditModal = false;
     } else if (event === 'delete') {
       this.isDeleteModal = false;
-    }
-    else if (event === 'regimen') {
+    } else if (event === 'regimen') {
       this.displayAddRegimen = false;
+    } else if (event === 'editRegimen') {
+      this.isEditRegimenModal = false;
+    } else if (event === 'deleteRegimen') {
+      this.isDeleteRegimenModal = false;
     }
   }
 
@@ -127,6 +137,10 @@ export class CancertypeComponent {
       this.isEditModal = false;
     } else if (event === 'delete') {
       this.isDeleteModal = false;
+    } else if (event === 'editRegimen') {
+      this.isEditRegimenModal = false;
+    } else if (event === 'deleteRegimen') {
+      this.isDeleteRegimenModal = false;
     }
   }
 
@@ -194,5 +208,21 @@ export class CancertypeComponent {
     }, (error) => {
       alert('Regimen add failed');
     });
+  }
+
+  actionOnRegimen(data: {action: string, regimen: any}) {
+   if(data.action === 'edit') {
+      this.RegimenDetail = data.regimen;
+      this.isEditRegimenModal = true;
+    } else if(data.action === 'delete') {
+      this.RegimenDetail = data.regimen;
+      this.isDeleteRegimenModal = true;
+    }
+  }
+
+  refreshData() {
+    this.ngOnInit();
+    this.isDeleteRegimenModal = false;
+    this.isEditRegimenModal = false;
   }
 }

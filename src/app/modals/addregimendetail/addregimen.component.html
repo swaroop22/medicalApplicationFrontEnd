@@ -41,7 +41,7 @@
           <p-dropdown [options]="levelOptions" [(ngModel)]="RegimenDetail.regimenType" [ngModelOptions]="{standalone: true}"
                       editable="true" placeholder="Select a regimen type"></p-dropdown>
         </div>
-        <div class="form-group regimen-cancer-select-container">
+        <div class="form-group regimen-cancer-select-container" *ngIf="!preSelectedCancer">
           <label class="form-control-label">Associate to Cancer</label>
           <div>
             <p-multiSelect [defaultLabel]="'Select Cancers To Associate'"

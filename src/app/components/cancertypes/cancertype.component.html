@@ -11,7 +11,8 @@
         <div class="card">
           <div class="card-header">
             <div class="pull-left">
-              <h4 *ngIf="cancerTree.getCurrentLevel() !== 'CANCERYPE'">Sub </h4><h4>Cancers</h4>
+              <h4 *ngIf="cancerTree.getCurrentLevel() !== 'CANCERYPE'">Sub Cancers</h4>
+              <h4 *ngIf="cancerTree.getCurrentLevel() === 'CANCERYPE'">Cancers</h4>
             </div>
             <div class="pull-right">
               <button class="btn btn-primary m-10" (click)="showAddRegimen()">Add Regimen
@@ -25,7 +26,7 @@
                 <thead>
                 <tr>
                   <th>Cancer Type</th>
-                  <th *ngIf="cancerTree?.getCurrentLevel() === 'SUBCANCER1TYPE'">Sub Type</th>
+                  <th *ngIf="cancerTree?.getCurrentLevel() !== 'CANCER1TYPE'">Regimen Types</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
@@ -67,7 +68,11 @@
             </div>
           </div>
           <div class="card-block">
-            <app-regimendetails [RegimenDetails]="regimenDetails"></app-regimendetails>
+            <app-regimendetails
+              #regimenDetailComponent
+              (regimenActionCompleted) = "refreshData()"
+              (actionOnRegimen)="actionOnRegimen($event)"
+              [RegimenDetails]="regimenDetails"></app-regimendetails>
           </div>
         </div>
       </div>
@@ -92,5 +97,15 @@
 
 <app-addregimen *ngIf="displayAddRegimen" (onHide)="onHide('add')" [config]="{ show: true }" bsModal
                 [cancers]="CancerTypes"
+                [preSelectedCancer]="currentCancerId"
                 #addModal="bs-modal" (yes)="addRegimenDetail($event)" (cancel)="onClose('regimen')" class="modal fade"
 ></app-addregimen>
+
+<app-editregimen *ngIf="isEditRegimenModal" (onHide)="onHide('editRegimen')" [config]="{ show: true }" bsModal
+                 #editRegimenModal="bs-modal" (yes)="regimenDetailComponent.editRegimenDetail($event)" (cancel)="onClose('editRegimen')"
+                 class="modal fade" [RegimenDetail]="RegimenDetail"></app-editregimen>
+
+<app-deleteregimen *ngIf="isDeleteRegimenModal" (onHide)="onHide('deleteRegimen')" [config]="{ show: true }" bsModal
+                   #deleteRegimenModal="bs-modal" (yes)="regimenDetailComponent.deleteRegimenDetail($event)" (cancel)="onClose('deleteRegimen')"
+                   class="modal fade" [RegimenDetail]="RegimenDetail"></app-deleteregimen>
+

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ModalDirective} from 'ngx-bootstrap';
 import {MenuItem} from 'primeng/api';
 import {RegimenDetailService} from '../../regimen-detail.service';
@@ -22,11 +22,14 @@ export class RegimendetailsComponent implements OnInit {
   @ViewChild('deleteModal') public deleteModal: ModalDirective;
 
 
+  @Output() public actionOnRegimen: EventEmitter<{action: string, regimen: any}> = new EventEmitter();
+  @Output() public regimenActionCompleted: EventEmitter<boolean> = new EventEmitter();
+
   @Input() public RegimenDetails: any = [];
   public isAddRegimenDetailsModal = false;
   public isEditModal = false;
   public isDeleteModal = false;
-  hideHeader:boolean = false;
+  isOnCancerRegimens:boolean = false;
   public RegimenDetail = {};
   public addRegimenDeatilsError = '';
   crumbs: MenuItem[];
@@ -43,7 +46,7 @@ export class RegimendetailsComponent implements OnInit {
       this.getAllRegimens();
     } else if((this.route.url.indexOf('subCancers') > 0) || (this.route.url.indexOf('cancerTypes') > 0) ) {
       // regimens are already provided
-      this.hideHeader = true;
+      this.isOnCancerRegimens = true;
     } else {
       this.getRegimens();
     }
@@ -54,7 +57,11 @@ export class RegimendetailsComponent implements OnInit {
    * Display Regimen Details Modal
    */
   showAddRegimenDetails() {
-    this.isAddRegimenDetailsModal = true;
+    if(this.isOnCancerRegimens){
+      this.actionOnRegimen.emit({action: 'add', regimen: undefined});
+    } else {
+      this.isAddRegimenDetailsModal = true;
+    }
   }
 
   /**
@@ -62,8 +69,12 @@ export class RegimendetailsComponent implements OnInit {
    * @param obj is persion object
    */
   edit(obj) {
-    this.RegimenDetail = JSON.parse(JSON.stringify(obj));
-    this.isEditModal = true;
+    if(this.isOnCancerRegimens){
+      this.actionOnRegimen.emit({action: 'edit', regimen: obj});
+    } else {
+      this.RegimenDetail = JSON.parse(JSON.stringify(obj));
+      this.isEditModal = true;
+    }
   }
 
 
@@ -72,8 +83,12 @@ export class RegimendetailsComponent implements OnInit {
    * @param obj
    */
   delete(obj) {
-    this.RegimenDetail = JSON.parse(JSON.stringify(obj));
-    this.isDeleteModal = true;
+    if(this.isOnCancerRegimens){
+      this.actionOnRegimen.emit({action: 'delete', regimen: obj});
+    } else {
+      this.RegimenDetail = JSON.parse(JSON.stringify(obj));
+      this.isDeleteModal = true;
+    }
   }
 
   /**
@@ -111,6 +126,32 @@ export class RegimendetailsComponent implements OnInit {
       that.addModal.hide();
     }, function (error) {
       alert('Error while adding regimen');
+    });
+  }
+
+  deleteRegimenDetail(data) {
+    this.RegimenDetailService.deleteRegimenDetail(data.id).subscribe((resp) =>{
+      if(!this.isOnCancerRegimens) {
+        this.getRegimens();
+        this.deleteModal.hide();
+      } else {
+        this.regimenActionCompleted.emit(true);
+      }
+    }, function (error) {
+      alert('Error in deleting regimen');
+    });
+  }
+
+  editRegimenDetail(data) {
+    this.RegimenDetailService.updateRegimenDetail(data).subscribe((resp) => {
+      if(!this.isOnCancerRegimens) {
+        this.getRegimens();
+        this.editModal.hide();
+      } else {
+        this.regimenActionCompleted.emit(true);
+      }
+    }, function (error) {
+      alert('Error in updating regimen');
     });
   }
 
@@ -157,21 +198,4 @@ export class RegimendetailsComponent implements OnInit {
     }
   }
 
-  deleteRegimenDetail(data) {
-    this.RegimenDetailService.deleteRegimenDetail(data.id).subscribe((resp) =>{
-      this.getRegimens();
-      this.deleteModal.hide();
-    }, function (error) {
-      alert('Error in deleting regimen');
-    });
-  }
-
-  editRegimenDetail(data) {
-    this.RegimenDetailService.updateRegimenDetail(data).subscribe((resp) => {
-      this.getRegimens();
-      this.editModal.hide();
-    }, function (error) {
-      alert('Error in updating regimen');
-    });
-  }
 }

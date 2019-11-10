@@ -48,11 +48,12 @@ export class EditregimenComponent{
 
   okay() {
     this.selectedCancers.forEach(selectedCancer => {
-      if(this.RegimenDetail.subCancerTypeId3) {
-        this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + ',';
+      if(this.RegimenDetail.subCancerTypeId3.split(',').indexOf(selectedCancer.id + '') < 0) {
+        if(this.RegimenDetail.subCancerTypeId3) {
+          this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + ',';
+        }
+        this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + selectedCancer.id;
       }
-
-      this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + selectedCancer.id;
     });
 
     this.yes.emit(this.RegimenDetail);

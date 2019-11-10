@@ -1,4 +1,4 @@
-<ul class="breadcrumb" *ngIf="!hideHeader">
+<ul class="breadcrumb" *ngIf="!isOnCancerRegimens">
 <p-breadcrumb [model]="crumbs"></p-breadcrumb>
 </ul>
 
@@ -9,7 +9,7 @@
       <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
         <div class="card">
           <div class="card-header">
-            <button class="btn btn-primary pull-right" (click)="showAddRegimenDetails()">Add Regimen Detail</button>
+            <button *ngIf="!isOnCancerRegimens" class="btn btn-primary pull-right" (click)="showAddRegimenDetails()">Add Regimen Detail</button>
           </div>
           <div class="card-block">
             <div class="table-responsive">
