@@ -10,7 +10,9 @@
       <form class="form">
         <div class="form-group">
           <label class="form-control-label">Add CancerType Title</label>
-          <ck-editor name="editor1" type="text" class="form-control" [(ngModel)]="CancerType.title" skin="moono-lisa" language="en"></ck-editor>
+          <label>
+            <input type="text" class="form-control" placeholder="Name" [(ngModel)]="CancerType.title"   name="title" >
+          </label>
         </div>
       </form>
     </div>

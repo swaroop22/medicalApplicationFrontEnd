@@ -45,8 +45,13 @@ ul.breadcrumb[_ngcontent-yqc-c0] {
   border-bottom: 1px solid #c2cfd6;
 }
 
+.bread-crumb-button {
+  height: 40px;
+}
+
 .b-c-container {
   display: flex;
+  justify-content: space-between;
 }
 
 .button-right {

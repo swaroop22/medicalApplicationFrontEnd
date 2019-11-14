@@ -15,7 +15,8 @@
               <h4 *ngIf="cancerTree.getCurrentLevel() === 'CANCERYPE'">Cancers</h4>
             </div>
             <div class="pull-right">
-              <button class="btn btn-primary m-10" (click)="showAddRegimen()">Add Regimen
+              <button *ngIf="cancerTree.getCurrentLevel() !== 'CANCERYPE'"
+                      class="btn btn-primary m-10" (click)="showAddRegimen()">Add Regimen
             </button>
               <button class="btn btn-primary m-10" (click)="showAddCancerType()">Add {{cancerTree.getCurrentLevel()}}</button>
             </div>
@@ -26,7 +27,7 @@
                 <thead>
                 <tr>
                   <th>Cancer Type</th>
-                  <th *ngIf="cancerTree?.getCurrentLevel() !== 'CANCER1TYPE'">Regimen Types</th>
+                  <th>Regimen Types</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
@@ -34,7 +35,7 @@
                 <tbody>
                 <tr *ngFor="let cancerType of CancerTypes">
                   <td >                         <a  href="javascript:void(0)" (click)="getUrlFix(cancerType.id)">{{cancerType.title}}</a></td>
-                  <td *ngIf="cancerTree?.getCurrentLevel() === 'SUBCANCER1TYPE'">
+                  <td >
                     <span class="badge badge-primary regimen-type-badge"
                           *ngFor="let type of generateTreeNodesForRegimens(cancerType?.regimenDetails)"
                           [routerLink]="'/regimenDetails/' + cancerType?.id +'/'+ type">

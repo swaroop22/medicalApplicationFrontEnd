@@ -46,9 +46,15 @@ ul.breadcrumb[_ngcontent-yqc-c0] {
   width: 90%;
 }
 
+.bread-crumb-button {
+  height: 40px;
+  margin-left: 5px;
+}
 
 .b-c-container {
   display: flex;
+  justify-content: space-between;
+  align-content: center;
 }
 
 .button-right {

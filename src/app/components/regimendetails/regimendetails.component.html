@@ -1,15 +1,13 @@
 <ul class="breadcrumb" *ngIf="!isOnCancerRegimens">
 <p-breadcrumb [model]="crumbs"></p-breadcrumb>
 </ul>
-
-<div class="pad20"></div>
 <div class="container-fluid">
   <div class="animated fadeIn">
     <div class="row justify-content-center">
       <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
         <div class="card">
-          <div class="card-header">
-            <button *ngIf="!isOnCancerRegimens" class="btn btn-primary pull-right" (click)="showAddRegimenDetails()">Add Regimen Detail</button>
+          <div class="card-header" *ngIf="!isOnCancerRegimens">
+            <button  class="btn btn-primary pull-right" (click)="showAddRegimenDetails()">Add Regimen Detail</button>
           </div>
           <div class="card-block">
             <div class="table-responsive">
