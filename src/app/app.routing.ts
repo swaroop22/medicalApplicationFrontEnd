@@ -5,12 +5,19 @@ import {PatientsComponent} from './components/patients/patients.component';
 import {CancertypeComponent} from './components/cancertypes/cancertype.component';
 import {EditregimenComponent} from './modals/editregimendetail/editregimen.component';
 import {RegimendetailsComponent} from './components/regimendetails/regimendetails.component';
+import {LoginComponent} from './components/login/login.component';
+import {UserLoggedInGuard} from './guards/user-loggedIn-guard';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'patientTypes',
+    redirectTo: 'login',
     pathMatch: 'full',
+    runGuardsAndResolvers: 'always'
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
     runGuardsAndResolvers: 'always'
   },
   {
@@ -20,7 +27,8 @@ export const routes: Routes = [
       title: 'patientTypes',
       breadcrumb: 'PatientsTypes'
     },
-    runGuardsAndResolvers: 'always'
+    runGuardsAndResolvers: 'always',
+    canActivate: [UserLoggedInGuard]
   },
   {
     path: 'cancerTypes/:patientId',
@@ -30,7 +38,8 @@ export const routes: Routes = [
       breadcrumb: 'cancerTypes'
 
     },
-    runGuardsAndResolvers: 'always'
+    runGuardsAndResolvers: 'always',
+    canActivate: [UserLoggedInGuard]
   },
   {
     path: 'subCancers/:cancerId',
@@ -40,7 +49,8 @@ export const routes: Routes = [
       breadcrumb: 'cancerTypes'
 
     },
-    runGuardsAndResolvers: 'always'
+    runGuardsAndResolvers: 'always',
+    canActivate: [UserLoggedInGuard]
   },
   {
     path: 'cancerTypes/:patientId/:cancerId/:subCancerType1id',
@@ -50,7 +60,8 @@ export const routes: Routes = [
       breadcrumb: 'cancerTypes'
 
     },
-    runGuardsAndResolvers: 'always'
+    runGuardsAndResolvers: 'always',
+    canActivate: [UserLoggedInGuard]
   },
   {
     path: 'cancerTypes/:patientId/:cancerId/:subCancerType1id/:subCancerType2Id',
@@ -60,7 +71,8 @@ export const routes: Routes = [
       breadcrumb: 'cancerTypes'
 
     },
-    runGuardsAndResolvers: 'always'
+    runGuardsAndResolvers: 'always',
+    canActivate: [UserLoggedInGuard]
   },
   {
     path: 'cancerTypes/:patientId/:cancerId/:subCancerType1id/:subCancerType2Id/:linkedId',
@@ -70,7 +82,8 @@ export const routes: Routes = [
       breadcrumb: 'cancerTypes'
 
     },
-    runGuardsAndResolvers: 'always'
+    runGuardsAndResolvers: 'always',
+    canActivate: [UserLoggedInGuard]
   },
   {
     path: 'editRegimenDetails',
@@ -78,7 +91,8 @@ export const routes: Routes = [
     data: {
       title: 'editRegimenDetails'
     },
-    runGuardsAndResolvers: 'always'
+    runGuardsAndResolvers: 'always',
+    canActivate: [UserLoggedInGuard]
   },
   {
     path: 'regimenDetails/:id',
@@ -86,7 +100,8 @@ export const routes: Routes = [
     data: {
       title: 'regimenDetails'
     },
-    runGuardsAndResolvers: 'always'
+    runGuardsAndResolvers: 'always',
+    canActivate: [UserLoggedInGuard]
   },
   {
     path: 'regimenDetails/:id/:regimenType',
@@ -94,7 +109,8 @@ export const routes: Routes = [
     data: {
       title: 'regimenDetails'
     },
-    runGuardsAndResolvers: 'always'
+    runGuardsAndResolvers: 'always',
+    canActivate: [UserLoggedInGuard]
   },
   {
     path: 'regimenDetails',
@@ -102,8 +118,10 @@ export const routes: Routes = [
     data: {
       title: 'regimenDetails'
     },
-    runGuardsAndResolvers: 'always'
-  }
+    runGuardsAndResolvers: 'always',
+    canActivate: [UserLoggedInGuard]
+  },
+  { path: '**',  redirectTo: 'login'}
 ];
 
 @NgModule({

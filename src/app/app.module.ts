@@ -31,6 +31,9 @@ import {CancerTreeService} from './services/cancer-tree.service';
 import {KeysPipe} from './pipes/keys.pipe';
 import {DropdownModule, MultiSelectModule} from 'primeng/primeng';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {LoginComponent} from './components/login/login.component';
+import {UserService} from './services/UserService';
+import {UserLoggedInGuard} from './guards/user-loggedIn-guard';
 
 
 @NgModule({
@@ -51,6 +54,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     AddsubcancertypesComponent,
     DeletesubcancertypesComponent,
     EditsubcancertypesComponent,
+    LoginComponent,
     KeysPipe
   ],
   imports: [
@@ -74,7 +78,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     PatientsComponent,
     CancertypeComponent
   ],
-  providers: [CancerTreeService],
+  providers: [CancerTreeService, UserService, UserLoggedInGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

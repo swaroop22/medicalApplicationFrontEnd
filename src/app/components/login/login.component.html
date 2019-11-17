@@ -1,0 +1,39 @@
+<div class="login-component">
+
+  <div class="login-circle-container">
+    <div class="login-container">
+      <h1 class="app-name">OncAmigo</h1>
+      <div [ngClass]="message === 'Login Failed' ? 'bg-warning' : ''">{{message}}</div>
+
+      <!--    <div class="login-logo">-->
+      <!--      <img src="assets/img/appicon.svg" alt="Ionic logo">-->
+      <!--    </div>-->
+
+      <form [formGroup]="form">
+        <div>
+          <div>Username</div>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                 placeholder="Enter email"
+                 formControlName="username" name="username" spellcheck="false" autocapitalize="off"
+                 required/>
+        </div>
+
+        <div>
+          <div>Password</div>
+          <input type="password" class="form-control" formControlName="password" name="password" required/>
+        </div>
+
+        <!--      <ion-text color="danger">-->
+        <!--        <p [hidden]="password.valid || submitted == false" class="ion-padding-start">-->
+        <!--          Password is required-->
+        <!--        </p>-->
+        <!--      </ion-text>-->
+        <!--    </ion-list>-->
+
+        <div class="login-button-box">
+          <button type="button" (click)="onLogin()" class="btn btn-primary">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
