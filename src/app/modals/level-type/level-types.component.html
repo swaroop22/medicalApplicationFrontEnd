@@ -1,0 +1,42 @@
+<div class="modal-dialog level-type-component">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Regimen Levels</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>Level Type</th>
+          <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let regimenLevel of regimenLevels">
+          <td>{{regimenLevel}}</td>
+          <td>
+            <i class="fa fa-trash" data-toggle="tooltip" placement="top" tooltip="Delete CancerType"
+               (click)="delete(regimenLevel)"></i>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+<!--    <div class="modal-body">-->
+<!--      <form class="form">-->
+<!--        <div class="form-group">-->
+<!--          <label class="form-control-label">SubCancerType Title</label>-->
+<!--          <input type="text" class="form-control" placeholder="Name" [(ngModel)]="SubCancerType.title"   name="title" >-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+    <div class="modal-footer">
+      <button class="btn btn-default" (click)="close()">Cancel</button>
+    </div>
+  </div>
+</div>
