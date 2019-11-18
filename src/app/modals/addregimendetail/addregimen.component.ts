@@ -76,8 +76,17 @@ export class AddregimenComponent {
       });
     }
 
+    this.getRegimenLevels();
+
+    this.regimenDetailService.displayLevelType.subscribe(changed => {
+      this.getRegimenLevels();
+    });
+  }
+
+  getRegimenLevels() {
     this.regimenDetailService.getRegimenLevelTypes().subscribe((types) => {
       this.regimenLevels = types;
+      this.levelOptions = [];
       if(types.length > 0) {
         types.forEach(type => {
           this.levelOptions.push({

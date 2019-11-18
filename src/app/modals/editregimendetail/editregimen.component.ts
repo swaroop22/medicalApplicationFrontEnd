@@ -4,6 +4,8 @@ import {Subcancertype2Service} from '../../subcancertype2.service';
 import {Subcancertype3Service} from '../../subcancertype3.service';
 import {CancerTypeService} from '../../cancer-type.service';
 import {CancerType} from '../../state/CancerType';
+import {SelectItem} from 'primeng/api';
+import {RegimenDetailService} from '../../regimen-detail.service';
 
 @Component({
   selector: 'app-editregimen',
@@ -14,7 +16,7 @@ export class EditregimenComponent{
   @Output() yes = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Input() RegimenDetail: any;
-
+  levelOptions: SelectItem[] = [];
   cancerList: any[] = [];
   selectedCancers: any[] = [];
   public subCancerTypes = {};
@@ -24,9 +26,12 @@ export class EditregimenComponent{
   id2: number;
   id3: number;
 
+  public regimenLevels: string[] = [];
+
   constructor(private subCancerType1Service: SubcancertypeService,
               private subCancerType2Service: Subcancertype2Service,
               private subCancerType3Service: Subcancertype3Service,
+              private regimenDetailService: RegimenDetailService,
               private cancerService: CancerTypeService) {
   }
 
@@ -43,20 +48,46 @@ export class EditregimenComponent{
          })
        }
      })
+
+     this.getRegimenLevels();
+
+     this.regimenDetailService.displayLevelType.subscribe(changed => {
+       this.getRegimenLevels();
+     });
    })
   }
 
-  okay() {
-    this.selectedCancers.forEach(selectedCancer => {
-      if(this.RegimenDetail.subCancerTypeId3 && this.RegimenDetail.subCancerTypeId3.split(',').indexOf(selectedCancer.id + '') < 0) {
-        if(this.RegimenDetail.subCancerTypeId3) {
-          this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + ',';
-        }
-        this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + selectedCancer.id;
+  getRegimenLevels() {
+    this.regimenDetailService.getRegimenLevelTypes().subscribe((types) => {
+      this.regimenLevels = types;
+      this.levelOptions = [];
+      if(types.length > 0) {
+        types.forEach(type => {
+          this.levelOptions.push({
+            label: type, value: type
+          })
+        });
       }
-    });
+      console.log(this.regimenLevels)
+    })
+  }
+
+  okay() {
+    this.populateSubCancerLevels();
 
     this.yes.emit(this.RegimenDetail);
+  }
+
+  populateSubCancerLevels() {
+    this.selectedCancers.forEach(selectedCancer => {
+      if(this.RegimenDetail.subCancerTypeId3 &&
+        this.RegimenDetail.subCancerTypeId3.indexOf(selectedCancer.id) < 0) {
+        this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + ',' + selectedCancer.id;
+      }
+      else if(!this.RegimenDetail.subCancerTypeId3) {
+        this.RegimenDetail.subCancerTypeId3 = '' + selectedCancer.id;
+      }
+    });
   }
 
   close(event) {
@@ -74,6 +105,10 @@ export class EditregimenComponent{
 
   onSelect3(event){
     this.id3 = event;
+  }
+
+  displayLevelTypeModal() {
+    this.regimenDetailService.displayLevelTypeModal();
   }
 
 }
