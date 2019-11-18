@@ -119,16 +119,17 @@ export class AddregimenComponent {
 
   populateSubCancerLevels() {
     this.selectedCancers.forEach(selectedCancer => {
-      if(this.RegimenDetail.subCancerTypeId3) {
-        this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + ',';
-      } else {
-        this.RegimenDetail.subCancerTypeId3 = '' + selectedCancer.id;
-      }
-
       if(this.RegimenDetail.subCancerTypeId3 &&
         this.RegimenDetail.subCancerTypeId3.indexOf(selectedCancer.id) < 0) {
-        this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + selectedCancer.id;
+        this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + ',' + selectedCancer.id;
+      }
+      else if(!this.RegimenDetail.subCancerTypeId3) {
+        this.RegimenDetail.subCancerTypeId3 = '' + selectedCancer.id;
       }
     });
+  }
+
+  displayLevelTypeModal() {
+    this.regimenDetailService.displayLevelTypeModal();
   }
 }

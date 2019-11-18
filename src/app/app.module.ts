@@ -34,6 +34,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoginComponent} from './components/login/login.component';
 import {UserService} from './services/UserService';
 import {UserLoggedInGuard} from './guards/user-loggedIn-guard';
+import {LevelTypesComponent} from './modals/level-type/level-types.component';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import {UserLoggedInGuard} from './guards/user-loggedIn-guard';
     AddsubcancertypesComponent,
     DeletesubcancertypesComponent,
     EditsubcancertypesComponent,
+    LevelTypesComponent,
     LoginComponent,
     KeysPipe
   ],

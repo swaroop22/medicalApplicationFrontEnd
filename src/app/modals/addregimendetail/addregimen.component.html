@@ -2,7 +2,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title pull-left">Add Regimen Detail</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="close($event)">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -40,6 +40,7 @@
           <label class="form-control-label">Regimen Type</label>
           <p-dropdown [options]="levelOptions" [(ngModel)]="RegimenDetail.regimenType" [ngModelOptions]="{standalone: true}"
                       editable="true" placeholder="Select a regimen type"></p-dropdown>
+          <a href="javascript:void(0)" (click)="displayLevelTypeModal()">view levels</a>
         </div>
         <div class="form-group regimen-cancer-select-container" *ngIf="!preSelectedCancer">
           <label class="form-control-label">Associate to Cancer</label>

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/internal/Observable';
 import { map } from "rxjs/operators";
@@ -9,6 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class RegimenDetailService {
 
   private ApiUrl = 'http://localhost:8092/regimenDetailController';
+  public displayLevelType: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private http: Http,
               private route: ActivatedRoute) {
@@ -96,5 +97,13 @@ export class RegimenDetailService {
     })
   }
 
+  displayLevelTypeModal() {
+    this.displayLevelType.emit(true);
+  }
 
+  deleteLevel(regimenLevel: any) {
+    return this.http.delete(this.ApiUrl + '/delete/level/' + regimenLevel).pipe(map( response => {
+      return response;
+    }))
+  }
 }
