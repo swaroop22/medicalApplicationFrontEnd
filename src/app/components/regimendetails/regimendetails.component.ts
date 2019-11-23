@@ -33,6 +33,7 @@ export class RegimendetailsComponent implements OnInit {
   public RegimenDetail = {};
   public addRegimenDeatilsError = '';
   crumbs: MenuItem[];
+  isLoading: boolean;
 
   constructor(private RegimenDetailService: RegimenDetailService,
               private cancerTypeService: CancerTypeService,
@@ -120,16 +121,18 @@ export class RegimendetailsComponent implements OnInit {
   }
 
   addRegimenDetail(event) {
-    const that = this;
-    this.RegimenDetailService.addRegimenDetail(event).subscribe(function (resp) {
-      that.getRegimens();
-      that.addModal.hide();
-    }, function (error) {
+    this.isLoading = true;
+    this.RegimenDetailService.addRegimenDetail(event).subscribe( (resp)  => {
+      this.getRegimens();
+      this.addModal.hide();
+    },  (error) => {
+      this.isLoading = false;
       alert('Error while adding regimen');
     });
   }
 
   deleteRegimenDetail(data) {
+    this.isLoading = true;
     this.RegimenDetailService.deleteRegimenDetail(data.id).subscribe((resp) =>{
       if(!this.isOnCancerRegimens) {
         this.getRegimens();
@@ -137,12 +140,14 @@ export class RegimendetailsComponent implements OnInit {
       } else {
         this.regimenActionCompleted.emit(true);
       }
-    }, function (error) {
+    },  (error) => {
+      this.isLoading = false;
       alert('Error in deleting regimen');
     });
   }
 
   editRegimenDetail(data) {
+    this.isLoading = true;
     this.RegimenDetailService.updateRegimenDetail(data).subscribe((resp) => {
       if(!this.isOnCancerRegimens) {
         this.getRegimens();
@@ -150,13 +155,15 @@ export class RegimendetailsComponent implements OnInit {
       } else {
         this.regimenActionCompleted.emit(true);
       }
-    }, function (error) {
+    },  (error) => {
       alert('Error in updating regimen');
     });
   }
 
   getAllRegimens(){
+    this.isLoading = true;
     this.cancerTypeService.getRegimenById().subscribe((resp) => {
+      this.isLoading = false;
       this.RegimenDetails = resp.regimenDetail;
       this.crumbs = this.getCrumbs(this.cancerTypeService.getBreadCrumbData(resp));
     }, (error) => {
@@ -181,18 +188,24 @@ export class RegimendetailsComponent implements OnInit {
     this.cancerTypeService.regimenId = this.routes.snapshot.params["id"];
     const regimenType = this.routes.snapshot.params["regimenType"];
     if (regimenType) {
+      this.isLoading = true;
       this.cancerTypeService.getRegimenByIdAndType(regimenId, regimenType).subscribe((resp) => {
+        this.isLoading = false;
         this.RegimenDetails = resp.regimenDetail;
         this.crumbs = this.getCrumbs(this.cancerTypeService.getBreadCrumbData(resp));
       }, (error) => {
+        this.isLoading = false;
         alert('Error while getting regimen');
       });
     }
     else {
+      this.isLoading = true;
       this.cancerTypeService.getRegimenById(regimenId).subscribe((resp) => {
+        this.isLoading = false;
         this.RegimenDetails = resp.regimenDetail;
         this.crumbs = this.getCrumbs(this.cancerTypeService.getBreadCrumbData(resp));
       }, (error) => {
+        this.isLoading = false;
         alert('Error while getting regimen');
       });
     }

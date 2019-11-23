@@ -29,7 +29,7 @@ import {EditsubcancertypesComponent} from './modals/editsubcancertypes/editsubca
 import {TreeTableModule} from 'primeng/treetable';
 import {CancerTreeService} from './services/cancer-tree.service';
 import {KeysPipe} from './pipes/keys.pipe';
-import {DropdownModule, MultiSelectModule} from 'primeng/primeng';
+import {DropdownModule, MultiSelectModule, ProgressBarModule} from 'primeng/primeng';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoginComponent} from './components/login/login.component';
 import {UserService} from './services/UserService';
@@ -74,7 +74,8 @@ import {LevelTypesComponent} from './modals/level-type/level-types.component';
     BrowserAnimationsModule,
     HttpModule,
     DropdownModule,
-    MultiSelectModule
+    MultiSelectModule,
+    ProgressBarModule
   ],
   entryComponents: [
     PatientsComponent,

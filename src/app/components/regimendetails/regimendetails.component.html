@@ -1,7 +1,7 @@
 <ul class="breadcrumb" *ngIf="!isOnCancerRegimens">
 <p-breadcrumb [model]="crumbs"></p-breadcrumb>
 </ul>
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="!isLoading">
   <div class="animated fadeIn">
     <div class="row justify-content-center">
       <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
@@ -53,3 +53,4 @@
 <app-deleteregimen *ngIf="isDeleteModal" (onHide)="onHide('delete')" [config]="{ show: true }" bsModal
                     #deleteModal="bs-modal" (yes)="deleteRegimenDetail($event)" (cancel)="onClose('delete')" class="modal fade" [RegimenDetail]="RegimenDetail"></app-deleteregimen>
 
+<p-progressBar mode="indeterminate" *ngIf="isLoading"></p-progressBar>

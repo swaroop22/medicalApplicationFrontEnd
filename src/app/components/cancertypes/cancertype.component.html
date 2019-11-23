@@ -4,7 +4,7 @@
 </ul>
 
 <div class="pad20"></div>
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="!isLoading">
   <div class="animated fadeIn">
     <div class="row justify-content-center">
       <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
@@ -109,4 +109,6 @@
 <app-deleteregimen *ngIf="isDeleteRegimenModal" (onHide)="onHide('deleteRegimen')" [config]="{ show: true }" bsModal
                    #deleteRegimenModal="bs-modal" (yes)="regimenDetailComponent.deleteRegimenDetail($event)" (cancel)="onClose('deleteRegimen')"
                    class="modal fade" [RegimenDetail]="RegimenDetail"></app-deleteregimen>
+<p-progressBar mode="indeterminate" *ngIf="isLoading"></p-progressBar>
+
 

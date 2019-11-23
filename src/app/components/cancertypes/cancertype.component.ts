@@ -55,6 +55,7 @@ export class CancertypeComponent {
   isEditRegimenModal: boolean;
   isDeleteRegimenModal: boolean;
   RegimenDetail: any;
+  isLoading: boolean;
 
   constructor(private cancerTypeService: CancerTypeService,
               private routes: ActivatedRoute,
@@ -71,7 +72,9 @@ export class CancertypeComponent {
   }
 
   getCancerTypes(){
+    this.isLoading = true;
    this.cancerTypeService.getCancerById().subscribe( (resp) => {
+      this.isLoading = false;
       this.CancerTypes = resp.subCancers;
       this.crumbs = this.cancerTypeService.getBreadCrumbData(resp);
       this.addButtonName = this.cancerTree.nextItemToFetch();
@@ -88,6 +91,7 @@ export class CancertypeComponent {
         }
       }
     }, (error) => {
+     this.isLoading = false;
       alert('Error in cancer types');
     });
   }
@@ -145,33 +149,37 @@ export class CancertypeComponent {
   }
 
   editCancerTypes(data){
-    const that = this;
-    this.cancerTypeService.editCancerTypes(data).subscribe(function (resp) {
-      that.getCancerTypes();
-      that.editModal.hide();
-    }, function (error) {
+    this.isLoading = true;
+    this.cancerTypeService.editCancerTypes(data).subscribe( (resp) => {
+      this.isLoading = false;
+      this.getCancerTypes();
+      this.editModal.hide();
+    },  (error) => {
+      this.isLoading = false
       alert('Error to update cancer types ' + data);
     });
   }
 
   deleteCancerTypes(data){
-    const that = this;
-    this.cancerTypeService.deleteCancerTypes(data.id, CANCERS.SUBCANCER1).subscribe(function (resp) {
-      that.getCancerTypes();
-      that.deleteModal.hide();
-    }, function (error) {
+    this.isLoading = true;
+    this.cancerTypeService.deleteCancerTypes(data.id, CANCERS.SUBCANCER1).subscribe((resp) => {
+      this.getCancerTypes();
+      this.deleteModal.hide();
+    },  (error) => {
+      this.isLoading = false ;
       alert('Error to update medicine ' + data);
     });
   }
 
   addCancerTypes(event) {
-
+    this.isLoading = true;
     // this.cancerTypeService.addId(event.previousId);
     this.cancerTypeService.addCancerTypes(event).subscribe((resp) => {
       const type = this.cancerTree.getCurrentLevel();
       this.addModal.hide();
       this.ngOnInit();
-    }, function (error) {
+    },  (error) => {
+      this.isLoading = false;
       alert('Person add error ' + event);
     });
   }
@@ -206,6 +214,7 @@ export class CancertypeComponent {
       this.displayAddRegimen = false;
       this.ngOnInit();
     }, (error) => {
+      this.isLoading = false;
       alert('Regimen add failed');
     });
   }

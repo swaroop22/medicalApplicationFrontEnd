@@ -35,6 +35,7 @@ export class PatientsComponent implements OnInit {
 
   public isEditModal = false;
   public isDeleteModal = false;
+  isLoading: boolean;
 
 
   ngOnInit(): void {
@@ -56,10 +57,13 @@ export class PatientsComponent implements OnInit {
   }
 
   getPatients() {
+    this.isLoading = true;
     this.cancerTypeService.getPatients().subscribe((resp) => {
+      this.isLoading = false;
       this.Patients = resp;
       this.crumbs = this.cancerTypeService.getBreadCrumbData();
     }, function (error) {
+      this.isLoading = false
       alert('Error in getting Patients');
     });
   }
@@ -75,11 +79,13 @@ export class PatientsComponent implements OnInit {
   }
 
   addPerson(event) {
-    const that = this;
-    this.PatientsService.addPatientTypes(event).subscribe(function (resp) {
-      that.getPatients();
-      that.addModal.hide();
-    }, function (error) {
+    this.isLoading = true;
+    this.PatientsService.addPatientTypes(event).subscribe( (resp) => {
+      this.isLoading = false;
+      this.getPatients();
+      this.addModal.hide();
+    }, (error) => {
+      this.isLoading = false;
       alert('Person add error ' + event.firstName);
     });
   }
@@ -100,11 +106,13 @@ export class PatientsComponent implements OnInit {
   }
 
   editPatientTypes(data) {
-    const that = this;
-    this.PatientsService.editPatientTypes(data).subscribe(function (resp) {
-      that.getPatients();
-      that.editModal.hide();
-    }, function (error) {
+    this.isLoading = true;
+    this.PatientsService.editPatientTypes(data).subscribe( (resp) => {
+      this.isLoading = false;
+      this.getPatients();
+      this.editModal.hide();
+    },  (error) => {
+      this.isLoading = false;
       alert('Error to update medicine ' + data);
     });
   }
@@ -115,14 +123,16 @@ export class PatientsComponent implements OnInit {
   }
 
   deletePatientTypes(data){
-    const that = this;
-    this.PatientsService.deletePatientTypes(data.id).subscribe(function (resp) {
-      that.getPatients();
-      that.deleteModal.hide();
-    }, function (error) {
+    this.isLoading = true;
+    this.PatientsService.deletePatientTypes(data.id).subscribe((resp) => {
+      this.isLoading = false;
+      this.getPatients();
+      this.deleteModal.hide();
+    },  (error) => {
+      this.isLoading = false;
       if(error._body.match('ConstraintViolationException')){
         alert('Please delete your CancerTypes before you this delete patient type');
-        that.deleteModal.hide();
+        this.deleteModal.hide();
       }
       console.log();
 

@@ -56,3 +56,4 @@
 <app-deletepatienttypes *ngIf="isDeleteModal" (onHide)="onHide('delete')" [config]="{ show: true }" bsModal
                   #deleteModal="bs-modal" (yes)="deletePatientTypes($event)" (cancel)="onClose('delete')" class="modal fade" [PatientType]="Patient"></app-deletepatienttypes>
 
+<p-progressBar mode="indeterminate" *ngIf="isLoading"></p-progressBar>
