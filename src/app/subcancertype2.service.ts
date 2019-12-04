@@ -2,11 +2,12 @@ import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/internal/Observable';
 import { map } from "rxjs/operators";
+import {environment} from '../environments/environment.prod';
 
 @Injectable()
 export class Subcancertype2Service {
 
-  private ApiUrl = 'http://localhost:8092/subCancerType2ControllerById';
+  private ApiUrl = environment.apiEndPoint + 'subCancerType2ControllerById';
 
   constructor(private http: Http) {
   }

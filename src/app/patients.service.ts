@@ -3,12 +3,13 @@ import {Http} from '@angular/http';
 import {Observable} from 'rxjs/internal/Observable';
 import { map } from "rxjs/operators";
 import {CancerType} from './state/CancerType';
+import {environment} from '../environments/environment.prod';
 
 
 
 @Injectable()
 export class PatientsService {
-  private ApiUrl = 'http://localhost:8092/patientController';
+  private ApiUrl = environment.apiEndPoint + 'patientController';
 
   constructor(private http: Http) {
   }

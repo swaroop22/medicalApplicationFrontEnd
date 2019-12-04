@@ -3,12 +3,13 @@ import {Http} from '@angular/http';
 import {Observable} from 'rxjs/internal/Observable';
 import { map } from "rxjs/operators";
 import {ActivatedRoute, Router} from '@angular/router';
+import {environment} from '../environments/environment.prod';
 
 
 @Injectable()
 export class RegimenDetailService {
 
-  private ApiUrl = 'http://localhost:8092/regimenDetailController';
+  private ApiUrl = environment.apiEndPoint + 'regimenDetailController';
   public displayLevelType: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private http: Http,

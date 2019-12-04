@@ -9,6 +9,7 @@ import {Breadcrumb, MenuItem} from 'primeng/primeng';
 import {CancerResponse} from './state/CancerResponse';
 import {of} from 'rxjs';
 import {CancerType} from './state/CancerType';
+import {environment} from '../environments/environment.prod';
 
 @Injectable()
 export class CancerTypeService {
@@ -25,13 +26,13 @@ export class CancerTypeService {
               private route: ActivatedRoute,
               private router: Router,
               private cancerTree: CancerTreeService) {
-    this.apiEndPointsMap.set(CANCERS.PATIENT, 'http://localhost:8092/patientController');
-    this.apiEndPointsMap.set(CANCERS.CANCER, 'http://localhost:8092/getCancersByPatient');
-    this.apiEndPointsMap.set(CANCERS.CANCER_ADD, 'http://localhost:8092/cancerTypeControllerById/add');
-    this.apiEndPointsMap.set(CANCERS.CANCER_DELETE, 'http://localhost:8092/cancerTypeControllerById/');
-    this.apiEndPointsMap.set(CANCERS.CANCER_EDIT, 'http://localhost:8092/cancerTypeControllerById/edit');
-    this.apiEndPointsMap.set(CANCERS.SUBCANCER1, 'http://localhost:8092/getCancersByParentId');
-    this.apiEndPointsMap.set(CANCERS.REGIMEN_DETAILS, 'http://localhost:8092/regimenDetailController');
+    this.apiEndPointsMap.set(CANCERS.PATIENT, environment.apiEndPoint + 'patientController');
+    this.apiEndPointsMap.set(CANCERS.CANCER, environment.apiEndPoint + 'getCancersByPatient');
+    this.apiEndPointsMap.set(CANCERS.CANCER_ADD, environment.apiEndPoint + 'cancerTypeControllerById/add');
+    this.apiEndPointsMap.set(CANCERS.CANCER_DELETE, environment.apiEndPoint + 'cancerTypeControllerById/');
+    this.apiEndPointsMap.set(CANCERS.CANCER_EDIT, environment.apiEndPoint + 'cancerTypeControllerById/edit');
+    this.apiEndPointsMap.set(CANCERS.SUBCANCER1, environment.apiEndPoint + 'getCancersByParentId');
+    this.apiEndPointsMap.set(CANCERS.REGIMEN_DETAILS, environment.apiEndPoint + 'regimenDetailController');
     this.getAllCancerNames().subscribe(cancers => {});
   }
 
@@ -81,7 +82,7 @@ export class CancerTypeService {
       return of(this.cancerTree.allCancers);
     }
 
-    return this.http.get(`http://localhost:8092/getAllCancerNames`).pipe(map( response => {
+    return this.http.get(`${environment.apiEndPoint}getAllCancerNames`).pipe(map( response => {
       let cancerList = [];
       (response.json().allCancers || []).forEach(cancer => {
 
