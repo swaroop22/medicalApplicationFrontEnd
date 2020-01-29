@@ -74,7 +74,7 @@ export class AddsubcancertypesComponent implements OnChanges {
     this.yes.emit(this.subCancerAddData);
   }
 
-  close(event) {
+  close(event?) {
     this.cancel.emit(event);
   }
 

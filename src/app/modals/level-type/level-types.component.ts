@@ -7,7 +7,7 @@ import {RegimenDetailService} from '../../regimen-detail.service';
   styleUrls: ['./level-types.component.scss']
 })
 export class LevelTypesComponent{
-  private regimenLevels: any[];
+  regimenLevels: any[];
 
   constructor(private regimenDetailService: RegimenDetailService) {
   }
