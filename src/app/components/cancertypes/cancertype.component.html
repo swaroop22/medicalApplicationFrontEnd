@@ -108,7 +108,7 @@
 
 <app-deleteregimen *ngIf="isDeleteRegimenModal" (onHide)="onHide('deleteRegimen')" [config]="{ show: true }" bsModal
                    #deleteRegimenModal="bs-modal" (yes)="regimenDetailComponent.deleteRegimenDetail($event)" (cancel)="onClose('deleteRegimen')"
-                   class="modal fade" [RegimenDetail]="RegimenDetail"></app-deleteregimen>
+                   class="modal fade" [regimen]="RegimenDetail"></app-deleteregimen>
 <p-progressBar mode="indeterminate" *ngIf="isLoading"></p-progressBar>
 
 

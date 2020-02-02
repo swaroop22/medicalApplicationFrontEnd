@@ -18,6 +18,10 @@ export class  CancerTreeService {
   constructor(private router: Router,
               private route: ActivatedRoute,) {}
 
+  getCurrentCancer() {
+    return this.currentCancer;
+  }
+
   addItem(json: any, type?) {
     switch (type) {
       case CANCERS.CANCER:
@@ -101,6 +105,8 @@ export class  CancerTreeService {
     this.parentCancers  = json.parentCancers;
     this.subCancers = json.subCancers;
     this.regimenDetails = json.regimenDetails;
+
+    this.currentCancer = json;
   }
 
 

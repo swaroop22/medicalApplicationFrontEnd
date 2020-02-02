@@ -1,4 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Router} from "@angular/router";
+import {CancerTreeService} from "../../services/cancer-tree.service";
 
 @Component({
   selector: 'app-deleteregimen',
@@ -8,13 +10,13 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class DeleteregimenComponent {
   @Output() yes = new EventEmitter();
   @Output() cancel = new EventEmitter();
-  @Input() RegimenDetail: any;
+  @Input() regimen: any;
 
   constructor() {
   }
 
   okay() {
-    this.yes.emit(this.RegimenDetail);
+    this.yes.emit(this.regimen);
   }
 
   close(event) {

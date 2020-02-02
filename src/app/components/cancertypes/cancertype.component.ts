@@ -37,7 +37,7 @@ export class CancertypeComponent {
   public addCancerTypeError = '';
   public subCancerType = {};
   public subCancerType2 = {};
-  public subCancerType3  = {};
+  public subCancerType3 = {};
   public url: string;
   public regimenDetails = [];
   currentCancerId = '';
@@ -71,27 +71,26 @@ export class CancertypeComponent {
     });
   }
 
-  getCancerTypes(){
+  getCancerTypes() {
     this.isLoading = true;
-   this.cancerTypeService.getCancerById().subscribe( (resp) => {
+    this.cancerTypeService.getCancerById().subscribe((resp) => {
       this.isLoading = false;
       this.CancerTypes = resp.subCancers;
       this.crumbs = this.cancerTypeService.getBreadCrumbData(resp);
       this.addButtonName = this.cancerTree.nextItemToFetch();
       this.regimenDetails = resp.regimenDetail;
       this.currentCancerId = resp.id;
-      if(this.CancerTypes.length === 0)
-      {
+      if (this.CancerTypes.length === 0) {
         this.crumbs.splice(this.crumbs.length - 1, 1);
-        this.crumbs.push({label: CANCERS.REGIMEN_DETAILS,styleClass: 'ui-breadcrumb'});
+        this.crumbs.push({label: CANCERS.REGIMEN_DETAILS, styleClass: 'ui-breadcrumb'});
         this.cancerTypeService.setBreadCrumbData(this.crumbs);
         const latestItemAdded = this.cancerTypeService.cancerTypeId;
-        if(resp.id) {
+        if (resp.id) {
           this.route.navigateByUrl('regimenDetails/' + resp.id);
         }
       }
     }, (error) => {
-     this.isLoading = false;
+      this.isLoading = false;
       alert('Error in cancer types');
     });
   }
@@ -121,7 +120,7 @@ export class CancertypeComponent {
   onClose(event) {
     if (event === 'add') {
       this.isAddSubCancerTypeModal = false;
-    }  else if (event === 'edit') {
+    } else if (event === 'edit') {
       this.isEditModal = false;
     } else if (event === 'delete') {
       this.isDeleteModal = false;
@@ -137,7 +136,7 @@ export class CancertypeComponent {
   onHide(event) {
     if (event === 'add') {
       this.isAddSubCancerTypeModal = false;
-    }  else if (event === 'edit') {
+    } else if (event === 'edit') {
       this.isEditModal = false;
     } else if (event === 'delete') {
       this.isDeleteModal = false;
@@ -148,25 +147,25 @@ export class CancertypeComponent {
     }
   }
 
-  editCancerTypes(data){
+  editCancerTypes(data) {
     this.isLoading = true;
-    this.cancerTypeService.editCancerTypes(data).subscribe( (resp) => {
+    this.cancerTypeService.editCancerTypes(data).subscribe((resp) => {
       this.isLoading = false;
       this.getCancerTypes();
       this.editModal.hide();
-    },  (error) => {
+    }, (error) => {
       this.isLoading = false
       alert('Error to update cancer types ' + data);
     });
   }
 
-  deleteCancerTypes(data){
+  deleteCancerTypes(data) {
     this.isLoading = true;
     this.cancerTypeService.deleteCancerTypes(data.id, CANCERS.SUBCANCER1).subscribe((resp) => {
       this.getCancerTypes();
       this.deleteModal.hide();
-    },  (error) => {
-      this.isLoading = false ;
+    }, (error) => {
+      this.isLoading = false;
       alert('Error to update medicine ' + data);
     });
   }
@@ -178,7 +177,7 @@ export class CancertypeComponent {
       const type = this.cancerTree.getCurrentLevel();
       this.addModal.hide();
       this.ngOnInit();
-    },  (error) => {
+    }, (error) => {
       this.isLoading = false;
       alert('Person add error ' + event);
     });
@@ -192,12 +191,11 @@ export class CancertypeComponent {
     const a = event;
   }
 
-
   generateTreeNodesForRegimens(regimenData: any[]) {
     const data = {};
-    if(regimenData) {
+    if (regimenData) {
       regimenData.forEach((regimen) => {
-        if(regimen && regimen.regimenType) {
+        if (regimen && regimen.regimenType) {
           data[regimen.regimenType] = regimen.regimenType;
         }
       });
@@ -219,11 +217,11 @@ export class CancertypeComponent {
     });
   }
 
-  actionOnRegimen(data: {action: string, regimen: any}) {
-   if(data.action === 'edit') {
+  actionOnRegimen(data: { action: string, regimen: any }) {
+    if (data.action === 'edit') {
       this.RegimenDetail = data.regimen;
       this.isEditRegimenModal = true;
-    } else if(data.action === 'delete') {
+    } else if (data.action === 'delete') {
       this.RegimenDetail = data.regimen;
       this.isDeleteRegimenModal = true;
     }
@@ -234,4 +232,20 @@ export class CancertypeComponent {
     this.isDeleteRegimenModal = false;
     this.isEditRegimenModal = false;
   }
+
+  deleteRegimenForCancer(regimenDetail: any) {
+    let cancersWithTheRegimen = regimenDetail.subCancerTypeId3;
+
+    if (cancersWithTheRegimen && cancersWithTheRegimen.split(',').indexOf(this.currentCancerId)) {
+      cancersWithTheRegimen = cancersWithTheRegimen.split(',')
+        .filter((cancerId) => {
+        return cancerId !== this.currentCancerId;
+      }).join(',');
+    }
+
+    regimenDetail.subCancerTypeId3 = cancersWithTheRegimen;
+
+    this.regimenDetailComponent.editRegimenDetail(regimenDetail);
+  }
 }
+
