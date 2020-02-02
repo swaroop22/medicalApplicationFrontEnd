@@ -61,7 +61,7 @@ export class CancertypeComponent {
               private routes: ActivatedRoute,
               private route: Router,
               private regimenDetailService: RegimenDetailService,
-              private cancerTree: CancerTreeService) {
+              public cancerTree: CancerTreeService) {
   }
 
   ngOnInit() {

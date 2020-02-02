@@ -36,7 +36,7 @@ export class AddpatienttypesComponent implements OnChanges {
     this.yes.emit(this.PatientType);
   }
 
-  close(event) {
+  close(event?) {
     this.cancel.emit(event);
   }
 

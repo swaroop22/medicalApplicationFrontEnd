@@ -58,7 +58,7 @@ export class AddcancertypesComponent implements OnChanges {
     this.yes.emit(this.CancerType);
   }
 
-  close(event) {
+  close(event?) {
     this.cancel.emit(event);
   }
 
