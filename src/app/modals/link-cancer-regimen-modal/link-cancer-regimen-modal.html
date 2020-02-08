@@ -1,0 +1,40 @@
+<div class="modal-dialog">
+ <div>Fetching Regimen...</div>
+<div class="container-fluid" *ngIf="!isLoading">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Edit SubCancer Type</h4>
+      <button type="button" class="close pull-right"  aria-label="Close" (click)="close($event)">x</button>
+    </div>
+
+  </div>
+  <div class="animated fadeIn">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+        <div class="card">
+          <div class="card-block">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>Select</th>
+                  <th>Regimen Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let regimenDetail of regimen">
+                  <td><input type="checkbox" [checked]="regimenDetail.isChecked" (change)="regimenDetail.isChecked = !regimenDetail.isChecked"
+                  ></td>
+                  <td >{{regimenDetail.regimen.dispName}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-progressBar mode="indeterminate" *ngIf="isLoading"></p-progressBar>
+</div>

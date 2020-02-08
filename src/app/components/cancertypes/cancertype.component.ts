@@ -31,6 +31,7 @@ export class CancertypeComponent {
 
   public isEditModal = false;
   public isDeleteModal = false;
+  public showLinkRegimenModal: boolean;
   crumbs: MenuItem[];
   public isAddCancerTypeModal = false;
   public CancerType = {};
@@ -246,6 +247,13 @@ export class CancertypeComponent {
     regimenDetail.subCancerTypeId3 = cancersWithTheRegimen;
 
     this.regimenDetailComponent.editRegimenDetail(regimenDetail);
+  }
+
+  showLinkRegimen(show: boolean) {
+    this.showLinkRegimenModal = show;
+    if(!this.showLinkRegimenModal) {
+      this.getCancerTypes();
+    }
   }
 }
 

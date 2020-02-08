@@ -16,6 +16,9 @@
             </div>
             <div class="pull-right">
               <button *ngIf="cancerTree.getCurrentLevel() !== 'CANCERYPE'"
+                      class="btn btn-primary m-10" (click)="showLinkRegimen(true)">Link Existing Regimen
+              </button>
+              <button *ngIf="cancerTree.getCurrentLevel() !== 'CANCERYPE'"
                       class="btn btn-primary m-10" (click)="showAddRegimen()">Add Regimen
             </button>
               <button class="btn btn-primary m-10" (click)="showAddCancerType()">Add {{cancerTree.getCurrentLevel()}}</button>
@@ -109,6 +112,9 @@
 <app-deleteregimen *ngIf="isDeleteRegimenModal" (onHide)="onHide('deleteRegimen')" [config]="{ show: true }" bsModal
                    #deleteRegimenModal="bs-modal" (yes)="regimenDetailComponent.deleteRegimenDetail($event)" (cancel)="onClose('deleteRegimen')"
                    class="modal fade" [regimen]="RegimenDetail"></app-deleteregimen>
+<link-caner-regimen-modal *ngIf="showLinkRegimenModal" (closeModal)="showLinkRegimen(false)" [config]="{ show: true }" bsModal
+                          (cancel)="showLinkRegimen(false)"
+                          class="modal fade"></link-caner-regimen-modal>
 <p-progressBar mode="indeterminate" *ngIf="isLoading"></p-progressBar>
 
 

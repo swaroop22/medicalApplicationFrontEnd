@@ -35,6 +35,7 @@ import {LoginComponent} from './components/login/login.component';
 import {UserService} from './services/UserService';
 import {UserLoggedInGuard} from './guards/user-loggedIn-guard';
 import {LevelTypesComponent} from './modals/level-type/level-types.component';
+import {LinkCancerRegimenModal} from "./modals/link-cancer-regimen-modal/link-cancer-regimen-modal";
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import {LevelTypesComponent} from './modals/level-type/level-types.component';
     AddsubcancertypesComponent,
     DeletesubcancertypesComponent,
     EditsubcancertypesComponent,
+    LinkCancerRegimenModal,
     LevelTypesComponent,
     LoginComponent,
     KeysPipe
