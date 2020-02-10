@@ -12,7 +12,16 @@ export class DeleteregimenComponent {
   @Output() cancel = new EventEmitter();
   @Input() regimen: any;
 
-  constructor() {
+  currentCancerTitle: String;
+  isOnCancerDetailPage: boolean;
+
+  constructor(private router: Router,
+              private cancerTreeService: CancerTreeService) {
+    this.isOnCancerDetailPage = !(router.url || '').includes('regimenDetails');
+
+    if(this.isOnCancerDetailPage){
+      this.currentCancerTitle = this.cancerTreeService.getCurrentCancer().title;
+    }
   }
 
   okay() {

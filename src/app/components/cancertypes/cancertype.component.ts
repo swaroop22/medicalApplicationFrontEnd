@@ -167,7 +167,7 @@ export class CancertypeComponent {
       this.deleteModal.hide();
     }, (error) => {
       this.isLoading = false;
-      alert('Error to update medicine ' + data);
+      alert('Error deleting cancer ' + data);
     });
   }
 
@@ -254,6 +254,14 @@ export class CancertypeComponent {
     if(!this.showLinkRegimenModal) {
       this.getCancerTypes();
     }
+  }
+
+  removeRegimenFromCancer(regimen) {
+    this.isDeleteRegimenModal = false;
+
+    this.cancerTypeService.updateRegimenInCancer(regimen.id).subscribe(() => {
+      this.getCancerTypes();
+    });
   }
 }
 

@@ -30,7 +30,7 @@ export class EditcancertypesComponent{
     this.patientsService.getPatients().subscribe(function (resp) {
       that.patientNames = resp;
     }, function (error) {
-      alert('Error in getting medicines');
+      alert('Error Getting Cancer Details');
     });
   }
 

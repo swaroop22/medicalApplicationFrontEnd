@@ -13,7 +13,7 @@ export class  CancerTreeService {
   regimenDetails = [];
   allCancers: any[] = [];
 
-  currentCancer = {};
+  currentCancer: any = {};
 
   constructor(private router: Router,
               private route: ActivatedRoute,) {}
@@ -106,7 +106,7 @@ export class  CancerTreeService {
     this.subCancers = json.subCancers;
     this.regimenDetails = json.regimenDetails;
 
-    this.currentCancer = json;
+    this.currentCancer = json.currentCancer;
   }
 
 

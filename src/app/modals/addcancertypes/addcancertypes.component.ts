@@ -67,7 +67,7 @@ export class AddcancertypesComponent implements OnChanges {
     this.patientsService.getPatients().subscribe(function (resp) {
       that.patientNames = resp;
     }, function (error) {
-      alert('Error in getting medicines');
+      alert('Error getting patients');
     });
   }
 

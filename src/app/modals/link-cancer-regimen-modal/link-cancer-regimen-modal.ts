@@ -27,26 +27,25 @@ export class LinkCancerRegimenModal {
   close() {
     const selectedRegimen = [];
     this.regimen.forEach(regimenDetail => {
-      if (regimenDetail.isChecked) {
+      if (regimenDetail.isChanged) {
         selectedRegimen.push(regimenDetail.regimen.id);
       }
     });
 
-    let currentCancerDetail: any = {id:''} ;
-    (this.cancerTreeService.parentCancers || []).forEach(cancer => {
-      if (cancer.id === (<any>this.cancerTreeService.getCurrentCancer()).id) {
-        currentCancerDetail = cancer;
-      }
-    });
+    if(selectedRegimen.length > 0) {let currentCancerDetail: any = {id:''} ;
+      (this.cancerTreeService.parentCancers || []).forEach(cancer => {
+        if (cancer.id === (<any>this.cancerTreeService.getCurrentCancer()).id) {
+          currentCancerDetail = cancer;
+        }
+      });
 
-    if (currentCancerDetail.regimen) {
-      currentCancerDetail.regimen = currentCancerDetail.regimen + ',';
-    }
-    currentCancerDetail.regimen =  currentCancerDetail.regimen + selectedRegimen.join(',');
-
-    this.cancerTypeService.editCancerTypes(currentCancerDetail).subscribe(() => {
+      this.cancerTypeService.updateRegimenInCancer(selectedRegimen.join(',')).subscribe(() => {
+        this.closeModal.emit(false);
+      });
+    } else {
       this.closeModal.emit(false);
-    });
+    }
+
   }
 
   edit(regimenLevel: any) {
@@ -66,9 +65,9 @@ export class LinkCancerRegimenModal {
     this.cancerTypeService.getRegimenById().subscribe((resp) => {
       this.isLoading = false;
       (resp.regimenDetail || []).forEach((regimen) => {
-        const singleRegimen = {regimen: regimen, isChecked: false};
-        currentCancer.regimenDetail.forEach((regimenDetail) => {
-          if(singleRegimen.regimen.id === regimenDetail.id) {
+        const singleRegimen = {regimen: regimen, isChecked: false, isChanged: false};
+        (currentCancer.regimen || '').split(',').forEach((regimenDetail) => {
+          if(singleRegimen.regimen.id == regimenDetail) {
             singleRegimen.isChecked = true;
           }
         });

@@ -110,10 +110,14 @@
                  class="modal fade" [RegimenDetail]="RegimenDetail"></app-editregimen>
 
 <app-deleteregimen *ngIf="isDeleteRegimenModal" (onHide)="onHide('deleteRegimen')" [config]="{ show: true }" bsModal
-                   #deleteRegimenModal="bs-modal" (yes)="regimenDetailComponent.deleteRegimenDetail($event)" (cancel)="onClose('deleteRegimen')"
+                   #deleteRegimenModal="bs-modal" (yes)="removeRegimenFromCancer(RegimenDetail)" (cancel)="onClose('deleteRegimen')"
                    class="modal fade" [regimen]="RegimenDetail"></app-deleteregimen>
-<link-caner-regimen-modal *ngIf="showLinkRegimenModal" (closeModal)="showLinkRegimen(false)" [config]="{ show: true }" bsModal
+<link-caner-regimen-modal *ngIf="showLinkRegimenModal"
+                          (closeModal)="showLinkRegimen(false)"
+                          [config]="{ show: true }"
+                          bsModal
                           (cancel)="showLinkRegimen(false)"
+                          (onHide)="showLinkRegimen(false)"
                           class="modal fade"></link-caner-regimen-modal>
 <p-progressBar mode="indeterminate" *ngIf="isLoading"></p-progressBar>
 

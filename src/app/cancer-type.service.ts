@@ -33,6 +33,7 @@ export class CancerTypeService {
     this.apiEndPointsMap.set(CANCERS.CANCER_EDIT, environment.apiEndPoint + 'cancerTypeControllerById/edit');
     this.apiEndPointsMap.set(CANCERS.SUBCANCER1, environment.apiEndPoint + 'getCancersByParentId');
     this.apiEndPointsMap.set(CANCERS.REGIMEN_DETAILS, environment.apiEndPoint + 'regimenDetailController');
+    this.apiEndPointsMap.set(CANCERS.UPDATE_REGIMEN_IN_CANCER, environment.apiEndPoint + 'updateRegimenInCancer');
     this.getAllCancerNames().subscribe(cancers => {});
   }
 
@@ -148,6 +149,17 @@ export class CancerTypeService {
   editCancerTypes(obj): Observable<any> {
     const url = this.apiEndPointsMap.get(CANCERS.CANCER_EDIT);
     return this.http.post(url, obj).pipe(map( response => {
+      return response.json();
+    }));
+  }
+
+  updateRegimenInCancer(commaSeperatedRegimenId: string): Observable<any> {
+    const currentCancer = {
+      id: this.cancerTree.getCurrentCancer().id,
+      regimen: commaSeperatedRegimenId
+    };
+    const url = this.apiEndPointsMap.get(CANCERS.UPDATE_REGIMEN_IN_CANCER);
+    return this.http.post(url, currentCancer).pipe(map( response => {
       return response.json();
     }));
   }

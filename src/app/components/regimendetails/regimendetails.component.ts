@@ -66,7 +66,7 @@ export class RegimendetailsComponent implements OnInit {
   }
 
   /**
-   * Edit Medicine
+   * Edit Regimen
    * @param obj is persion object
    */
   edit(obj) {
@@ -80,7 +80,7 @@ export class RegimendetailsComponent implements OnInit {
 
 
   /**
-   * Delete medicine
+   * Delete Regimen
    * @param obj
    */
   delete(obj) {

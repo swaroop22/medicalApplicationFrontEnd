@@ -13,10 +13,6 @@
           <input type="text" class="form-control" placeholder="Name" name="username" [(ngModel)]="RegimenDetail.dispName">
         </div>
         <div class="form-group">
-          <label class="form-control-label">Name</label>
-          <input type="text" class="form-control" placeholder="Middlename" name="middlename" [(ngModel)]="RegimenDetail.name">
-        </div>
-        <div class="form-group">
           <label class="form-control-label">Schedule</label>
           <ck-editor name="editor1" type="text" class="form-control" [(ngModel)]="RegimenDetail.schedule" skin="moono-lisa" language="en"></ck-editor>
           <!--          <input type="text" class="form-control" placeholder="Lastname" name="lastname" [(ngModel)]="regimen.schedule">-->
@@ -45,23 +41,23 @@
                       editable="true" placeholder="Select a regimen type"></p-dropdown>
           <a href="javascript:void(0)" (click)="displayLevelTypeModal()">view levels</a>
         </div>
-        <div class="form-group regimen-cancer-select-container">
-          <label class="form-control-label">Associate to Cancer</label>
-          <p-multiSelect [panelStyle]="{minWidth: '250px'}"
-                         [options]="cancerList" name="selectedCancers"
-                         [filter]="true" filterBy="label"
-                         [(ngModel)]="selectedCancers"
-                         [virtualScroll]="true" itemSize="5"
-          >
+<!--        <div class="form-group regimen-cancer-select-container">-->
+<!--          <label class="form-control-label">Associate to Cancer</label>-->
+<!--          <p-multiSelect [panelStyle]="{minWidth: '250px'}"-->
+<!--                         [options]="cancerList" name="selectedCancers"-->
+<!--                         [filter]="true" filterBy="label"-->
+<!--                         [(ngModel)]="selectedCancers"-->
+<!--                         [virtualScroll]="true" itemSize="5"-->
+<!--          >-->
 
-            <ng-template let-cancer pTemplate="item">
-              <span >{{cancer.label}}</span>
-            </ng-template>
-          </p-multiSelect>
-          <p>
-            <span *ngFor="let cancer of selectedCancers">{{cancer.title}} ;</span>
-          </p>
-        </div>
+<!--            <ng-template let-cancer pTemplate="item">-->
+<!--              <span >{{cancer.label}}</span>-->
+<!--            </ng-template>-->
+<!--          </p-multiSelect>-->
+<!--          <p>-->
+<!--            <span *ngFor="let cancer of selectedCancers">{{cancer.title}} ;</span>-->
+<!--          </p>-->
+<!--        </div>-->
       </form>
     </div>
     <div class="modal-footer">

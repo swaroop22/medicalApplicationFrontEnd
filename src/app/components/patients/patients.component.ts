@@ -113,7 +113,7 @@ export class PatientsComponent implements OnInit {
       this.editModal.hide();
     },  (error) => {
       this.isLoading = false;
-      alert('Error to update medicine ' + data);
+      alert('Error to updating patient ' + data);
     });
   }
 

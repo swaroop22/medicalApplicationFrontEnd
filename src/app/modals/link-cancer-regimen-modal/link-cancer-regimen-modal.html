@@ -4,7 +4,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title pull-left">Edit SubCancer Type</h4>
-      <button type="button" class="close pull-right"  aria-label="Close" (click)="close($event)">x</button>
+      <button type="button" class="close pull-right"  aria-label="Close" (click)="close()">x</button>
     </div>
 
   </div>
@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let regimenDetail of regimen">
-                  <td><input type="checkbox" [checked]="regimenDetail.isChecked" (change)="regimenDetail.isChecked = !regimenDetail.isChecked"
+                  <td><input type="checkbox" [checked]="regimenDetail.isChecked" (change)="regimenDetail.isChanged = !regimenDetail.isChanged"
                   ></td>
                   <td >{{regimenDetail.regimen.dispName}}</td>
                 </tr>
