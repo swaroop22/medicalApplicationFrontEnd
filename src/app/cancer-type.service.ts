@@ -5,7 +5,6 @@ import { map } from "rxjs/operators";
 import {CANCERS} from './constants/constants';
 import {CancerTreeService} from './services/cancer-tree.service';
 import {ActivatedRoute, Route, Router} from '@angular/router';
-import {Breadcrumb, MenuItem} from 'primeng/primeng';
 import {CancerResponse} from './state/CancerResponse';
 import {of} from 'rxjs';
 import {CancerType} from './state/CancerType';
@@ -197,7 +196,7 @@ export class CancerTypeService {
 
 
   getBreadCrumbData(response?: CancerResponse) {
-    const crumbs: MenuItem[] = [];
+    const crumbs: any[] = [];
 
     crumbs.push({
       label: 'HOME', styleClass: 'ui-breadcrumb', command: (event) => {

@@ -4,7 +4,7 @@ import {Subcancertype2Service} from '../../subcancertype2.service';
 import {Subcancertype3Service} from '../../subcancertype3.service';
 import {CancerTypeService} from '../../cancer-type.service';
 import {CancerType} from '../../state/CancerType';
-import {SelectItem} from 'primeng/api';
+// import {SelectItem} from 'primeng/api';
 import {RegimenDetailService} from '../../regimen-detail.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class EditregimenComponent{
   @Output() yes = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Input() RegimenDetail: any;
-  levelOptions: SelectItem[] = [];
+  levelOptions: any[] = [];
   cancerList: any[] = [];
   selectedCancers: any[] = [];
   public subCancerTypes = {};

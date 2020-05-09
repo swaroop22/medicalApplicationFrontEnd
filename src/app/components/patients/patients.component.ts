@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MenuItem, TreeNode} from 'primeng/api';
+// import {MenuItem, TreeNode} from 'primeng/api';
 import {PatientsService} from '../../patients.service';
 import {Router} from '@angular/router';
 import {ModalDirective} from 'ngx-bootstrap';
@@ -19,7 +19,7 @@ import {CancerTreeService} from '../../services/cancer-tree.service';
  */
 export class PatientsComponent implements OnInit {
 
-  crumbs: MenuItem[];
+  crumbs: any[];
   @ViewChild('addModal') public addModal: ModalDirective;
   @ViewChild('deleteModal') public deleteModal: ModalDirective;
   @ViewChild('editModal') public editModal: ModalDirective;
@@ -27,7 +27,7 @@ export class PatientsComponent implements OnInit {
   public Patient = {};
   errorMessage: string;
 
-  public Patients: TreeNode[] = [];
+  public Patients: any[] = [];
 
   id: number;
 

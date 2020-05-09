@@ -2,7 +2,6 @@ import {CancerTypeService} from '../../cancer-type.service';
 import {ActivatedRoute, NavigationEnd, Router, RouterEvent} from '@angular/router';
 import {CancerType} from '../../state/CancerType';
 import {ModalDirective} from 'ngx-bootstrap';
-import {MenuItem, TreeNode} from 'primeng/api';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SubcancertypeService} from '../../subcancertype.service';
 import {Subcancertype2Service} from '../../subcancertype2.service';
@@ -32,7 +31,7 @@ export class CancertypeComponent {
   public isEditModal = false;
   public isDeleteModal = false;
   public showLinkRegimenModal: boolean;
-  crumbs: MenuItem[];
+  crumbs: any[];
   public isAddCancerTypeModal = false;
   public CancerType = {};
   public addCancerTypeError = '';
@@ -47,9 +46,6 @@ export class CancertypeComponent {
   navigateOnAdding: boolean = false;
   addButtonName: string = '';
   isAddSubCancerTypeModal: boolean;
-
-
-  files: TreeNode[];
 
   cols: any[];
   displayAddRegimen: boolean;

@@ -1,21 +1,52 @@
-// Override Boostrap variables
-@import "bootstrap-variables";
 
-// Import Bootstrap source files
-@import "bootstrap/bootstrap";
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
 
-// Import vendors styles
-@import "vendors/vendors";
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
 
-// Override core variables
-@import "core-variables";
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$crudoperations-primary: mat-palette($mat-indigo);
+$crudoperations-accent: mat-palette($mat-pink, A200, A100, A400);
 
-// Import core styles
-@import "core/core";
+// The warn palette is optional (defaults to red).
+$crudoperations-warn: mat-palette($mat-red);
 
-// Custom styles
-@import "custom";
+// Create the theme object (a Sass map containing all of the palettes).
+$crudoperations-theme: mat-light-theme($crudoperations-primary, $crudoperations-accent, $crudoperations-warn);
 
-@import '~primeicons/primeicons.css';
-@import '~primeng/resources/themes/nova-light/theme.css';
-@import '~primeng/resources/primeng.min.css';
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($crudoperations-theme);
+
+//// Override Boostrap variables
+//@import "bootstrap-variables";
+//
+//// Import Bootstrap source files
+//@import "bootstrap/bootstrap";
+//
+//// Import vendors styles
+//@import "vendors/vendors";
+//
+//// Override core variables
+//@import "core-variables";
+//
+//// Import core styles
+//@import "core/core";
+//
+//// Custom styles
+//@import "custom";
+//
+//@import '~primeicons/primeicons.css';
+//@import '~primeng/resources/themes/nova-light/theme.css';
+//@import '~primeng/resources/primeng.min.css';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

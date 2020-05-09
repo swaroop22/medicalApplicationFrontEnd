@@ -21,11 +21,21 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/scss/style.scss",
-              "node_modules/font-awesome/scss/font-awesome.scss",
-              "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/primeicons/primeicons.css"
+              {
+                "input": "src/scss/style.scss"
+              },
+              {
+                "input": "src/scss/_bootstrap-variables.scss"
+              },
+              {
+                "input": "src/scss/_core-variables.scss"
+              }
             ],
+            "stylePreprocessorOptions" : {
+              "includePaths": [
+                "src/scss"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -53,6 +63,17 @@
           "options": {
             "browserTarget": "crudoperations:build"
           },
+          "styles": [
+            {
+              "input": "src/scss/style.scss"
+            },
+            {
+              "input": "src/scss/_bootstrap-variables.scss"
+            },
+            {
+              "input": "src/scss/_core-variables.scss"
+            }
+          ],
           "configurations": {
             "production": {
               "browserTarget": "crudoperations:build:production"

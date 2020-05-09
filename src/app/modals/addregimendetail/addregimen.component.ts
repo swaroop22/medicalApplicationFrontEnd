@@ -4,8 +4,8 @@ import {ActivatedRoute} from '@angular/router';
 import {Subcancertype2Service} from '../../subcancertype2.service';
 import {Subcancertype3Service} from '../../subcancertype3.service';
 import {RegimenDetailService} from '../../regimen-detail.service';
-import {SelectItem} from 'primeng/api';
 import {CancerTypeService} from '../../cancer-type.service';
+import {RegimenBrand} from '../../models/regimen-brand';
 
 @Component({
   selector: 'app-addregimen',
@@ -38,11 +38,8 @@ export class AddregimenComponent {
     id4: 0,
   };
 
-  levelOptions: SelectItem[] = [];
-
-  public subCancerTypes = {};
-  public subCancerTypes2 = {};
-  public subCancerTypes3 = {};
+  levelOptions: any[] = [];
+  brandNames: RegimenBrand[] = [];
 
   public regimenLevels: string[] = [];
 
@@ -110,24 +107,8 @@ export class AddregimenComponent {
 
   }
 
-  close(event) {
-    this.cancel.emit(event);
-  }
-
-  onSelect(event){
-    this.id2 = event;
-  }
-
-  onSelect2(event){
-    this.id3 = event;
-  }
-
-  onSelect3(event){
-    this.id4 = event;
-  }
-
   populateSubCancerLevels() {
-    this.selectedCancers.forEach(selectedCancer => {
+    this.selectedCancers.forEach(selectedCancer =>  {
       if(this.RegimenDetail.subCancerTypeId3 &&
         this.RegimenDetail.subCancerTypeId3.indexOf(selectedCancer.id) < 0) {
         this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + ',' + selectedCancer.id;
@@ -140,5 +121,13 @@ export class AddregimenComponent {
 
   displayLevelTypeModal() {
     this.regimenDetailService.displayLevelTypeModal();
+  }
+
+  addMoreBrandName() {
+    this.brandNames.push(new RegimenBrand('', ''));
+  }
+
+  close() {
+    this.cancel.emit();
   }
 }

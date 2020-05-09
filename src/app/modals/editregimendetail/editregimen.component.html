@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
           <label class="form-control-label">Schedule</label>
-          <ck-editor name="editor1" type="text" class="form-control" [(ngModel)]="RegimenDetail.schedule" skin="moono-lisa" language="en"></ck-editor>
+          <ckeditor name="editor1" type="text" class="form-control" [(ngModel)]="RegimenDetail.schedule" skin="moono-lisa" language="en"></ckeditor>
           <!--          <input type="text" class="form-control" placeholder="Lastname" name="lastname" [(ngModel)]="regimen.schedule">-->
         </div>
         <div class="form-group">
@@ -27,9 +27,9 @@
         </div>
         <div class="form-group">
           <label class="form-control-label">Dosage Modifications</label>
-          <ck-editor type="text" class="form-control"  placeholder="dosageModifications"
+          <ckeditor type="text" class="form-control"  placeholder="dosageModifications"
                      name="dosageModifications" [(ngModel)]="RegimenDetail.dosageModifications"
-                     skin="moono-lisa" language="en"></ck-editor>
+                     skin="moono-lisa" language="en"></ckeditor>
         </div>
         <div class="form-group">
           <label class="form-control-label">Brand Names</label>
@@ -37,8 +37,9 @@
         </div>
         <div class="form-group">
           <label class="form-control-label">Regimen Type</label>
-          <p-dropdown [options]="levelOptions" [(ngModel)]="RegimenDetail.regimenType" [ngModelOptions]="{standalone: true}"
-                      editable="true" placeholder="Select a regimen type"></p-dropdown>
+<!--          @TODO add material dropdown here-->
+<!--          <p-dropdown [options]="levelOptions" [(ngModel)]="RegimenDetail.regimenType" [ngModelOptions]="{standalone: true}"-->
+<!--                      editable="true" placeholder="Select a regimen type"></p-dropdown>-->
           <a href="javascript:void(0)" (click)="displayLevelTypeModal()">view levels</a>
         </div>
 <!--        <div class="form-group regimen-cancer-select-container">-->

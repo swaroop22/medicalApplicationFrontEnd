@@ -2,11 +2,11 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title pull-left">Add Regimen Detail</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="close($event)">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-bodfy">
       <form class="form">
         <div class="form-group">
           <label class="form-control-label">Display Name</label>
@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
           <label class="form-control-label">Schedule</label>
-          <ck-editor name="editor1" type="text" class="form-control" [(ngModel)]="RegimenDetail.schedule" skin="moono-lisa" language="en"></ck-editor>
+          <ckeditor name="editor1" type="text" class="form-control" [(ngModel)]="RegimenDetail.schedule" skin="moono-lisa" language="en"></ckeditor>
         </div>
         <div class="form-group">
           <label class="form-control-label">Emetogenic Potential</label>
@@ -26,17 +26,26 @@
         </div>
         <div class="form-group">
           <label class="form-control-label">Dosage Modifications</label>
-          <ck-editor name="editor1" type="text" class="form-control" [(ngModel)]="RegimenDetail.dosageModifications" skin="moono-lisa" language="en"></ck-editor>
+          <ckeditor name="editor1" type="text" class="form-control" [(ngModel)]="RegimenDetail.dosageModifications" skin="moono-lisa" language="en"></ckeditor>
 <!--          <input type="text" class="form-control" placeholder="dosageModifications" name="dosageModifications" [(ngModel)]="RegimenDetail.dosageModifications">-->
         </div>
         <div class="form-group">
           <label class="form-control-label">Brand Names</label>
-          <input type="text" class="form-control" placeholder="brandNames" name="brandNames" [(ngModel)]="RegimenDetail.brandNames">
+          <div *ngFor="let brandName of brandNames; let i = index" class="brand-name-container">
+            <div class="brand-input"><input type="text" class="form-control" placeholder="Brand name" name="genericName"
+                        [(ngModel)]="brandName.brandName">
+            </div>
+            <div class="brand-input"><input type="text" class="form-control" placeholder="Generic name" name="genericName"
+                        [(ngModel)]="brandName.genericName">
+            </div>
+          </div>
+          <div><a href="javascript:void(0)" (click)="addMoreBrandName()">Add more brand names</a></div>
         </div>
         <div class="form-group">
           <label class="form-control-label">Regimen Type</label>
-          <p-dropdown [options]="levelOptions" [(ngModel)]="RegimenDetail.regimenType" [ngModelOptions]="{standalone: true}"
-                      editable="true" placeholder="Select a regimen type"></p-dropdown>
+          <!--  @TODO need to put dropdown here-->
+<!--          <p-dropdown [options]="levelOptions" [(ngModel)]="RegimenDetail.regimenType" [ngModelOptions]="{standalone: true}"-->
+<!--                      editable="true" placeholder="Select a regimen type"></p-dropdown>-->
           <a href="javascript:void(0)" (click)="displayLevelTypeModal()">view levels</a>
         </div>
         <div class="form-group regimen-cancer-select-container" *ngIf="!preSelectedCancer">

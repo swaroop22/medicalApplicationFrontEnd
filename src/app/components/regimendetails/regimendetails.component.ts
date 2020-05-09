@@ -1,17 +1,18 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ModalDirective} from 'ngx-bootstrap';
-import {MenuItem} from 'primeng/api';
 import {RegimenDetailService} from '../../regimen-detail.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CancerTypeService} from '../../cancer-type.service';
 import {CancerTreeService} from '../../services/cancer-tree.service';
 import {CANCERS} from '../../constants/constants';
-
+import {RegimenDetail} from '../../models/regimen-detail';
+import {PageEvent} from '@angular/material/paginator';
+import * as BalloonEditor from '@ckeditor/ckeditor5-build-balloon';
 
 @Component({
   selector: 'app-regimendetails',
   templateUrl: './regimendetails.component.html',
-  styleUrls: ['./regimendetails.component.css']
+  styleUrls: ['./regimendetails.component.scss']
 })
 /**
  * Regimen Details component
@@ -21,25 +22,28 @@ export class RegimendetailsComponent implements OnInit {
   @ViewChild('editModal') public editModal: ModalDirective;
   @ViewChild('deleteModal') public deleteModal: ModalDirective;
 
-
+  editor = BalloonEditor;
   @Output() public actionOnRegimen: EventEmitter<{action: string, regimen: any}> = new EventEmitter();
   @Output() public regimenActionCompleted: EventEmitter<boolean> = new EventEmitter();
 
-  @Input() public RegimenDetails: any = [];
+  @Input() public RegimenDetails: RegimenDetail[] = [];
+  public  regimenToDisplay: RegimenDetail[] = [];
   public isAddRegimenDetailsModal = false;
   public isEditModal = false;
   public isDeleteModal = false;
   isOnCancerRegimens:boolean = false;
   public RegimenDetail = {};
   public addRegimenDeatilsError = '';
-  crumbs: MenuItem[];
+  crumbs: any[];
   isLoading: boolean;
-
+  pageEvent: PageEvent;
+  regimenLevels: string[] = [];
   constructor(private RegimenDetailService: RegimenDetailService,
               private cancerTypeService: CancerTypeService,
               private routes: ActivatedRoute,
               private route: Router,
-              private cancerTree: CancerTreeService,) {
+              private cancerTree: CancerTreeService,
+              private regimenDetailService: RegimenDetailService) {
   }
 
   ngOnInit() {
@@ -48,6 +52,7 @@ export class RegimendetailsComponent implements OnInit {
     } else if((this.route.url.indexOf('subCancers') > 0) || (this.route.url.indexOf('cancerTypes') > 0) ) {
       // regimens are already provided
       this.isOnCancerRegimens = true;
+      this.setPaginationData();
     } else {
       this.getRegimens();
     }
@@ -171,7 +176,7 @@ export class RegimendetailsComponent implements OnInit {
     });
   }
 
-  getCrumbs(crumbs: MenuItem[]) {
+  getCrumbs(crumbs: any[]) {
     const regimenType = this.routes.snapshot.params["regimenType"];
     if(regimenType) {
       crumbs.push({label: regimenType, styleClass: 'ui-breadcrumb'});
@@ -190,9 +195,7 @@ export class RegimendetailsComponent implements OnInit {
     if (regimenType) {
       this.isLoading = true;
       this.cancerTypeService.getRegimenByIdAndType(regimenId, regimenType).subscribe((resp) => {
-        this.isLoading = false;
-        this.RegimenDetails = resp.regimenDetail;
-        this.crumbs = this.getCrumbs(this.cancerTypeService.getBreadCrumbData(resp));
+        this.setRegimenAndDisplayData(resp);
       }, (error) => {
         this.isLoading = false;
         alert('Error while getting regimen');
@@ -201,9 +204,7 @@ export class RegimendetailsComponent implements OnInit {
     else {
       this.isLoading = true;
       this.cancerTypeService.getRegimenById(regimenId).subscribe((resp) => {
-        this.isLoading = false;
-        this.RegimenDetails = resp.regimenDetail;
-        this.crumbs = this.getCrumbs(this.cancerTypeService.getBreadCrumbData(resp));
+       this.setRegimenAndDisplayData(resp);
       }, (error) => {
         this.isLoading = false;
         alert('Error while getting regimen');
@@ -211,4 +212,27 @@ export class RegimendetailsComponent implements OnInit {
     }
   }
 
+  setRegimenAndDisplayData(response) {
+    this.isLoading = false;
+    this.RegimenDetails = response.regimenDetail;
+    this.crumbs = this.getCrumbs(this.cancerTypeService.getBreadCrumbData(response));
+    this.setPaginationData();
+  }
+
+  setPaginationData() {
+    this.changeRegimenList({pageIndex: 0, pageSize: 10, length: this.RegimenDetails.length});
+    this.getRegimenLevels();
+  }
+
+  changeRegimenList(pageEvent: any) {
+    const startPointToSlice = pageEvent.pageIndex * pageEvent.pageSize;
+    const endPointToSlice = startPointToSlice + pageEvent.pageSize;
+
+    this.regimenToDisplay = this.RegimenDetails.slice(startPointToSlice, endPointToSlice);
+  }
+  getRegimenLevels() {
+    this.regimenDetailService.getRegimenLevelTypes().subscribe((types) => {
+      this.regimenLevels = types || [];
+      });
+  }
 }

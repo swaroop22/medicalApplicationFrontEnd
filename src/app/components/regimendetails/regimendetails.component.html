@@ -1,5 +1,6 @@
 <ul class="breadcrumb" *ngIf="!isOnCancerRegimens">
-<p-breadcrumb [model]="crumbs"></p-breadcrumb>
+  <!--  @TODO need to put bread crumbs here-->
+  <!--<p-breadcrumb [model]="crumbs"></p-breadcrumb>-->
 </ul>
 <div class="container-fluid" *ngIf="!isLoading">
   <div class="animated fadeIn">
@@ -8,33 +9,151 @@
         <div class="card">
           <div class="card-header" *ngIf="!isOnCancerRegimens">
             <button  class="btn btn-primary pull-right" (click)="showAddRegimenDetails()">Add Regimen Detail</button>
+            <mat-paginator [length]="RegimenDetails.length"
+                           [pageSize]="10"
+
+                           [pageSizeOptions]="[5, 10, 15, 20, 30]"
+                           (page)="changeRegimenList($event)">
+            </mat-paginator>
           </div>
-          <div class="card-block">
-            <div class="table-responsive">
-              <table class="table table-hover">
-                <thead>
-                <tr>
-                  <th>Regimen Name</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let regimenDetail of RegimenDetails">
-                  <td >{{regimenDetail.dispName}}</td>
-                  <td>
-                    <i class="fa fa-pencil" data-toggle="tooltip" placement="top" tooltip="Edit Regimen"
-                       (click)="edit(regimenDetail)"></i>
-                  </td>
-                  <td>
-                    <i class="fa fa-trash" data-toggle="tooltip" placement="top" tooltip="Delete Regimen"
-                       (click)="delete(regimenDetail)"></i>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
+
+            <div *ngFor="let regimenDetail of regimenToDisplay" class="regimen-detail-panel">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header class="regimen-detail-panel-header">
+                  <div> {{regimenDetail.dispName}}</div>
+                </mat-expansion-panel-header>
+                  <ng-template matExpansionPanelContent>
+                    <div class="regimen-detail-form">
+                      <div class="regimen-detail-form-3-col">
+                        <mat-form-field>
+                          <mat-label>Name</mat-label>
+                          <input matInput [(ngModel)]="regimenDetail.dispName">
+                        </mat-form-field>
+                      </div>
+
+                      <div class="regimen-detail-form-3-col">
+                        <mat-form-field>
+                          <mat-label>Emetogenic Potential</mat-label>
+                          <input matInput [(ngModel)]="regimenDetail.emetogenicPotential">
+                        </mat-form-field>
+                      </div>
+
+                      <div class="regimen-detail-form-3-col">
+                        <mat-form-field>
+                          <mat-label>Regimen Level</mat-label>
+                          <mat-select [(ngModel)]="regimenDetail.regimenType">
+                            <mat-option>---</mat-option>
+                            <mat-option *ngFor="let regimenLevel of regimenLevels" [value]="regimenLevel">
+                              {{regimenLevel}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
+
+                      <div  class="regimen-detail-form-item regimen-detail-header-schedule">
+                        <div><h3  class="side-label">Schedule</h3></div>
+                        <div class="editor">
+                          <ckeditor name="schedule-editor"
+                                    [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
+                                    [editor]="editor"
+                                    [(ngModel)]="regimenDetail.schedule"></ckeditor>
+                        </div>
+                      </div>
+
+                      <div class="regimen-detail-form-item"
+                           [innerHTML]="">
+                        <div><h3 class="side-label"> Dosage Modifications </h3></div>
+                        <div  class="editor">
+                          <ckeditor name="dosage-modification-editor"
+                                    [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
+                                    [editor]="editor"
+                                    [(ngModel)]="regimenDetail.dosageModifications"></ckeditor>
+                        </div>
+                      </div>
+
+
+                      <div class="regimen-detail-form-item"
+                           [innerHTML]="">
+                        <div class="heading-with-button"><h3 class="side-label"> Reference </h3>
+                          <mat-chip-list>
+                            <mat-chip color="primary">Reference</mat-chip>
+                          </mat-chip-list>
+                        </div>
+                        <div  *ngFor="let regimenReference of regimenDetail?.references; let idx=index">
+                          <mat-form-field class="reference-input">
+                            <input matInput [(ngModel)]="regimenDetail.references[idx].reference">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="regimen-detail-form-item"
+                           [innerHTML]="">
+                        <div class="heading-with-button"><h3 class="side-label"> Regimen Brands </h3>
+                          <mat-chip-list>
+
+
+
+
+
+
+
+
+                            <mat-chip color="primary">Add Brand</mat-chip>
+                          </mat-chip-list>
+                        </div>
+                        <div class="brand-container" *ngFor="let brand of regimenDetail?.brands; let idx=index">
+                          <div class="brand-input">
+                            <mat-form-field class="reference-input">
+                              <mat-label>Generic Name</mat-label>
+                              <input matInput [(ngModel)]="regimenDetail.brands[idx].genericName">
+                            </mat-form-field>
+                          </div>
+                          <mat-divider  [vertical]="true"></mat-divider>
+                          <div class="brand-input">
+                            <mat-form-field class="reference-input">
+                              <mat-label>Brand Name</mat-label>
+                              <input matInput [(ngModel)]="regimenDetail.brands[idx].brandName">
+                            </mat-form-field>
+                          </div>
+                          <mat-divider  [vertical]="true"></mat-divider>
+                          <div class="brand-input">
+                            <mat-form-field class="reference-input">
+                              <mat-label>Manufacturer</mat-label>
+                              <input matInput [(ngModel)]="regimenDetail.brands[idx].manufacturer">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="regimen-detail-form-item"> {{regimenDetail.brandNames}}</div>
+                    </div>
+                  </ng-template>
+              </mat-expansion-panel>
+
+
+<!--              <table class="table table-hover">-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                  <th>Regimen Name</th>-->
+<!--                  <th>Edit</th>-->
+<!--                  <th>Delete</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                <tr >-->
+<!--                  <td >{{regimenDetail.dispName}}</td>-->
+<!--                  <td>-->
+<!--                    <i class="fa fa-pencil" data-toggle="tooltip" placement="top" tooltip="Edit Regimen"-->
+<!--                       (click)="edit(regimenDetail)"></i>-->
+<!--                  </td>-->
+<!--                  <td>-->
+<!--                    <i class="fa fa-trash" data-toggle="tooltip" placement="top" tooltip="Delete Regimen"-->
+<!--                       (click)="delete(regimenDetail)"></i>-->
+<!--                  </td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--              </table>-->
             </div>
-          </div>
+
         </div>
       </div>
     </div>
