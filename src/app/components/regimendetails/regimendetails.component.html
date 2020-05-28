@@ -25,17 +25,13 @@
                   <ng-template matExpansionPanelContent>
                     <div class="regimen-detail-form">
                       <div class="regimen-detail-form-3-col">
-                        <mat-form-field>
-                          <mat-label>Name</mat-label>
-                          <input matInput [(ngModel)]="regimenDetail.dispName">
-                        </mat-form-field>
+                        <mat-label>Name</mat-label>
+                        <div>{{regimenDetail.dispName}}</div>
                       </div>
 
                       <div class="regimen-detail-form-3-col">
-                        <mat-form-field>
-                          <mat-label>Emetogenic Potential</mat-label>
-                          <input matInput [(ngModel)]="regimenDetail.emetogenicPotential">
-                        </mat-form-field>
+                        <mat-label>Emetogenic Potential</mat-label>
+                        <div>{{regimenDetail.emetogenicPotential}}</div>
                       </div>
 
                       <div class="regimen-detail-form-3-col">
@@ -53,78 +49,70 @@
 
                       <div  class="regimen-detail-form-item regimen-detail-header-schedule">
                         <div><h3  class="side-label">Schedule</h3></div>
-                        <div class="editor">
-                          <ckeditor name="schedule-editor"
-                                    [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
-                                    [editor]="editor"
-                                    [(ngModel)]="regimenDetail.schedule"></ckeditor>
-                        </div>
+                        <!--<div class="editor">-->
+                          <!--<ckeditor name="schedule-editor"-->
+                                    <!--[config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"-->
+                                    <!--[editor]="editor"-->
+                                    <!--[(ngModel)]=""></ckeditor>-->
+                        <!--</div>-->
+
+                        <div [innerHTML]="regimenDetail.schedule"></div>
                       </div>
 
                       <div class="regimen-detail-form-item"
                            [innerHTML]="">
                         <div><h3 class="side-label"> Dosage Modifications </h3></div>
-                        <div  class="editor">
-                          <ckeditor name="dosage-modification-editor"
-                                    [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
-                                    [editor]="editor"
-                                    [(ngModel)]="regimenDetail.dosageModifications"></ckeditor>
-                        </div>
+                        <!--<div  class="editor">-->
+                          <!--<ckeditor name="dosage-modification-editor"-->
+                                    <!--[config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"-->
+                                    <!--[editor]="editor"-->
+                                    <!--[(ngModel)]="regimenDetail.dosageModifications"></ckeditor>-->
+                        <!--</div>-->
+                        <div [innerHTML]="regimenDetail.dosageModifications"></div>
                       </div>
 
 
                       <div class="regimen-detail-form-item"
                            [innerHTML]="">
-                        <div class="heading-with-button"><h3 class="side-label"> Reference </h3>
-                          <mat-chip-list>
-                            <mat-chip color="primary">Reference</mat-chip>
-                          </mat-chip-list>
+                        <div class="heading-with-button">
+                          <h3 class="side-label"> Reference </h3>
                         </div>
                         <div  *ngFor="let regimenReference of regimenDetail?.references; let idx=index">
-                          <mat-form-field class="reference-input">
-                            <input matInput [(ngModel)]="regimenDetail.references[idx].reference">
-                          </mat-form-field>
+                          <ul>
+                            <li>{{regimenDetail?.references[idx]?.reference}}</li>
+                          </ul>
                         </div>
                       </div>
                       <div class="regimen-detail-form-item"
                            [innerHTML]="">
-                        <div class="heading-with-button"><h3 class="side-label"> Regimen Brands </h3>
-                          <mat-chip-list>
-
-
-
-
-
-
-
-
-                            <mat-chip color="primary">Add Brand</mat-chip>
-                          </mat-chip-list>
+                        <div class="heading-with-button">
+                          <h3 class="side-label"> Regimen Brands </h3>
                         </div>
                         <div class="brand-container" *ngFor="let brand of regimenDetail?.brands; let idx=index">
                           <div class="brand-input">
                             <mat-form-field class="reference-input">
                               <mat-label>Generic Name</mat-label>
-                              <input matInput [(ngModel)]="regimenDetail.brands[idx].genericName">
+                              <div>{{regimenDetail.brands[idx].genericName}}</div>
                             </mat-form-field>
                           </div>
                           <mat-divider  [vertical]="true"></mat-divider>
                           <div class="brand-input">
                             <mat-form-field class="reference-input">
                               <mat-label>Brand Name</mat-label>
-                              <input matInput [(ngModel)]="regimenDetail.brands[idx].brandName">
+                              <div>{{regimenDetail.brands[idx].brandName}}</div>
                             </mat-form-field>
                           </div>
                           <mat-divider  [vertical]="true"></mat-divider>
                           <div class="brand-input">
                             <mat-form-field class="reference-input">
                               <mat-label>Manufacturer</mat-label>
-                              <input matInput [(ngModel)]="regimenDetail.brands[idx].manufacturer">
+                              <div>{{regimenDetail.brands[idx].manufacturer}}</div>
                             </mat-form-field>
                           </div>
                         </div>
                       </div>
                       <div class="regimen-detail-form-item"> {{regimenDetail.brandNames}}</div>
+                      <button (click)="edit(regimenDetail)">Edit</button>
                     </div>
                   </ng-template>
               </mat-expansion-panel>
@@ -167,7 +155,7 @@
                 ></app-addregimen>
 
 <app-editregimen *ngIf="isEditModal" (onHide)="onHide('edit')" [config]="{ show: true }" bsModal
-                  #editModal="bs-modal" (yes)="editRegimenDetail($event)" (cancel)="onClose('edit')" class="modal fade" [RegimenDetail]="RegimenDetail"></app-editregimen>
+                  #editModal="bs-modal" (yes)="editRegimenDetail($event)" (cancel)="onClose('edit')" class="modal fade" [regimenDetail]="RegimenDetail"></app-editregimen>
 
 <app-deleteregimen *ngIf="isDeleteModal" (onHide)="onHide('delete')" [config]="{ show: true }" bsModal
                    #deleteModal="bs-modal" (yes)="deleteRegimenDetail($event)" (cancel)="onClose('delete')" class="modal fade"

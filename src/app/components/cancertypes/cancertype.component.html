@@ -108,7 +108,7 @@
 
 <app-editregimen *ngIf="isEditRegimenModal" (onHide)="onHide('editRegimen')" [config]="{ show: true }" bsModal
                  #editRegimenModal="bs-modal" (yes)="regimenDetailComponent.editRegimenDetail($event)" (cancel)="onClose('editRegimen')"
-                 class="modal fade" [RegimenDetail]="RegimenDetail"></app-editregimen>
+                 class="modal fade" [regimenDetail]="RegimenDetail"></app-editregimen>
 
 <app-deleteregimen *ngIf="isDeleteRegimenModal" (onHide)="onHide('deleteRegimen')" [config]="{ show: true }" bsModal
                    #deleteRegimenModal="bs-modal" (yes)="removeRegimenFromCancer(RegimenDetail)" (cancel)="onClose('deleteRegimen')"

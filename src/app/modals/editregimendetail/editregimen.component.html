@@ -8,58 +8,155 @@
     </div>
     <div class="modal-body">
       <form class="form">
-        <div class="form-group">
-          <label class="form-control-label">Display Name</label>
-          <input type="text" class="form-control" placeholder="Name" name="username" [(ngModel)]="RegimenDetail.dispName">
-        </div>
-        <div class="form-group">
-          <label class="form-control-label">Schedule</label>
-          <ckeditor name="editor1" type="text" class="form-control" [(ngModel)]="RegimenDetail.schedule" skin="moono-lisa" language="en"></ckeditor>
-          <!--          <input type="text" class="form-control" placeholder="Lastname" name="lastname" [(ngModel)]="regimen.schedule">-->
-        </div>
-        <div class="form-group">
-          <label class="form-control-label">Emetogenic Potential</label>
-          <textarea type="textarea" class="form-control" placeholder="emetogenicPotential" name="emetogenicPotential" [(ngModel)]="RegimenDetail.emetogenicPotential"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-control-label">Reference</label>
-          <textarea type="textarea" class="form-control" placeholder="reference" name="reference" [(ngModel)]="RegimenDetail.reference"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-control-label">Dosage Modifications</label>
-          <ckeditor type="text" class="form-control"  placeholder="dosageModifications"
-                     name="dosageModifications" [(ngModel)]="RegimenDetail.dosageModifications"
-                     skin="moono-lisa" language="en"></ckeditor>
-        </div>
-        <div class="form-group">
-          <label class="form-control-label">Brand Names</label>
-          <textarea type="textarea" class="form-control" placeholder="brandNames" name="brandNames" [(ngModel)]="RegimenDetail.brandNames"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-control-label">Regimen Type</label>
-<!--          @TODO add material dropdown here-->
-<!--          <p-dropdown [options]="levelOptions" [(ngModel)]="RegimenDetail.regimenType" [ngModelOptions]="{standalone: true}"-->
-<!--                      editable="true" placeholder="Select a regimen type"></p-dropdown>-->
-          <a href="javascript:void(0)" (click)="displayLevelTypeModal()">view levels</a>
-        </div>
-<!--        <div class="form-group regimen-cancer-select-container">-->
-<!--          <label class="form-control-label">Associate to Cancer</label>-->
-<!--          <p-multiSelect [panelStyle]="{minWidth: '250px'}"-->
-<!--                         [options]="cancerList" name="selectedCancers"-->
-<!--                         [filter]="true" filterBy="label"-->
-<!--                         [(ngModel)]="selectedCancers"-->
-<!--                         [virtualScroll]="true" itemSize="5"-->
-<!--          >-->
+          <div class="regimen-detail-form">
+            <div class="regimen-detail-form-3-col">
+              <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]="regimenDetail.dispName">
+              </mat-form-field>
+            </div>
 
-<!--            <ng-template let-cancer pTemplate="item">-->
-<!--              <span >{{cancer.label}}</span>-->
-<!--            </ng-template>-->
-<!--          </p-multiSelect>-->
-<!--          <p>-->
-<!--            <span *ngFor="let cancer of selectedCancers">{{cancer.title}} ;</span>-->
-<!--          </p>-->
-<!--        </div>-->
+            <div class="regimen-detail-form-3-col">
+              <mat-form-field>
+                <mat-label>Emetogenic Potential</mat-label>
+                <input matInput [(ngModel)]="regimenDetail.emetogenicPotential">
+              </mat-form-field>
+            </div>
+
+            <div class="regimen-detail-form-3-col">
+              <mat-form-field>
+                <mat-label>Regimen Level</mat-label>
+                <mat-select [(ngModel)]="regimenDetail.regimenType">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let regimenLevel of regimenLevels" [value]="regimenLevel">
+                    {{regimenLevel}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+
+            <div  class="regimen-detail-form-item regimen-detail-header-schedule">
+              <div><h3  class="side-label">Schedule</h3></div>
+              <div class="editor">
+                <ckeditor name="schedule-editor"
+                          [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
+                          [editor]="editor"
+                          [(ngModel)]="regimenDetail.schedule"></ckeditor>
+              </div>
+            </div>
+
+            <div class="regimen-detail-form-item"
+                 [innerHTML]="">
+              <div><h3 class="side-label"> Dosage Modifications </h3></div>
+              <div  class="editor">
+                <ckeditor name="dosage-modification-editor"
+                          [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
+                          [editor]="editor"
+                          [(ngModel)]="regimenDetail.dosageModifications"></ckeditor>
+              </div>
+            </div>
+
+
+            <div class="regimen-detail-form-item"
+                 [innerHTML]="">
+              <div class="heading-with-button"><h3 class="side-label"> Reference </h3>
+                <mat-chip-list>
+                  <mat-chip color="primary">Reference</mat-chip>
+                </mat-chip-list>
+              </div>
+              <div  *ngFor="let regimenReference of regimenDetail?.references; let idx=index">
+                <mat-form-field class="reference-input">
+                  <input matInput [(ngModel)]="regimenDetail.references[idx].reference">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="regimen-detail-form-item"
+                 [innerHTML]="">
+              <div class="heading-with-button"><h3 class="side-label"> Regimen Brands </h3>
+                <mat-chip-list>
+                  <mat-chip color="primary">Add Brand</mat-chip>
+                </mat-chip-list>
+              </div>
+              <div class="brand-container" *ngFor="let brand of regimenDetail?.brands; let idx=index">
+                <div class="brand-input">
+                  <mat-form-field class="reference-input">
+                    <mat-label>Generic Name</mat-label>
+                    <input matInput [(ngModel)]="regimenDetail.brands[idx].genericName">
+                  </mat-form-field>
+                </div>
+                <mat-divider  [vertical]="true"></mat-divider>
+                <div class="brand-input">
+                  <mat-form-field class="reference-input">
+                    <mat-label>Brand Name</mat-label>
+                    <input matInput [(ngModel)]="regimenDetail.brands[idx].brandName">
+                  </mat-form-field>
+                </div>
+                <mat-divider  [vertical]="true"></mat-divider>
+                <div class="brand-input">
+                  <mat-form-field class="reference-input">
+                    <mat-label>Manufacturer</mat-label>
+                    <input matInput [(ngModel)]="regimenDetail.brands[idx].manufacturer">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="regimen-detail-form-item"> {{regimenDetail.brandNames}}</div>
+          </div>
       </form>
+      <!--<form class="form">-->
+        <!--<div class="form-group">-->
+          <!--<label class="form-control-label">Display Name</label>-->
+          <!--<input type="text" class="form-control" placeholder="Name" name="username" [(ngModel)]="RegimenDetail.dispName">-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label class="form-control-label">Schedule</label>-->
+          <!--<ckeditor name="editor1" type="text" class="form-control" [(ngModel)]="RegimenDetail.schedule" skin="moono-lisa" language="en"></ckeditor>-->
+          <!--&lt;!&ndash;          <input type="text" class="form-control" placeholder="Lastname" name="lastname" [(ngModel)]="regimen.schedule">&ndash;&gt;-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label class="form-control-label">Emetogenic Potential</label>-->
+          <!--<textarea type="textarea" class="form-control" placeholder="emetogenicPotential" name="emetogenicPotential" [(ngModel)]="RegimenDetail.emetogenicPotential"></textarea>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label class="form-control-label">Reference</label>-->
+          <!--<textarea type="textarea" class="form-control" placeholder="reference" name="reference" [(ngModel)]="RegimenDetail.reference"></textarea>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label class="form-control-label">Dosage Modifications</label>-->
+          <!--<ckeditor type="text" class="form-control"  placeholder="dosageModifications"-->
+                     <!--name="dosageModifications" [(ngModel)]="RegimenDetail.dosageModifications"-->
+                     <!--skin="moono-lisa" language="en"></ckeditor>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label class="form-control-label">Brand Names</label>-->
+          <!--<textarea type="textarea" class="form-control" placeholder="brandNames" name="brandNames" [(ngModel)]="RegimenDetail.brandNames"></textarea>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label class="form-control-label">Regimen Type</label>-->
+<!--&lt;!&ndash;          @TODO add material dropdown here&ndash;&gt;-->
+<!--&lt;!&ndash;          <p-dropdown [options]="levelOptions" [(ngModel)]="RegimenDetail.regimenType" [ngModelOptions]="{standalone: true}"&ndash;&gt;-->
+<!--&lt;!&ndash;                      editable="true" placeholder="Select a regimen type"></p-dropdown>&ndash;&gt;-->
+          <!--<a href="javascript:void(0)" (click)="displayLevelTypeModal()">view levels</a>-->
+        <!--</div>-->
+<!--&lt;!&ndash;        <div class="form-group regimen-cancer-select-container">&ndash;&gt;-->
+<!--&lt;!&ndash;          <label class="form-control-label">Associate to Cancer</label>&ndash;&gt;-->
+<!--&lt;!&ndash;          <p-multiSelect [panelStyle]="{minWidth: '250px'}"&ndash;&gt;-->
+<!--&lt;!&ndash;                         [options]="cancerList" name="selectedCancers"&ndash;&gt;-->
+<!--&lt;!&ndash;                         [filter]="true" filterBy="label"&ndash;&gt;-->
+<!--&lt;!&ndash;                         [(ngModel)]="selectedCancers"&ndash;&gt;-->
+<!--&lt;!&ndash;                         [virtualScroll]="true" itemSize="5"&ndash;&gt;-->
+<!--&lt;!&ndash;          >&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <ng-template let-cancer pTemplate="item">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span >{{cancer.label}}</span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </ng-template>&ndash;&gt;-->
+<!--&lt;!&ndash;          </p-multiSelect>&ndash;&gt;-->
+<!--&lt;!&ndash;          <p>&ndash;&gt;-->
+<!--&lt;!&ndash;            <span *ngFor="let cancer of selectedCancers">{{cancer.title}} ;</span>&ndash;&gt;-->
+<!--&lt;!&ndash;          </p>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+      <!--</form>-->
     </div>
     <div class="modal-footer">
       <button class="btn btn-default" (click)="close($event)">Cancel</button>

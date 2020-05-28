@@ -6,6 +6,7 @@ import {CancerTypeService} from '../../cancer-type.service';
 import {CancerType} from '../../state/CancerType';
 // import {SelectItem} from 'primeng/api';
 import {RegimenDetailService} from '../../regimen-detail.service';
+import * as BalloonEditor from '@ckeditor/ckeditor5-build-balloon';
 
 @Component({
   selector: 'app-editregimen',
@@ -16,6 +17,7 @@ export class EditregimenComponent{
   @Output() yes = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Input() RegimenDetail: any;
+  @Input() regimenDetail: any;
   levelOptions: any[] = [];
   cancerList: any[] = [];
   selectedCancers: any[] = [];
@@ -28,6 +30,8 @@ export class EditregimenComponent{
 
   public regimenLevels: string[] = [];
 
+  editor = BalloonEditor;
+
   constructor(private subCancerType1Service: SubcancertypeService,
               private subCancerType2Service: Subcancertype2Service,
               private subCancerType3Service: Subcancertype3Service,
@@ -36,25 +40,25 @@ export class EditregimenComponent{
   }
 
   ngOnInit() {
-   this.cancerService.getAllCancerNames().subscribe(cancers => {
-     this.cancerList = cancers;
-
-     cancers.forEach(cancerSelectItem => {
-       if(this.RegimenDetail.subCancerTypeId3 && this.RegimenDetail.subCancerTypeId3.length > 0) {
-         this.RegimenDetail.subCancerTypeId3.split(",").forEach(cancerIndex =>{
-           if (cancerSelectItem.value.id == cancerIndex) {
-             this.selectedCancers.push(cancerSelectItem.value);
-           }
-         })
-       }
-     })
-
-     this.getRegimenLevels();
-
-     this.regimenDetailService.displayLevelType.subscribe(changed => {
-       this.getRegimenLevels();
-     });
-   })
+   // this.cancerService.getAllCancerNames().subscribe(cancers => {
+   //   this.cancerList = cancers;
+   //
+   //   cancers.forEach(cancerSelectItem => {
+   //     if(this.RegimenDetail.subCancerTypeId3 && this.RegimenDetail.subCancerTypeId3.length > 0) {
+   //       this.RegimenDetail.subCancerTypeId3.split(",").forEach(cancerIndex =>{
+   //         if (cancerSelectItem.value.id == cancerIndex) {
+   //           this.selectedCancers.push(cancerSelectItem.value);
+   //         }
+   //       })
+   //     }
+   //   })
+   //
+   //   this.getRegimenLevels();
+   //
+   //   this.regimenDetailService.displayLevelType.subscribe(changed => {
+   //     this.getRegimenLevels();
+   //   });
+   // })
   }
 
   getRegimenLevels() {
@@ -75,19 +79,10 @@ export class EditregimenComponent{
   okay() {
     this.populateSubCancerLevels();
 
-    this.yes.emit(this.RegimenDetail);
+    this.yes.emit(this.regimenDetail);
   }
 
   populateSubCancerLevels() {
-    this.selectedCancers.forEach(selectedCancer => {
-      if(this.RegimenDetail.subCancerTypeId3 &&
-        this.RegimenDetail.subCancerTypeId3.indexOf(selectedCancer.id) < 0) {
-        this.RegimenDetail.subCancerTypeId3 = this.RegimenDetail.subCancerTypeId3 + ',' + selectedCancer.id;
-      }
-      else if(!this.RegimenDetail.subCancerTypeId3) {
-        this.RegimenDetail.subCancerTypeId3 = '' + selectedCancer.id;
-      }
-    });
   }
 
   close(event) {
