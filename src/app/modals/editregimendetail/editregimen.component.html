@@ -7,29 +7,36 @@
       </button>
     </div>
     <div class="modal-body">
-      <form class="form">
+      <form class="form" [formGroup]="regimenForm">
           <div class="regimen-detail-form">
             <div class="regimen-detail-form-3-col">
               <mat-form-field>
                 <mat-label>Name</mat-label>
-                <input matInput [(ngModel)]="regimenDetail.dispName">
+                <input matInput formControlName="dispName">
               </mat-form-field>
             </div>
 
             <div class="regimen-detail-form-3-col">
               <mat-form-field>
                 <mat-label>Emetogenic Potential</mat-label>
-                <input matInput [(ngModel)]="regimenDetail.emetogenicPotential">
+                <input matInput formControlName="emetogenicPotential">
               </mat-form-field>
             </div>
 
             <div class="regimen-detail-form-3-col">
+              <mat-chip-list>
+                <mat-chip *ngFor="let regimenLevel of regimenDetail?.regimenLevels" [selectable]="selectable"
+                          [removable]="true" (removed)="removeRegimenLevelFromRegimen(regimenLevel)">
+                  {{regimenLevel?.level}}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+              </mat-chip-list>
               <mat-form-field>
                 <mat-label>Regimen Level</mat-label>
                 <mat-select [(ngModel)]="regimenDetail.regimenType">
                   <mat-option>---</mat-option>
                   <mat-option *ngFor="let regimenLevel of regimenLevels" [value]="regimenLevel">
-                    {{regimenLevel}}
+                    {{regimenLevel?.level}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -42,7 +49,7 @@
                 <ckeditor name="schedule-editor"
                           [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
                           [editor]="editor"
-                          [(ngModel)]="regimenDetail.schedule"></ckeditor>
+                          formControlName="schedule"></ckeditor>
               </div>
             </div>
 
@@ -53,11 +60,11 @@
                 <ckeditor name="dosage-modification-editor"
                           [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
                           [editor]="editor"
-                          [(ngModel)]="regimenDetail.dosageModifications"></ckeditor>
+                          formControlName="dosageModifications"></ckeditor>
               </div>
             </div>
-
-
+          </div>
+      </form>
             <div class="regimen-detail-form-item"
                  [innerHTML]="">
               <div class="heading-with-button"><h3 class="side-label"> Reference </h3>
@@ -102,8 +109,6 @@
               </div>
             </div>
             <div class="regimen-detail-form-item"> {{regimenDetail.brandNames}}</div>
-          </div>
-      </form>
       <!--<form class="form">-->
         <!--<div class="form-group">-->
           <!--<label class="form-control-label">Display Name</label>-->

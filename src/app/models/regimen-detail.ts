@@ -1,4 +1,4 @@
-export class RegimenDetail {
+export interface RegimenDetail {
   id: number;
   dispName: string;
   name: string;
@@ -12,19 +12,19 @@ export class RegimenDetail {
   regimenLevels: Level[];
 }
 
-export class RegimenReference {
+export interface RegimenReference {
   id: number;
   reference: string;
 }
 
-export class Brand {
+export interface Brand {
   id: number;
   brandName: string;
   genericName: string;
   manufacturer: string;
 }
 
-export class Level {
+export interface Level {
   id: number;
   level: string;
 }

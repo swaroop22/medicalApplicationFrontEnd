@@ -26,48 +26,32 @@
                     <div class="regimen-detail-form">
                       <div class="regimen-detail-form-3-col">
                         <mat-label>Name</mat-label>
-                        <div>{{regimenDetail.dispName}}</div>
+                        <div>{{regimenDetail?.dispName}}</div>
                       </div>
 
                       <div class="regimen-detail-form-3-col">
                         <mat-label>Emetogenic Potential</mat-label>
-                        <div>{{regimenDetail.emetogenicPotential}}</div>
+                        <div>{{regimenDetail?.emetogenicPotential}}</div>
                       </div>
 
                       <div class="regimen-detail-form-3-col">
-                        <mat-form-field>
                           <mat-label>Regimen Level</mat-label>
-                          <mat-select [(ngModel)]="regimenDetail.regimenType">
-                            <mat-option>---</mat-option>
-                            <mat-option *ngFor="let regimenLevel of regimenLevels" [value]="regimenLevel">
-                              {{regimenLevel}}
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
+                          <mat-chip-list>
+                            <mat-chip *ngFor="let regimenLevel of regimenDetail?.regimenLevels">
+                              {{regimenLevel?.level}}
+                            </mat-chip>
+                          </mat-chip-list>
                       </div>
 
 
                       <div  class="regimen-detail-form-item regimen-detail-header-schedule">
                         <div><h3  class="side-label">Schedule</h3></div>
-                        <!--<div class="editor">-->
-                          <!--<ckeditor name="schedule-editor"-->
-                                    <!--[config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"-->
-                                    <!--[editor]="editor"-->
-                                    <!--[(ngModel)]=""></ckeditor>-->
-                        <!--</div>-->
-
                         <div [innerHTML]="regimenDetail.schedule"></div>
                       </div>
 
                       <div class="regimen-detail-form-item"
                            [innerHTML]="">
                         <div><h3 class="side-label"> Dosage Modifications </h3></div>
-                        <!--<div  class="editor">-->
-                          <!--<ckeditor name="dosage-modification-editor"-->
-                                    <!--[config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"-->
-                                    <!--[editor]="editor"-->
-                                    <!--[(ngModel)]="regimenDetail.dosageModifications"></ckeditor>-->
-                        <!--</div>-->
                         <div [innerHTML]="regimenDetail.dosageModifications"></div>
                       </div>
 
@@ -116,57 +100,11 @@
                           <mat-header-row *matHeaderRowDef="['id', 'genericName', 'brandName', 'manufacturer']"></mat-header-row>
                           <mat-row *matRowDef="let row; columns: ['id', 'genericName', 'brandName', 'manufacturer'];"></mat-row>
                         </mat-table>
-<!--                        <div class="brand-container" *ngFor="let brand of regimenDetail?.brands; let idx=index">-->
-<!--                          <div class="brand-input">-->
-<!--                            <mat-form-field class="reference-input">-->
-<!--                              <mat-label>Generic Name</mat-label>-->
-<!--                              <div>{{regimenDetail.brands[idx].genericName}}</div>-->
-<!--                            </mat-form-field>-->
-<!--                          </div>-->
-<!--                          <mat-divider  [vertical]="true"></mat-divider>-->
-<!--                          <div class="brand-input">-->
-<!--                            <mat-form-field class="reference-input">-->
-<!--                              <mat-label>Brand Name</mat-label>-->
-<!--                              <div>{{regimenDetail.brands[idx].brandName}}</div>-->
-<!--                            </mat-form-field>-->
-<!--                          </div>-->
-<!--                          <mat-divider  [vertical]="true"></mat-divider>-->
-<!--                          <div class="brand-input">-->
-<!--                            <mat-form-field class="reference-input">-->
-<!--                              <mat-label>Manufacturer</mat-label>-->
-<!--                              <div>{{regimenDetail.brands[idx].manufacturer}}</div>-->
-<!--                            </mat-form-field>-->
-<!--                          </div>-->
-<!--                        </div>-->
                       </div>
                       <button (click)="edit(regimenDetail)">Edit</button>
                     </div>
                   </ng-template>
               </mat-expansion-panel>
-
-
-<!--              <table class="table table-hover">-->
-<!--                <thead>-->
-<!--                <tr>-->
-<!--                  <th>Regimen Name</th>-->
-<!--                  <th>Edit</th>-->
-<!--                  <th>Delete</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr >-->
-<!--                  <td >{{regimenDetail.dispName}}</td>-->
-<!--                  <td>-->
-<!--                    <i class="fa fa-pencil" data-toggle="tooltip" placement="top" tooltip="Edit Regimen"-->
-<!--                       (click)="edit(regimenDetail)"></i>-->
-<!--                  </td>-->
-<!--                  <td>-->
-<!--                    <i class="fa fa-trash" data-toggle="tooltip" placement="top" tooltip="Delete Regimen"-->
-<!--                       (click)="delete(regimenDetail)"></i>-->
-<!--                  </td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--              </table>-->
             </div>
 
         </div>
@@ -174,7 +112,6 @@
     </div>
   </div>
 </div>
-
 
 
 <app-addregimen *ngIf="isAddRegimenDetailsModal" (onHide)="onHide('add')" [config]="{ show: true }" bsModal

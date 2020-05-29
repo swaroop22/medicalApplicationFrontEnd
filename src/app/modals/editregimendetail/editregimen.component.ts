@@ -7,6 +7,8 @@ import {CancerType} from '../../state/CancerType';
 // import {SelectItem} from 'primeng/api';
 import {RegimenDetailService} from '../../regimen-detail.service';
 import * as BalloonEditor from '@ckeditor/ckeditor5-build-balloon';
+import {Level, RegimenDetail, Brand, RegimenReference} from "../../models/regimen-detail";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-editregimen',
@@ -17,7 +19,7 @@ export class EditregimenComponent{
   @Output() yes = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Input() RegimenDetail: any;
-  @Input() regimenDetail: any;
+  @Input() regimenDetail: RegimenDetail;
   levelOptions: any[] = [];
   cancerList: any[] = [];
   selectedCancers: any[] = [];
@@ -28,7 +30,9 @@ export class EditregimenComponent{
   id2: number;
   id3: number;
 
-  public regimenLevels: string[] = [];
+  regimenForm: FormGroup;
+
+  public regimenLevels: Level[] = [];
 
   editor = BalloonEditor;
 
@@ -36,6 +40,7 @@ export class EditregimenComponent{
               private subCancerType2Service: Subcancertype2Service,
               private subCancerType3Service: Subcancertype3Service,
               private regimenDetailService: RegimenDetailService,
+              private formBuilder: FormBuilder,
               private cancerService: CancerTypeService) {
   }
 
@@ -59,6 +64,7 @@ export class EditregimenComponent{
    //     this.getRegimenLevels();
    //   });
    // })
+    this.regimenForm = this.formBuilder.group(this.regimenDetail);
   }
 
   getRegimenLevels() {
@@ -104,6 +110,10 @@ export class EditregimenComponent{
 
   displayLevelTypeModal() {
     this.regimenDetailService.displayLevelTypeModal();
+  }
+
+  removeRegimenLevelFromRegimen(level: Level) {
+    // @TODO code to remove level from regimen level list
   }
 
 }
