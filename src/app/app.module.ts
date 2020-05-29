@@ -37,6 +37,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatTableModule} from '@angular/material/table';
 
 
 @NgModule({
@@ -62,25 +63,26 @@ import {MatChipsModule} from '@angular/material/chips';
     LoginComponent,
     KeysPipe
   ],
-  imports: [
-    BrowserModule,
-    TooltipModule.forRoot(),
-    ModalModule.forRoot(),
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ServicesModule,
-    CKEditorModule,
-    BrowserAnimationsModule,
-    HttpModule,
-    MatExpansionModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDividerModule,
-    MatChipsModule
-  ],
+    imports: [
+        BrowserModule,
+        TooltipModule.forRoot(),
+        ModalModule.forRoot(),
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ServicesModule,
+        CKEditorModule,
+        BrowserAnimationsModule,
+        HttpModule,
+        MatExpansionModule,
+        MatPaginatorModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatDividerModule,
+        MatChipsModule,
+        MatTableModule
+    ],
   entryComponents: [
     PatientsComponent,
     CancertypeComponent

@@ -9,6 +9,7 @@ export class RegimenDetail {
   regimenType:  string;
   brandNames:  string;
   brands: Brand[];
+  regimenLevels: Level[];
 }
 
 export class RegimenReference {
@@ -21,4 +22,9 @@ export class Brand {
   brandName: string;
   genericName: string;
   manufacturer: string;
+}
+
+export class Level {
+  id: number;
+  level: string;
 }

@@ -88,30 +88,57 @@
                         <div class="heading-with-button">
                           <h3 class="side-label"> Regimen Brands </h3>
                         </div>
-                        <div class="brand-container" *ngFor="let brand of regimenDetail?.brands; let idx=index">
-                          <div class="brand-input">
-                            <mat-form-field class="reference-input">
-                              <mat-label>Generic Name</mat-label>
-                              <div>{{regimenDetail.brands[idx].genericName}}</div>
-                            </mat-form-field>
-                          </div>
-                          <mat-divider  [vertical]="true"></mat-divider>
-                          <div class="brand-input">
-                            <mat-form-field class="reference-input">
-                              <mat-label>Brand Name</mat-label>
-                              <div>{{regimenDetail.brands[idx].brandName}}</div>
-                            </mat-form-field>
-                          </div>
-                          <mat-divider  [vertical]="true"></mat-divider>
-                          <div class="brand-input">
-                            <mat-form-field class="reference-input">
-                              <mat-label>Manufacturer</mat-label>
-                              <div>{{regimenDetail.brands[idx].manufacturer}}</div>
-                            </mat-form-field>
-                          </div>
-                        </div>
+                        <mat-table [dataSource]="regimenDetail?.brands" class="mat-elevation-z8">
+                          <!-- Position Column -->
+                          <ng-container matColumnDef="id">
+                            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+                            <mat-cell *matCellDef="let brand"> {{brand.id}} </mat-cell>
+                          </ng-container>
+
+                          <!-- Name Column -->
+                          <ng-container matColumnDef="genericName">
+                            <mat-header-cell *matHeaderCellDef> Generic Name </mat-header-cell>
+                            <mat-cell *matCellDef="let brand"> {{brand.genericName}} </mat-cell>
+                          </ng-container>
+
+                          <!-- Weight Column -->
+                          <ng-container matColumnDef="brandName">
+                            <mat-header-cell *matHeaderCellDef> Brand Name </mat-header-cell>
+                            <mat-cell *matCellDef="let brand"> {{brand.brandName}} </mat-cell>
+                          </ng-container>
+
+                          <!-- Symbol Column -->
+                          <ng-container matColumnDef="manufacturer">
+                            <mat-header-cell *matHeaderCellDef> Manufacturer </mat-header-cell>
+                            <mat-cell *matCellDef="let brand"> {{brand.manufacturer}} </mat-cell>
+                          </ng-container>
+
+                          <mat-header-row *matHeaderRowDef="['id', 'genericName', 'brandName', 'manufacturer']"></mat-header-row>
+                          <mat-row *matRowDef="let row; columns: ['id', 'genericName', 'brandName', 'manufacturer'];"></mat-row>
+                        </mat-table>
+<!--                        <div class="brand-container" *ngFor="let brand of regimenDetail?.brands; let idx=index">-->
+<!--                          <div class="brand-input">-->
+<!--                            <mat-form-field class="reference-input">-->
+<!--                              <mat-label>Generic Name</mat-label>-->
+<!--                              <div>{{regimenDetail.brands[idx].genericName}}</div>-->
+<!--                            </mat-form-field>-->
+<!--                          </div>-->
+<!--                          <mat-divider  [vertical]="true"></mat-divider>-->
+<!--                          <div class="brand-input">-->
+<!--                            <mat-form-field class="reference-input">-->
+<!--                              <mat-label>Brand Name</mat-label>-->
+<!--                              <div>{{regimenDetail.brands[idx].brandName}}</div>-->
+<!--                            </mat-form-field>-->
+<!--                          </div>-->
+<!--                          <mat-divider  [vertical]="true"></mat-divider>-->
+<!--                          <div class="brand-input">-->
+<!--                            <mat-form-field class="reference-input">-->
+<!--                              <mat-label>Manufacturer</mat-label>-->
+<!--                              <div>{{regimenDetail.brands[idx].manufacturer}}</div>-->
+<!--                            </mat-form-field>-->
+<!--                          </div>-->
+<!--                        </div>-->
                       </div>
-                      <div class="regimen-detail-form-item"> {{regimenDetail.brandNames}}</div>
                       <button (click)="edit(regimenDetail)">Edit</button>
                     </div>
                   </ng-template>
