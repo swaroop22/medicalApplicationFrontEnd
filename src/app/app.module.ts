@@ -38,6 +38,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatTableModule} from '@angular/material/table';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import {MatTableModule} from '@angular/material/table';
         MatSelectModule,
         MatDividerModule,
         MatChipsModule,
-        MatTableModule
+        MatTableModule,
+        MatIconModule
     ],
   entryComponents: [
     PatientsComponent,

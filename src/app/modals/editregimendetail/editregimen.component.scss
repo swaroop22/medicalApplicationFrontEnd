@@ -2,3 +2,102 @@
   display: flex;
   flex-direction: column;
 }
+
+@import "bootstrap-variables";
+mat-expansion-panel-header {
+  overflow-y: hidden !important;
+}
+
+.regimen-detail-panel {
+  margin: 5px;
+}
+
+.regimen-detail-panel-header {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 0 32%;
+  justify-content: space-between;
+  height: 60px !important;
+}
+
+.regimen-detail-header-schedule {
+  font-size: smaller;
+}
+
+.regimen-detail-form {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 0 50%;
+  justify-content: space-between;
+  height: inherit !important;
+}
+
+.regimen-detail-form-item {
+  width: 100%;
+  margin-bottom: 2%;
+}
+
+.regimen-detail-form-3-col {
+  width: 30%;
+  margin-bottom: 2%;
+}
+
+.regimen-detail-form-3-col-delete {
+  width: 10%;
+  margin-bottom: 2%;
+}
+
+ckeditor > .form-control {
+  height: inherit;
+}
+
+.editor {
+  border-radius: 5px;
+  border: 1px solid $cyan;
+}
+
+mat-form-field.reference-input {
+  width: 90% !important;
+}
+.reference-input-container {
+  width: 90% !important;
+}
+
+.brand-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 0 50%;
+  justify-content: space-between;
+  height: inherit !important;
+}
+
+.brand-input {
+  width: 29%;
+  margin-bottom: 2%;
+}
+
+.side-label {
+  font-weight: bold;
+  font-family: sans-serif;
+  text-decoration: underline;
+  padding: 5px;
+}
+
+.heading-with-button {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.reference-input-container-top {
+  display: flex;
+}
+
+.tow-per-column {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.regimen-level-form {
+  margin-top: 5px;
+}

@@ -8,7 +8,7 @@ import {CancerType} from '../../state/CancerType';
 import {RegimenDetailService} from '../../regimen-detail.service';
 import * as BalloonEditor from '@ckeditor/ckeditor5-build-balloon';
 import {Level, RegimenDetail, Brand, RegimenReference} from "../../models/regimen-detail";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-editregimen',
@@ -20,19 +20,18 @@ export class EditregimenComponent{
   @Output() cancel = new EventEmitter();
   @Input() RegimenDetail: any;
   @Input() regimenDetail: RegimenDetail;
-  levelOptions: any[] = [];
+  newLevelType = new FormControl('', [Validators.required]);
   cancerList: any[] = [];
-  selectedCancers: any[] = [];
   public subCancerTypes = {};
   public subCancerTypes2 = {};
   public subCancerTypes3 = {};
   id: number;
   id2: number;
   id3: number;
-
+  dummy: any;
   regimenForm: FormGroup;
 
-  public regimenLevels: Level[] = [];
+  public regimenLevelTypes: Level[] = [];
 
   editor = BalloonEditor;
 
@@ -58,34 +57,26 @@ export class EditregimenComponent{
    //     }
    //   })
    //
-   //   this.getRegimenLevels();
-   //
-   //   this.regimenDetailService.displayLevelType.subscribe(changed => {
-   //     this.getRegimenLevels();
-   //   });
-   // })
-    this.regimenForm = this.formBuilder.group(this.regimenDetail);
+    this.getRegimenLevels();
+
+    this.regimenDetailService.displayLevelType.subscribe(changed => {
+      this.getRegimenLevels();
+    });
+
+    this.createRegimenForm();
   }
 
   getRegimenLevels() {
     this.regimenDetailService.getRegimenLevelTypes().subscribe((types) => {
-      this.regimenLevels = types;
-      this.levelOptions = [];
-      if(types.length > 0) {
-        types.forEach(type => {
-          this.levelOptions.push({
-            label: type, value: type
-          })
-        });
-      }
-      console.log(this.regimenLevels)
+      this.regimenLevelTypes = [...types];
+      console.log(this.regimenLevelTypes);
     })
   }
 
   okay() {
     this.populateSubCancerLevels();
 
-    this.yes.emit(this.regimenDetail);
+    this.yes.emit(this.regimenForm.getRawValue());
   }
 
   populateSubCancerLevels() {
@@ -95,25 +86,103 @@ export class EditregimenComponent{
     this.cancel.emit(event);
   }
 
-
-  onSelect(event){
-    this.id = event;
+  createRegimenForm() {
+    this.regimenForm = this.formBuilder.group({
+    id: new FormControl(this.regimenDetail.id),
+    dispName: new FormControl(this.regimenDetail.dispName, [Validators.required]),
+    schedule: new FormControl(this.regimenDetail.schedule, [Validators.required]),
+    emetogenicPotential: new FormControl(this.regimenDetail.emetogenicPotential, [Validators.required]),
+    references:  this.formBuilder.array(this.getReferenceFromControls()),
+    dosageModifications: new FormControl(this.regimenDetail.dosageModifications, [Validators.required]),
+    brands: this.formBuilder.array(this.getBrandFromControls()),
+    regimenLevels: this.formBuilder.array(this.getLevelFromControls())
+    })
   }
 
-  onSelect2(event){
-    this.id2 = event;
+  getReferenceFromControls() {
+    let referenceFCs = [];
+
+    (this.regimenDetail.references || []).forEach(reference => {
+      referenceFCs.push(new FormGroup({
+        id: new FormControl(reference.id),
+        reference: new FormControl(reference.reference)
+      }));
+    });
+
+    return referenceFCs;
   }
 
-  onSelect3(event){
-    this.id3 = event;
+  getBrandFromControls() {
+    let referenceFCs = [];
+
+    (this.regimenDetail.brands || []).forEach(brand => {
+      referenceFCs.push(new FormGroup({
+        id: new FormControl(brand.id),
+      brandName: new FormControl(brand.brandName),
+      genericName: new FormControl(brand.genericName),
+      manufacturer: new FormControl(brand.manufacturer)
+      }))
+    });
+
+    return referenceFCs;
   }
 
-  displayLevelTypeModal() {
-    this.regimenDetailService.displayLevelTypeModal();
+  getLevelFromControls() {
+    let referenceFCs = [];
+
+    (this.regimenDetail.regimenLevels || []).forEach(level => {
+      referenceFCs.push(new FormGroup({
+        id: new FormControl(level.id),
+        level: new FormControl(level.level)
+      }));
+    });
+
+    return referenceFCs;
   }
 
-  removeRegimenLevelFromRegimen(level: Level) {
-    // @TODO code to remove level from regimen level list
+  addNewReference() {
+    (<FormArray>this.regimenForm.get('references')).push(new FormGroup({
+      reference: new FormControl('')
+    }))
   }
 
+  addNewBrand() {
+    (<FormArray>this.regimenForm.get('brands')).push(new FormGroup({
+      brandName: new FormControl(''),
+      genericName: new FormControl(''),
+      manufacturer: new FormControl('')
+    }))
+  }
+
+  addNewLevel(levelIdFromList?) {
+    let formControlLevel = {};
+
+    if (levelIdFromList) {
+      formControlLevel = {
+        level: new FormControl(this.regimenLevelTypes[levelIdFromList-1].level),
+        id: new FormControl(this.regimenLevelTypes[levelIdFromList-1].id)
+      };
+    } else {
+      formControlLevel = {
+        level: new FormControl(this.newLevelType.value)
+      };
+
+      this.newLevelType.reset();
+    }
+
+    (<FormArray>this.regimenForm.get('regimenLevels')).push(new FormGroup(formControlLevel));
+  }
+
+  removeBrand(index: number) {
+    (<FormArray>this.regimenForm.get('brands')).removeAt(index);
+  }
+
+  removeReference(index: number) {
+    (<FormArray>this.regimenForm.get('references')).removeAt(index);
+  }
+
+
+  removeRegimenLevelFromRegimen(index) {
+    (<FormArray>this.regimenForm.get('regimenLevels')).removeAt(index);
+  }
 }

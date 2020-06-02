@@ -118,11 +118,22 @@
                  #addModal="bs-modal" (yes)="addRegimenDetail($event)" (cancel)="onClose('add')" class="modal fade"
                 ></app-addregimen>
 
-<app-editregimen *ngIf="isEditModal" (onHide)="onHide('edit')" [config]="{ show: true }" bsModal
-                  #editModal="bs-modal" (yes)="editRegimenDetail($event)" (cancel)="onClose('edit')" class="modal fade" [regimenDetail]="RegimenDetail"></app-editregimen>
+<app-editregimen *ngIf="isEditModal"
+                 (onHide)="onHide('edit')"
+                 [config]="{ show: true }"
+                 bsModal
+                 #editModal="bs-modal"
+                 (yes)="editRegimenDetail($event)"
+                 (cancel)="onClose('edit')"
+                 class="modal fade"
+                 [regimenDetail]="RegimenDetail"></app-editregimen>
 
-<app-deleteregimen *ngIf="isDeleteModal" (onHide)="onHide('delete')" [config]="{ show: true }" bsModal
-                   #deleteModal="bs-modal" (yes)="deleteRegimenDetail($event)" (cancel)="onClose('delete')" class="modal fade"
+<app-deleteregimen class="modal fade"
+                   *ngIf="isDeleteModal"
+                   (onHide)="onHide('delete')" [config]="{ show: true }" bsModal
+                   #deleteModal="bs-modal"
+                   (yes)="deleteRegimenDetail($event)"
+                   (cancel)="onClose('delete')"
                    [regimen]="RegimenDetail"></app-deleteregimen>
 
 <p-progressBar mode="indeterminate" *ngIf="isLoading"></p-progressBar>
