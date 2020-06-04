@@ -66,7 +66,8 @@ export class RegimendetailsComponent implements OnInit {
     if(this.isOnCancerRegimens){
       this.actionOnRegimen.emit({action: 'add', regimen: undefined});
     } else {
-      this.isAddRegimenDetailsModal = true;
+      this.RegimenDetail = {};
+      this.isEditModal = true;
     }
   }
 

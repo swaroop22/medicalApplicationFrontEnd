@@ -105,7 +105,7 @@ export class EditregimenComponent{
     (this.regimenDetail.references || []).forEach(reference => {
       referenceFCs.push(new FormGroup({
         id: new FormControl(reference.id),
-        reference: new FormControl(reference.reference)
+        referenceValue: new FormControl(reference.referenceValue)
       }));
     });
 
@@ -142,7 +142,7 @@ export class EditregimenComponent{
 
   addNewReference() {
     (<FormArray>this.regimenForm.get('references')).push(new FormGroup({
-      reference: new FormControl('')
+      referenceValue: new FormControl('')
     }))
   }
 

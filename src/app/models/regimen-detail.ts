@@ -14,7 +14,7 @@ export interface RegimenDetail {
 
 export interface RegimenReference {
   id: number;
-  reference: string;
+  referenceValue: string;
 }
 
 export interface Brand {

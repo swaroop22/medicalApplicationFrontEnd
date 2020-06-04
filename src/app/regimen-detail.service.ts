@@ -81,7 +81,7 @@ export class RegimenDetailService {
   }
 
   updateRegimenDetail(obj): Observable<any> {
-    return this.http.put(this.ApiUrl + '/' + obj.id, obj).pipe(map( response => {
+    return this.http.put(this.ApiUrl + '/updateRegimen', obj).pipe(map( response => {
       return response.json();
     }))
     onerror: ( (error) => {
