@@ -3,6 +3,7 @@ import {PatientType} from '../state/PatientType';
 import {CANCERS} from '../constants/constants';
 import {CancerType} from '../state/CancerType';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Observable, Subject} from 'rxjs';
 
 @Injectable()
 export class  CancerTreeService {
@@ -14,6 +15,8 @@ export class  CancerTreeService {
   allCancers: any[] = [];
 
   currentCancer: any = {};
+
+  cancersUpdated: Subject<void> = new Subject<void>();
 
   constructor(private router: Router,
               private route: ActivatedRoute,) {}
@@ -107,6 +110,7 @@ export class  CancerTreeService {
     this.regimenDetails = json.regimenDetails;
 
     this.currentCancer = json.currentCancer;
+    this.cancersUpdated.next();
   }
 
 

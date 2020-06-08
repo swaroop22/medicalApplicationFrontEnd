@@ -12,6 +12,7 @@ import {CancerTreeService} from '../../services/cancer-tree.service';
 import {filter} from 'rxjs/operators';
 import {RegimenDetailService} from '../../regimen-detail.service';
 import {RegimendetailsComponent} from '../regimendetails/regimendetails.component';
+import {Cancer} from '../../models/cancer';
 
 @Component({
   selector: 'app-cancertype',
@@ -20,7 +21,7 @@ import {RegimendetailsComponent} from '../regimendetails/regimendetails.componen
 })
 export class CancertypeComponent {
 
-  public CancerTypes: any = [];
+  public cancerTypes: Cancer[] = [];
   @ViewChild('addModal') public addModal: ModalDirective;
   @ViewChild('deleteModal') public deleteModal: ModalDirective;
   @ViewChild('editModal') public editModal: ModalDirective;
@@ -72,12 +73,12 @@ export class CancertypeComponent {
     this.isLoading = true;
     this.cancerTypeService.getCancerById().subscribe((resp) => {
       this.isLoading = false;
-      this.CancerTypes = resp.subCancers;
+      this.cancerTypes = resp.subCancers;
       this.crumbs = this.cancerTypeService.getBreadCrumbData(resp);
       this.addButtonName = this.cancerTree.nextItemToFetch();
       this.regimenDetails = resp.regimenDetail;
       this.currentCancerId = resp.id;
-      if (this.CancerTypes.length === 0) {
+      if (this.cancerTypes.length === 0) {
         this.crumbs.splice(this.crumbs.length - 1, 1);
         this.crumbs.push({label: CANCERS.REGIMEN_DETAILS, styleClass: 'ui-breadcrumb'});
         this.cancerTypeService.setBreadCrumbData(this.crumbs);
@@ -205,7 +206,7 @@ export class CancertypeComponent {
   }
 
   addRegimenDetail(regimen: any) {
-    this.regimenDetailService.addRegimenDetailWithSubCancerType(regimen).subscribe((resp) => {
+    this.regimenDetailService.updateRegimenDetailWithCancerId(regimen, this.currentCancerId).subscribe((resp) => {
       this.displayAddRegimen = false;
       this.ngOnInit();
     }, (error) => {

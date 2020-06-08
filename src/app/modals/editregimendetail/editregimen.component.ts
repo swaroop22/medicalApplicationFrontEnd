@@ -35,6 +35,8 @@ export class EditregimenComponent{
 
   editor = BalloonEditor;
 
+  public schedule: string = "";
+
   constructor(private subCancerType1Service: SubcancertypeService,
               private subCancerType2Service: Subcancertype2Service,
               private subCancerType3Service: Subcancertype3Service,
@@ -64,6 +66,13 @@ export class EditregimenComponent{
     });
 
     this.createRegimenForm();
+    this.schedule = this.regimenDetail.schedule;
+
+    setTimeout(()=> {
+      const ckEditorWrapper = document.getElementsByClassName('ck-body-wrapper')[0];
+      document.getElementById('editRegimenModal').append(ckEditorWrapper);
+    }, 2000);
+
   }
 
   getRegimenLevels() {
@@ -142,14 +151,14 @@ export class EditregimenComponent{
 
   addNewReference() {
     (<FormArray>this.regimenForm.get('references')).push(new FormGroup({
-      referenceValue: new FormControl('')
+      referenceValue: new FormControl('', [Validators.required])
     }))
   }
 
   addNewBrand() {
     (<FormArray>this.regimenForm.get('brands')).push(new FormGroup({
       brandName: new FormControl(''),
-      genericName: new FormControl(''),
+      genericName: new FormControl('', [Validators.required]),
       manufacturer: new FormControl('')
     }))
   }
@@ -184,5 +193,9 @@ export class EditregimenComponent{
 
   removeRegimenLevelFromRegimen(index) {
     (<FormArray>this.regimenForm.get('regimenLevels')).removeAt(index);
+  }
+
+  scheduleChanged() {
+    this.regimenForm.get('schedule').setValue(this.schedule);
   }
 }

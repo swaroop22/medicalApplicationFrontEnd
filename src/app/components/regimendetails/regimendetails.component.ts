@@ -98,6 +98,12 @@ export class RegimendetailsComponent implements OnInit {
     }
   }
 
+  deleteFromCancer(regimenDetail: RegimenDetail) {
+    this.regimenDetailService.deleteRegimenFromCancer([{regimenId: regimenDetail.id, cancerId: this.cancerTree.getCurrentCancer().id}]).subscribe(() => {
+      this.refreshDataOnRegimenDetailsComponent();
+    })
+  }
+
   /**
    * Model dialong on close
    * @param event
@@ -152,19 +158,33 @@ export class RegimendetailsComponent implements OnInit {
     });
   }
 
-  editRegimenDetail(data) {
+  editRegimenDetail(data, cancerId?) {
     this.isLoading = true;
-    this.RegimenDetailService.updateRegimenDetail(data).subscribe((resp) => {
-      if(!this.isOnCancerRegimens) {
-        this.getRegimens();
-        this.editModal.hide();
-      } else {
-        this.regimenActionCompleted.emit(true);
-      }
-    },  (error) => {
-      alert('Error in updating regimen');
-    });
+    if (cancerId) {
+      this.RegimenDetailService.updateRegimenDetailWithCancerId(data, cancerId)
+        .subscribe((resp) => {
+        this.refreshDataOnRegimenDetailsComponent();
+      },  (error) => {
+        alert('Error in updating regimen');
+      });
+    } else {
+      this.RegimenDetailService.updateRegimenDetail(data)
+        .subscribe((resp) => {
+          this.refreshDataOnRegimenDetailsComponent();
+      },  (error) => {
+        alert('Error in updating regimen');
+      });
+    }
   }
+
+  refreshDataOnRegimenDetailsComponent = () => {
+    if(!this.isOnCancerRegimens) {
+      this.getRegimens();
+      this.editModal.hide();
+    } else {
+      this.regimenActionCompleted.emit(true);
+    }
+  };
 
   getAllRegimens(){
     this.isLoading = true;

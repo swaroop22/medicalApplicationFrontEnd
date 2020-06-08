@@ -20,10 +20,7 @@ export class RegimenDetailService {
     var url = this.ApiUrl + "/" + id.toString() +'/names';
     return this.http.get(url).pipe(map(response => {
       return response.json();
-    }))
-    onerror: ((error) => {
-      return error;
-    })
+    }));
 
   }
 
@@ -31,10 +28,7 @@ export class RegimenDetailService {
     var url = this.ApiUrl + "/levels/REGIMEN";
     return this.http.get(url).pipe(map(response => {
       return response.json();
-    }))
-    onerror: ((error) => {
-      return error;
-    })
+    }));
 
   }
 
@@ -47,11 +41,7 @@ export class RegimenDetailService {
     var url = this.ApiUrl + '/add/level';
     return this.http.post(url, obj).pipe(map( response => {
       return response.json();
-    }))
-    onerror: ( (error) => {
-      return error;
-    })
-
+    }));
   }
 
   addRegimenDetail(obj): Observable<any> {
@@ -61,12 +51,10 @@ export class RegimenDetailService {
       obj.subCancerTypeId3 = Number(this.route.children[0].snapshot.params["id"]);
     }
     var url = this.ApiUrl + '/add';
-    return this.http.post(url, obj).pipe(map( response => {
+    return this.http.post(url, obj)
+      .pipe(map( response => {
       return response.json();
-    }))
-    onerror: ( (error) => {
-      return error;
-    })
+    }));
   }
 
   addRegimenDetailWithSubCancerType(obj): Observable<any> {
@@ -74,28 +62,44 @@ export class RegimenDetailService {
     var url = this.ApiUrl + '/add';
     return this.http.post(url, obj).pipe(map( response => {
       return response.json();
-    }))
-    onerror: ( (error) => {
-      return error;
-    })
+    }));
   }
 
   updateRegimenDetail(obj): Observable<any> {
     return this.http.put(this.ApiUrl + '/updateRegimen', obj).pipe(map( response => {
       return response.json();
-    }))
-    onerror: ( (error) => {
+    }));
+  }
+
+  updateRegimenDetailWithCancerId(obj, cancerId): Observable<any> {
+    return this.http.put(this.ApiUrl + `/updateRegimen/cancerId/${cancerId}`, obj).pipe(map( response => {
+      return response.json();
+    }, (error) => {
       return error;
-    })
+    }));
+  }
+
+  updateCancerWithRegimen(regimenCancerLinks: [{regimenId, cancerId}]): Observable<any> {
+    return this.http.put(this.ApiUrl + `linkRegimenToCancer`, regimenCancerLinks).pipe(map( response => {
+      return {};
+    }, (error) => {
+      return error;
+    }));
+  }
+
+  deleteRegimenFromCancer(regimenCancerLinks: [{regimenId, cancerId}]): Observable<any> {
+    return this.http.put(this.ApiUrl + `deleteRegimenFromCancer`, regimenCancerLinks)
+      .pipe(map( response => {
+      return {};
+    }, (error) => {
+      return error;
+    }));
   }
 
   deleteRegimenDetail(id: number): Observable<any> {
     return this.http.delete(this.ApiUrl + '/' + id).pipe(map( response => {
       return response.json();
     }))
-    onerror: ( (error) => {
-      return error;
-    })
   }
 
   displayLevelTypeModal() {

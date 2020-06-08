@@ -39,6 +39,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule({
@@ -83,7 +84,8 @@ import {MatIconModule} from '@angular/material/icon';
         MatDividerModule,
         MatChipsModule,
         MatTableModule,
-        MatIconModule
+        MatIconModule,
+        MatMenuModule
     ],
   entryComponents: [
     PatientsComponent,

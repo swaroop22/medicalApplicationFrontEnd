@@ -20,7 +20,7 @@
                       class="btn btn-primary m-10" (click)="showLinkRegimen(true)">Link Existing Regimen
               </button>
               <button *ngIf="cancerTree.getCurrentLevel() !== 'CANCERYPE'"
-                      class="btn btn-primary m-10" (click)="showAddRegimen()">Add Regimen
+                      class="btn btn-primary m-10" (click)="actionOnRegimen({action: 'edit', regimen: {}})">Add Regimen
             </button>
               <button class="btn btn-primary m-10" (click)="showAddCancerType()">Add {{cancerTree.getCurrentLevel()}}</button>
             </div>
@@ -32,30 +32,31 @@
                 <tr>
                   <th>Cancer Type</th>
                   <th>Regimen Types</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
+                  <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let cancerType of CancerTypes">
+                <tr *ngFor="let cancerType of cancerTypes">
                   <td >                         <a  href="javascript:void(0)" (click)="getUrlFix(cancerType.id)">{{cancerType.title}}</a></td>
                   <td >
                     <span class="badge badge-primary regimen-type-badge"
-                          *ngFor="let type of generateTreeNodesForRegimens(cancerType?.regimenDetails)"
+                          *ngFor="let type of cancerType?.regimenLevelsInCancer"
                           [routerLink]="'/regimenDetails/' + cancerType?.id +'/'+ type">
                       {{type}}
                     </span>
                   </td>
                   <td>
-                    <i class="fa fa-pencil" data-toggle="tooltip" placement="top" tooltip="Edit CancerType"
-                       (click)="edit(cancerType)"></i>
-                  </td>
-                  <td>
-                    <i class="fa fa-trash" data-toggle="tooltip" placement="top" tooltip="Delete CancerType"
-                       (click)="delete(cancerType)"></i>
+                    <mat-menu #appMenu="matMenu">
+                      <button mat-menu-item (click)="edit(cancerType)">Edit</button>
+                      <button mat-menu-item (click)="delete(cancerType)">Delete</button>
+                    </mat-menu>
+
+                    <a mat-icon-button [matMenuTriggerFor]="appMenu">
+                      <mat-icon>more_vert</mat-icon>
+                    </a>
                   </td>
                 </tr>
-                <tr *ngIf="CancerTypes.length === 0">
+                <tr *ngIf="cancerTypes.length === 0">
                   <span style="text-align: center"> No CancerTypes Found </span>
                 </tr>
 
@@ -87,7 +88,7 @@
 
 <app-addsubcancertypes *ngIf="isAddSubCancerTypeModal" (onHide)="onHide('add')"
                        [addingNextLevel]="addingNextLevel"
-                       [currentLevelCancers]="CancerTypes"
+                       [currentLevelCancers]="cancerTypes"
                        [config]="{ show: true }" bsModal
                        #addModal="bs-modal" (yes)="addCancerTypes($event)" (cancel)="onClose('add')" class="modal fade"
                        [Error]="addCancerTypeError">
@@ -101,14 +102,19 @@
                    #deleteModal="bs-modal" (yes)="deleteCancerTypes($event)" (cancel)="onClose('delete')" class="modal fade" [CancerType]="CancerType"></app-deletecancertypes>
 
 <app-addregimen *ngIf="displayAddRegimen" (onHide)="onHide('add')" [config]="{ show: true }" bsModal
-                [cancers]="CancerTypes"
+                [cancers]="cancerTypes"
                 [preSelectedCancer]="currentCancerId"
                 #addModal="bs-modal" (yes)="addRegimenDetail($event)" (cancel)="onClose('regimen')" class="modal fade"
 ></app-addregimen>
 
-<app-editregimen *ngIf="isEditRegimenModal" (onHide)="onHide('editRegimen')" [config]="{ show: true }" bsModal
-                 #editRegimenModal="bs-modal" (yes)="regimenDetailComponent.editRegimenDetail($event)" (cancel)="onClose('editRegimen')"
-                 class="modal fade" [regimenDetail]="RegimenDetail"></app-editregimen>
+<app-editregimen *ngIf="isEditRegimenModal"
+                 (onHide)="onHide('editRegimen')"
+                 [config]="{ show: true }" bsModal
+                 #editRegimenModal="bs-modal"
+                 (yes)="regimenDetailComponent.editRegimenDetail($event, currentCancerId)"
+                 (cancel)="onClose('editRegimen')"
+                 class="modal fade"
+                 [regimenDetail]="RegimenDetail"></app-editregimen>
 
 <app-deleteregimen *ngIf="isDeleteRegimenModal" (onHide)="onHide('deleteRegimen')" [config]="{ show: true }" bsModal
                    #deleteRegimenModal="bs-modal" (yes)="removeRegimenFromCancer(RegimenDetail)" (cancel)="onClose('deleteRegimen')"

@@ -9,15 +9,9 @@
         <div class="card">
           <div class="card-header" *ngIf="!isOnCancerRegimens">
             <button  class="btn btn-primary pull-right" (click)="showAddRegimenDetails()">Add Regimen Detail</button>
-            <mat-paginator [length]="RegimenDetails.length"
-                           [pageSize]="10"
-
-                           [pageSizeOptions]="[5, 10, 15, 20, 30]"
-                           (page)="changeRegimenList($event)">
-            </mat-paginator>
           </div>
 
-            <div *ngFor="let regimenDetail of regimenToDisplay" class="regimen-detail-panel">
+            <div *ngFor="let regimenDetail of RegimenDetails" class="regimen-detail-panel">
               <mat-expansion-panel>
                 <mat-expansion-panel-header class="regimen-detail-panel-header">
                   <div> {{regimenDetail.dispName}}</div>
@@ -101,7 +95,10 @@
                           <mat-row *matRowDef="let row; columns: ['id', 'genericName', 'brandName', 'manufacturer'];"></mat-row>
                         </mat-table>
                       </div>
-                      <button (click)="edit(regimenDetail)">Edit</button>
+                      <button  class="btn btn-primary" (click)="edit(regimenDetail)">Edit</button>
+                      <button  class="btn btn-primary" (click)="delete(regimenDetail)">Remove</button>
+                      <button  class="btn btn-primary" *ngIf="isOnCancerRegimens" (click)="deleteFromCancer(regimenDetail)">Remove From Cancer</button>
+
                     </div>
                   </ng-template>
               </mat-expansion-panel>

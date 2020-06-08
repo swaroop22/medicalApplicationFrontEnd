@@ -6,7 +6,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" id="editRegimenModal">
       <form class="form" [formGroup]="regimenForm">
           <div class="regimen-detail-form">
             <div class="tow-per-column">
@@ -61,22 +61,24 @@
               <div><h3  class="side-label">Schedule</h3></div>
               <div class="editor">
                 <ckeditor name="schedule-editor"
+                          type="text"
                           [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
                           [editor]="editor"
                           formControlName="schedule"></ckeditor>
               </div>
             </div>
-
-            <div class="regimen-detail-form-item"
-                 [innerHTML]="">
-              <div><h3 class="side-label"> Dosage Modifications </h3></div>
-              <div  class="editor">
-                <ckeditor name="dosage-modification-editor"
-                          [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
-                          [editor]="editor"
-                          formControlName="dosageModifications"></ckeditor>
-              </div>
-            </div>
+        <div class="regimen-detail-form-item"
+             [innerHTML]="">
+          <div><h3 class="side-label"> Dosage Modifications </h3></div>
+          <div  class="editor">
+            <ckeditor name="dosage-modification-editor"
+                      [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"
+                      [editor]="editor"
+                      formControlName="dosageModifications"
+            ></ckeditor>
+            <!--                formControlName="dosageModifications"-->
+          </div>
+        </div>
             <div class="regimen-detail-form-item" >
               <div class="heading-with-button"><h3 class="side-label"> Reference </h3>
               </div>
@@ -137,7 +139,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-default" (click)="close($event)">Cancel</button>
-      <button class="btn btn-primary" (click)="okay()">Ok</button>
+      <button class="btn btn-primary" [disabled]="!regimenForm.valid" (click)="okay()">Ok</button>
     </div>
   </div>
 </div>
