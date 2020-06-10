@@ -1,40 +1,59 @@
-<div class="modal-dialog">
- <div>Fetching Regimen...</div>
-<div class="container-fluid" *ngIf="!isLoading">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">Edit SubCancer Type</h4>
-      <button type="button" class="close pull-right"  aria-label="Close" (click)="close()">x</button>
-    </div>
+<div class="modal-dialog size-60-p">
 
-  </div>
-  <div class="animated fadeIn">
-    <div class="row justify-content-center">
-      <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-        <div class="card">
-          <div class="card-block">
-            <div class="table-responsive">
-              <table class="table table-hover">
-                <thead>
-                <tr>
-                  <th>Select</th>
-                  <th>Regimen Name</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let regimenDetail of regimen">
-                  <td><input type="checkbox" [checked]="regimenDetail.isChecked" (change)="regimenDetail.isChanged = !regimenDetail.isChanged"
-                  ></td>
-                  <td >{{regimenDetail.regimen.dispName}}</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
+  <div class="modal-content" *ngIf="!isLoading">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Add Regimen To Cancer</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="close()">x</button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-header">Regimen List</div>
+        <div class="card-block">
+          <mat-form-field class="example-form-field">
+            <mat-label>Search Regimen List</mat-label>
+            <input matInput type="text" [formControl]="filterRegimenList">
+            <button mat-button *ngIf="filterRegimenList.value" matSuffix mat-icon-button aria-label="Clear" (click)="filterRegimenList.setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <div class="regimen-list group">
+          <mat-selection-list #shoes>
+            <mat-list-option *ngFor="let regimenDetail of regimenListToDisplay; let idx=index" (click)="linkRegimenToCancer(regimenDetail, idx)">
+              {{regimenDetail.dispName}}
+            </mat-list-option>
+          </mat-selection-list>
           </div>
         </div>
       </div>
+      <div class="card">
+        <div class="card-header">Regimen In Cancer</div>
+        <div class="card-block">
+          <mat-form-field class="example-form-field">
+            <mat-label>Search Existing Regimen List</mat-label>
+            <input matInput type="text" [formControl]="filterExistingCancerInRegimenList">
+            <button mat-button *ngIf="filterRegimenList.value" matSuffix mat-icon-button aria-label="Clear" (click)="filterRegimenList.setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <div class="existing-regimen-list group">
+            <mat-list role="list">
+              <mat-list-item
+                *ngFor="let existingRegimenDetail of existingRegimenInCancerToDisplay; let idx=index"
+                (click)="unLinkRegimenToCancer(existingRegimenDetail, idx)">{{existingRegimenDetail?.dispName}}</mat-list-item>
+            </mat-list>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="close()">Ok</button>
     </div>
   </div>
-</div>
-<p-progressBar mode="indeterminate" *ngIf="isLoading"></p-progressBar>
+
+  <mat-progress-spinner *ngIf="isLoading"
+                        [color]="'accent'"
+                        [mode]="'indeterminate'"
+                        class="spinner">
+  </mat-progress-spinner>
 </div>

@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/internal/Observable';
 import { map } from "rxjs/operators";
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '../environments/environment.prod';
+import {RegimenDetail} from './models/regimen-detail';
 
 
 @Injectable()
@@ -109,6 +110,14 @@ export class RegimenDetailService {
   deleteLevel(regimenLevel: any) {
     return this.http.delete(this.ApiUrl + '/delete/level/' + regimenLevel).pipe(map( response => {
       return response;
+    }))
+  }
+
+  getRegimenListToAddToCancer(cancerId, type): Observable<any> {
+
+    return this.http.get(this.ApiUrl + `/getRegimenListToAddToCancer/${cancerId}` + (type ? `/type/${type}` : ''))
+      .pipe(map( response => {
+      return response.json();
     }))
   }
 }

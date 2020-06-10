@@ -12,15 +12,15 @@
         <div class="card">
           <div class="card-header">
             <div class="pull-left">
-              <h4 *ngIf="cancerTree.getCurrentLevel() !== 'CANCERYPE'">Sub Cancers</h4>
-              <h4 *ngIf="cancerTree.getCurrentLevel() === 'CANCERYPE'">Cancers</h4>
+              <h2 *ngIf="cancerTree.getCurrentLevel() !== 'CANCERYPE'">Sub Cancers</h2>
+              <h2 *ngIf="cancerTree.getCurrentLevel() === 'CANCERYPE'">Cancers</h2>
             </div>
             <div class="pull-right">
               <button *ngIf="cancerTree.getCurrentLevel() !== 'CANCERYPE'"
-                      class="btn btn-primary m-10" (click)="showLinkRegimen(true)">Link Existing Regimen
+                      class="btn btn-primary m-10" (click)="showLinkRegimen(true)">Add Existing Regimen
               </button>
               <button *ngIf="cancerTree.getCurrentLevel() !== 'CANCERYPE'"
-                      class="btn btn-primary m-10" (click)="actionOnRegimen({action: 'edit', regimen: {}})">Add Regimen
+                      class="btn btn-primary m-10" (click)="actionOnRegimen({action: 'edit', regimen: {}})">Add New Regimen
             </button>
               <button class="btn btn-primary m-10" (click)="showAddCancerType()">Add {{cancerTree.getCurrentLevel()}}</button>
             </div>
@@ -67,19 +67,11 @@
           </div>
         </div>
         <div class="card" *ngIf="regimenDetails?.length > 0">
-          <div class="card-header">
-
-            <div class="pull-left">
-              <h4>Regimen for Cancer</h4>
-            </div>
-          </div>
-          <div class="card-block">
-            <app-regimendetails
-              #regimenDetailComponent
-              (regimenActionCompleted) = "refreshData()"
-              (actionOnRegimen)="actionOnRegimen($event)"
-              [RegimenDetails]="regimenDetails"></app-regimendetails>
-          </div>
+          <app-regimendetails
+            #regimenDetailComponent
+            (regimenActionCompleted) = "refreshData()"
+            (actionOnRegimen)="actionOnRegimen($event)"
+            [RegimenDetails]="regimenDetails"></app-regimendetails>
         </div>
       </div>
     </div>
@@ -125,8 +117,14 @@
                           bsModal
                           (cancel)="showLinkRegimen(false)"
                           (onHide)="showLinkRegimen(false)"
+                          [currentCancerId]="currentCancerId"
                           class="modal fade"></link-caner-regimen-modal>
 <!--@TODO need to put progress bar here-->
 <!--<p-progressBar mode="indeterminate" *ngIf="isLoading"></p-progressBar>-->
+<mat-progress-spinner *ngIf="isLoading"
+                      class="spinner"
+                      [color]="'accent'"
+                      [mode]="'indeterminate'">
+</mat-progress-spinner>
 
 

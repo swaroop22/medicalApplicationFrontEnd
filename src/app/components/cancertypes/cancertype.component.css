@@ -68,3 +68,12 @@ margin: 3px;
 .m-10 {
   margin: 5px;
 }
+
+.spinner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto; /* presto! */
+}

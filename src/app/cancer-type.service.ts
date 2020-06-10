@@ -77,6 +77,12 @@ export class CancerTypeService {
     }));
   }
 
+  getRegimenToAddToCancer(id) {
+    return this.http.get(`${this.apiEndPointsMap.get(CANCERS.REGIMEN_DETAILS)}/${id || 0}/names`).pipe(map( response => {
+      return response.json();
+    }));
+  }
+
   getAllCancerNames() {
     if(this.cancerTree.allCancers.length > 0) {
       return of(this.cancerTree.allCancers);

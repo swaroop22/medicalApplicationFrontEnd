@@ -1,3 +1,47 @@
 .level-type-component {
   z-index: 2;
 }
+
+.modal-dialog {
+  /* 100% = dialog height, 120px = header + footer */
+  height: 80vh !important;
+  width: 70% !important;
+  max-width: 90% !important;
+}
+
+.modal-body {
+  height: 60vh;
+  display: flex;
+  width: 100% !important;
+}
+
+.card {
+  width: 50% !important;
+  overflow: hidden;
+}
+
+.regimen-list {
+  overflow-y: scroll;
+  display: flex;
+  height: 3.8% !important;
+}
+
+.existing-regimen-list {
+  overflow-y: scroll;
+  display: flex;
+  height: 12% !important;
+}
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.spinner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto; /* presto! */
+}

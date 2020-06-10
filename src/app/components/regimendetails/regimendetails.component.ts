@@ -32,12 +32,16 @@ export class RegimendetailsComponent implements OnInit {
   public isEditModal = false;
   public isDeleteModal = false;
   isOnCancerRegimens:boolean = false;
+  public showLinkRegimenModal: boolean;
   public RegimenDetail = {};
   public addRegimenDeatilsError = '';
   crumbs: any[];
   isLoading: boolean;
   pageEvent: PageEvent;
   regimenLevels: string[] = [];
+  currentCancerId: number;
+  currentRegimenType: string;
+
   constructor(private RegimenDetailService: RegimenDetailService,
               private cancerTypeService: CancerTypeService,
               private routes: ActivatedRoute,
@@ -102,6 +106,13 @@ export class RegimendetailsComponent implements OnInit {
     this.regimenDetailService.deleteRegimenFromCancer([{regimenId: regimenDetail.id, cancerId: this.cancerTree.getCurrentCancer().id}]).subscribe(() => {
       this.refreshDataOnRegimenDetailsComponent();
     })
+  }
+
+  copyRegimen(regimenDetail: RegimenDetail) {
+    regimenDetail.id = undefined;
+
+    this.RegimenDetail = regimenDetail;
+    this.isEditModal = true;
   }
 
   /**
@@ -210,12 +221,12 @@ export class RegimendetailsComponent implements OnInit {
   }
 
   getRegimens() {
-    const regimenId = this.routes.snapshot.params["id"];
     this.cancerTypeService.regimenId = this.routes.snapshot.params["id"];
-    const regimenType = this.routes.snapshot.params["regimenType"];
-    if (regimenType) {
+    this.currentCancerId = this.routes.snapshot.params["id"];
+    this.currentRegimenType = this.routes.snapshot.params["regimenType"];
+    if (this.currentRegimenType) {
       this.isLoading = true;
-      this.cancerTypeService.getRegimenByIdAndType(regimenId, regimenType).subscribe((resp) => {
+      this.cancerTypeService.getRegimenByIdAndType(this.currentCancerId, this.currentRegimenType).subscribe((resp) => {
         this.setRegimenAndDisplayData(resp);
       }, (error) => {
         this.isLoading = false;
@@ -224,7 +235,7 @@ export class RegimendetailsComponent implements OnInit {
     }
     else {
       this.isLoading = true;
-      this.cancerTypeService.getRegimenById(regimenId).subscribe((resp) => {
+      this.cancerTypeService.getRegimenById(this.currentCancerId).subscribe((resp) => {
        this.setRegimenAndDisplayData(resp);
       }, (error) => {
         this.isLoading = false;
@@ -255,5 +266,12 @@ export class RegimendetailsComponent implements OnInit {
     this.regimenDetailService.getRegimenLevelTypes().subscribe((types) => {
       this.regimenLevels = types || [];
       });
+  }
+
+  showLinkRegimen(show: boolean) {
+    this.showLinkRegimenModal = show;
+    if(!this.showLinkRegimenModal) {
+      this.getAllRegimens();
+    }
   }
 }

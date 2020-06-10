@@ -1,7 +1,10 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {RegimenDetailService} from '../../regimen-detail.service';
 import {CancerTypeService} from "../../cancer-type.service";
 import {CancerTreeService} from "../../services/cancer-tree.service";
+import {RegimenDetail} from '../../models/regimen-detail';
+import {FormControl} from '@angular/forms';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 @Component({
   selector: 'link-caner-regimen-modal',
@@ -9,10 +12,24 @@ import {CancerTreeService} from "../../services/cancer-tree.service";
   styleUrls: ['./link-cancer-regimen-modal.scss']
 })
 export class LinkCancerRegimenModal {
+  @Input() currentCancerId: number;
+  @Input() currentRegimenType: String;
   regimenLevels: any[];
   regimen: any[] = [];
   isLoading: boolean;
   addedRegimen: any[];
+
+
+  existingRegimenInCancerToDisplay: RegimenDetail[] = [];
+  regimenListToDisplay: RegimenDetail[] = [];
+
+  existingRegimenInCancer: RegimenDetail[] = [];
+  regimenList: RegimenDetail[] = [];
+
+  filterRegimenList: FormControl = new FormControl();
+  filterExistingCancerInRegimenList: FormControl = new FormControl();
+
+
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   constructor(private regimenDetailService: RegimenDetailService,
               private cancerTreeService: CancerTreeService,
@@ -20,6 +37,27 @@ export class LinkCancerRegimenModal {
   }
 
   ngOnInit() {
+
+    this.filterRegimenList.valueChanges.pipe(
+      debounceTime(400),
+      distinctUntilChanged()
+    )
+      .subscribe(inputValue => {
+        this.regimenListToDisplay =  this.regimenList.filter(regimen => {
+          return regimen.dispName.indexOf(inputValue ) > -1
+        })
+      });
+
+    this.filterExistingCancerInRegimenList.valueChanges.pipe(
+      debounceTime(400),
+      distinctUntilChanged()
+    )
+      .subscribe(inputValue => {
+        this.existingRegimenInCancerToDisplay =  this.existingRegimenInCancer.filter(regimen => {
+          return regimen.dispName.indexOf(inputValue ) > -1
+        })
+      });
+
     this.getAllRegimens();
   }
 
@@ -60,26 +98,23 @@ export class LinkCancerRegimenModal {
 
   getAllRegimens() {
     this.isLoading = true;
-    let currentCancer: any = this.cancerTreeService.getCurrentCancer();
+    this.regimenDetailService.getRegimenListToAddToCancer(this.currentCancerId, this.currentRegimenType).subscribe(cancerResponse => {
+      this.existingRegimenInCancer = cancerResponse.existingRegimenInCancer;
+      this.existingRegimenInCancerToDisplay = cancerResponse.existingRegimenInCancer;
 
-    this.cancerTypeService.getRegimenById().subscribe((resp) => {
+      this.regimenList = cancerResponse.allRegimenListToAddToCancer;
+      this.regimenListToDisplay = cancerResponse.allRegimenListToAddToCancer;
+
       this.isLoading = false;
-      (resp.regimenDetail || []).forEach((regimen) => {
-        const singleRegimen = {regimen: regimen, isChecked: false, isChanged: false};
-        (currentCancer.regimen || '').split(',').forEach((regimenDetail) => {
-          if(singleRegimen.regimen.id == regimenDetail) {
-            singleRegimen.isChecked = true;
-          }
-        });
-
-        this.regimen.push(singleRegimen);
-      });
-    }, (error) => {
-      alert('Error while getting regimen');
     });
   }
 
-  linkRegimenToCancer() {
+  linkRegimenToCancer(regimenDetail, index) {
+    this.existingRegimenInCancer.push(...this.regimenList.splice(index, 1));
 
+  }
+
+  unLinkRegimenToCancer(regimenDetail: any, index: number) {
+    this.regimenList.push(...this.existingRegimenInCancer.splice(index, 1));
   }
 }

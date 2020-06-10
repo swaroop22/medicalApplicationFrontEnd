@@ -5,7 +5,7 @@
       <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
         <div class="card">
           <div class="card-header">
-            <h3>Patient Types</h3>
+            <h2>Patient Types</h2>
           </div>
           <div class="card-block">
             <div class="table-responsive">
@@ -45,4 +45,8 @@
 <app-deletepatienttypes *ngIf="isDeleteModal" (onHide)="onHide('delete')" [config]="{ show: true }" bsModal
                   #deleteModal="bs-modal" (yes)="deletePatientTypes($event)" (cancel)="onClose('delete')" class="modal fade" [PatientType]="Patient"></app-deletepatienttypes>
 
-<p-progressBar mode="indeterminate" *ngIf="isLoading"></p-progressBar>
+<mat-progress-spinner *ngIf="isLoading"
+                      class="spinner"
+                      [color]="'accent'"
+                      [mode]="'indeterminate'">
+</mat-progress-spinner>

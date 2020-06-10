@@ -40,6 +40,8 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatListModule} from '@angular/material/list';
 
 
 @NgModule({
@@ -65,28 +67,30 @@ import {MatMenuModule} from '@angular/material/menu';
     LoginComponent,
     KeysPipe
   ],
-    imports: [
-        BrowserModule,
-        TooltipModule.forRoot(),
-        ModalModule.forRoot(),
-        AppRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ServicesModule,
-        CKEditorModule,
-        BrowserAnimationsModule,
-        HttpModule,
-        MatExpansionModule,
-        MatPaginatorModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatDividerModule,
-        MatChipsModule,
-        MatTableModule,
-        MatIconModule,
-        MatMenuModule
-    ],
+  imports: [
+    BrowserModule,
+    TooltipModule.forRoot(),
+    ModalModule.forRoot(),
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ServicesModule,
+    CKEditorModule,
+    BrowserAnimationsModule,
+    HttpModule,
+    MatExpansionModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDividerModule,
+    MatChipsModule,
+    MatTableModule,
+    MatIconModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatListModule
+  ],
   entryComponents: [
     PatientsComponent,
     CancertypeComponent

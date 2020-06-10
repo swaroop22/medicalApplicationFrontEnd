@@ -1,14 +1,11 @@
-<ul class="breadcrumb" *ngIf="!isOnCancerRegimens">
-  <!--  @TODO need to put bread crumbs here-->
-  <!--<p-breadcrumb [model]="crumbs"></p-breadcrumb>-->
-</ul>
+<h2>Regimen</h2>
 <div class="container-fluid" *ngIf="!isLoading">
   <div class="animated fadeIn">
     <div class="row justify-content-center">
       <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
         <div class="card">
           <div class="card-header" *ngIf="!isOnCancerRegimens">
-            <button  class="btn btn-primary pull-right" (click)="showAddRegimenDetails()">Add Regimen Detail</button>
+            <button  class="btn btn-primary pull-right" (click)="showAddRegimenDetails()">Add New Regimen Detail</button>
           </div>
 
             <div *ngFor="let regimenDetail of RegimenDetails" class="regimen-detail-panel">
@@ -96,8 +93,9 @@
                         </mat-table>
                       </div>
                       <button  class="btn btn-primary" (click)="edit(regimenDetail)">Edit</button>
-                      <button  class="btn btn-primary" (click)="delete(regimenDetail)">Remove</button>
-                      <button  class="btn btn-primary" *ngIf="isOnCancerRegimens" (click)="deleteFromCancer(regimenDetail)">Remove From Cancer</button>
+                      <button  class="btn btn-danger" *ngIf="!isOnCancerRegimens"  (click)="delete(regimenDetail)">Remove</button>
+                      <button  class="btn btn-danger" *ngIf="isOnCancerRegimens" (click)="deleteFromCancer(regimenDetail)">Remove From Cancer</button>
+                      <button  class="btn btn-success" (click)="copyRegimen(regimenDetail)">Copy </button>
 
                     </div>
                   </ng-template>
@@ -133,4 +131,19 @@
                    (cancel)="onClose('delete')"
                    [regimen]="RegimenDetail"></app-deleteregimen>
 
-<p-progressBar mode="indeterminate" *ngIf="isLoading"></p-progressBar>
+<link-caner-regimen-modal *ngIf="showLinkRegimenModal"
+                          (closeModal)="showLinkRegimen(false)"
+                          [config]="{ show: true }"
+                          [currentCancerId]="currentCancerId"
+                          [currentRegimenType]="currentRegimenType"
+                          bsModal
+                          (cancel)="showLinkRegimen(false)"
+                          (onHide)="showLinkRegimen(false)"
+                          class="modal fade"></link-caner-regimen-modal>
+
+<mat-progress-spinner   class="spinner"
+                      *ngIf="isLoading"
+                      [color]="'accent'"
+                      [mode]="'indeterminate'">
+</mat-progress-spinner>
+

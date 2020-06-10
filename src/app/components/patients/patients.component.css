@@ -57,3 +57,12 @@ ul.breadcrumb[_ngcontent-yqc-c0] {
 .button-right {
   align-self: end;
 }
+
+.spinner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto; /* presto! */
+}
