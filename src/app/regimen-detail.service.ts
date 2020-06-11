@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/internal/Observable';
 import { map } from "rxjs/operators";
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '../environments/environment.prod';
-import {RegimenDetail} from './models/regimen-detail';
+import {Level, RegimenDetail} from './models/regimen-detail';
 
 
 @Injectable()
@@ -107,8 +107,14 @@ export class RegimenDetailService {
     this.displayLevelType.emit(true);
   }
 
-  deleteLevel(regimenLevel: any) {
-    return this.http.delete(this.ApiUrl + '/delete/level/' + regimenLevel).pipe(map( response => {
+  deleteLevel(regimenLevel: Level[]) {
+    return this.http.post(this.ApiUrl + '/delete/level', regimenLevel).pipe(map( response => {
+      return response;
+    }))
+  }
+
+  editLevel(regimenLevel: Level[]) {
+    return this.http.post(this.ApiUrl + '/edit/level', regimenLevel).pipe(map( response => {
       return response;
     }))
   }

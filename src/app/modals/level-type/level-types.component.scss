@@ -1,3 +1,22 @@
 .level-type-component {
   z-index: 2;
 }
+
+.scrollable {
+  height: 50%;
+  overflow: scroll;
+}
+
+.level-type-component {
+  height: 60vh;
+  width: 50vh;
+}
+
+.spinner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto; /* presto! */
+}

@@ -5,12 +5,15 @@
   </li>
   <li><a [routerLink]="'patientTypes'">Home</a></li>
   <li *ngFor="let breadCrumb of breadCrumbs"><a [routerLink]="breadCrumb.link">{{breadCrumb.title}}</a></li>
-  <li class="pull-right"> <a href="javascript:void(0)" (click)="displayAddPatientModal()"> Add Patient </a></li>
-  <li class="pull-right"> <a [routerLink]="'regimenDetails/0'"> All Regimen </a></li>
+  <li class="pull-right" *ngIf="userService.isLoggedIn"> <a href="javascript:void(0)" (click)="logout()"> Logout </a></li>
+  <li class="pull-right" *ngIf="isOnPatientsScreen && userService.isLoggedIn"> <a href="javascript:void(0)" (click)="displayAddPatientModal()"> Add Patient </a></li>
+  <li class="pull-right" *ngIf="userService.isLoggedIn"> <a href="javascript:void(0)" (click)="displayManageLevelModal()"> Manage Levels </a></li>
+  <li class="pull-right" *ngIf="userService.isLoggedIn"> <a [routerLink]="'regimenDetails/0'"> All Regimen </a></li>
 </ul>
 <div class="app-root">
   <div class="right-panel container">
-    <router-outlet></router-outlet><level-type [config]="{ show: true }" bsModal class="modal fade" *ngIf="displayLevelModal"></level-type>
+    <router-outlet></router-outlet>
+    <level-type [config]="{ show: true }" bsModal class="modal fade" *ngIf="displayLevelModal"></level-type>
   </div>
 </div>
 

@@ -6,7 +6,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive scrollable">
       <table class="table table-hover">
         <thead>
         <tr>
@@ -15,11 +15,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let regimenLevel of regimenLevels">
-          <td>{{regimenLevel}}</td>
+        <tr *ngFor="let regimenLevel of regimenLevels; let idx=index">
+          <td> <input matInput type="text" [(ngModel)]="regimenLevel.level" (blur)="edit(regimenLevel)"></td>
           <td>
-            <i class="fa fa-trash" data-toggle="tooltip" placement="top" tooltip="Delete CancerType"
-               (click)="delete(regimenLevel)"></i>
+            <a mat-icon-button
+                    color="warn"
+                    aria-label="delete regimen level"
+                    (click)="delete(regimenLevel, idx)">
+              <mat-icon>delete</mat-icon>
+            </a>
           </td>
         </tr>
         </tbody>
@@ -36,7 +40,16 @@
 <!--      </form>-->
 <!--    </div>-->
     <div class="modal-footer">
+      <button class="btn btn-default" (click)="addNewLevel()">Add new level</button>
       <button class="btn btn-default" (click)="close()">Cancel</button>
+      <button class="btn btn-default" [disabled]="!(editedLevelsMap.size > 0 || deletedLevels.length > 0)" (click)="submit()">Update</button>
     </div>
   </div>
+
+
+  <mat-progress-spinner *ngIf="isLoading"
+                        [color]="'accent'"
+                        [mode]="'indeterminate'"
+                        class="spinner">
+  </mat-progress-spinner>
 </div>

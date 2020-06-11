@@ -3,6 +3,8 @@ import {RegimenDetailService} from './regimen-detail.service';
 import {CancerTreeService} from './services/cancer-tree.service';
 import {PatientsService} from './patients.service';
 import {ModalDirective} from 'ngx-bootstrap';
+import {UserService} from './services/UserService';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 
 @Component({
   // tslint:disable-next-line
@@ -15,14 +17,21 @@ export class AppComponent {
   title = 'app';
   displayLevelModal: boolean;
   isLoading: boolean = false;
-
+  isOnPatientsScreen: boolean = false;
   breadCrumbs: {title: string, link: string}[] = [];
 
   @ViewChild('addPatientModal') public addPatientModal: ModalDirective;
 
   constructor(private cancerTreeService: CancerTreeService,
               private patientsService: PatientsService,
+              private userService: UserService,
+              private router: Router,
               regimeDetailService: RegimenDetailService) {
+    router.events.subscribe(val => {
+      if ((val instanceof NavigationEnd) && router.url.indexOf('patientTypes') > -1) {
+        this.isOnPatientsScreen = true;
+      }
+    });
     regimeDetailService.displayLevelType.subscribe(display => {
         this.displayLevelModal = display;
     });
@@ -47,6 +56,12 @@ export class AppComponent {
     this.addPatientModal.show();
   }
 
+  displayManageLevelModal() {
+    if (this.userService.isLoggedIn) {
+      this.displayLevelModal = true;
+    }
+  }
+
   addPerson(event) {
     this.isLoading = true;
     this.patientsService.addPatientTypes(event).subscribe( (resp) => {
@@ -57,5 +72,9 @@ export class AppComponent {
       this.isLoading = false;
       alert('Adding Patient Failed' + event.firstName);
     });
+  }
+
+  logout() {
+    this.userService.logout();
   }
 }
