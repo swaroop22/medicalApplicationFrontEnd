@@ -71,6 +71,13 @@ export class RegimendetailsComponent implements OnInit {
       this.actionOnRegimen.emit({action: 'add', regimen: undefined});
     } else {
       this.RegimenDetail = {};
+
+      if (this.currentRegimenType && this.regimenLevels.length > 0) {
+        const regimenLevel =  this.regimenLevels.filter(regimenLevel => regimenLevel['level'] === this.currentRegimenType);
+        if (regimenLevel && regimenLevel.length > 0) {
+          this.RegimenDetail['regimenLevels'] = regimenLevel;
+        }
+      }
       this.isEditModal = true;
     }
   }
@@ -171,8 +178,8 @@ export class RegimendetailsComponent implements OnInit {
 
   editRegimenDetail(data, cancerId?) {
     this.isLoading = true;
-    if (cancerId) {
-      this.RegimenDetailService.updateRegimenDetailWithCancerId(data, cancerId)
+    if (cancerId || (this.currentCancerId)) {
+      this.RegimenDetailService.updateRegimenDetailWithCancerId(data, cancerId || this.currentCancerId )
         .subscribe((resp) => {
         this.refreshDataOnRegimenDetailsComponent();
       },  (error) => {

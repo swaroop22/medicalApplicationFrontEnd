@@ -19,6 +19,7 @@
 
 
 <app-addpatienttypes [config]="{ show: false }" bsModal
-                     #addModal="bs-modal"
+                     #addPatientModal="bs-modal"
                      (yes)="addPerson($event)"
+                     (cancel)="hideAddPatientModal()"
                      class="modal fade"></app-addpatienttypes>

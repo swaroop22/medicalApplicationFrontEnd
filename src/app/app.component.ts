@@ -56,6 +56,10 @@ export class AppComponent {
     this.addPatientModal.show();
   }
 
+  hideAddPatientModal() {
+    this.addPatientModal.hide();
+  }
+
   displayManageLevelModal() {
     if (this.userService.isLoggedIn) {
       this.displayLevelModal = true;
