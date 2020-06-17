@@ -6,12 +6,19 @@
         <div class="card">
           <div class="card-header" *ngIf="!isOnCancerRegimens">
             <button  class="btn btn-primary pull-right" (click)="showAddRegimenDetails()">Add New Regimen Detail</button>
+            <mat-form-field class="example-form-field">
+              <mat-label>Search By Regimen Name</mat-label>
+              <input matInput type="search" [formControl]="searchValue">
+              <a mat-button *ngIf="searchValue.valid" matSuffix mat-icon-button aria-label="Clear" (click)="searchValue.reset()">
+                <mat-icon>close</mat-icon>
+              </a>
+            </mat-form-field>
           </div>
 
-            <div *ngFor="let regimenDetail of RegimenDetails" class="regimen-detail-panel">
+            <div *ngFor="let regimenDetail of regimenToDisplay" class="regimen-detail-panel">
               <mat-expansion-panel>
                 <mat-expansion-panel-header class="regimen-detail-panel-header">
-                  <div> {{regimenDetail.dispName}}</div>
+                  <div> {{regimenDetail.dispName || 'Regimen Name Not Available'}} <strong><i>{{regimenDetail.linkedToCancers && regimenDetail.linkedToCancers.length > 0 ? ' - - ' + regimenDetail.linkedToCancers.join() : '' }}</i></strong></div>
                 </mat-expansion-panel-header>
                   <ng-template matExpansionPanelContent>
                     <div class="regimen-detail-form">
@@ -40,15 +47,13 @@
                         <div [innerHTML]="regimenDetail.schedule"></div>
                       </div>
 
-                      <div class="regimen-detail-form-item"
-                           [innerHTML]="">
+                      <div class="regimen-detail-form-item" *ngIf="regimenDetail?.dosageModifications?.length > 0">
                         <div><h3 class="side-label"> Dosage Modifications </h3></div>
                         <div [innerHTML]="regimenDetail.dosageModifications"></div>
                       </div>
 
 
-                      <div class="regimen-detail-form-item"
-                           [innerHTML]="">
+                      <div class="regimen-detail-form-item" *ngIf="regimenDetail?.references?.length > 0">
                         <div class="heading-with-button">
                           <h3 class="side-label"> Reference </h3>
                         </div>
@@ -58,8 +63,7 @@
                           </ul>
                         </div>
                       </div>
-                      <div class="regimen-detail-form-item"
-                           [innerHTML]="">
+                      <div class="regimen-detail-form-item" *ngIf="regimenDetail?.brands?.length > 0">
                         <div class="heading-with-button">
                           <h3 class="side-label"> Regimen Brands </h3>
                         </div>
@@ -73,19 +77,19 @@
                           <!-- Name Column -->
                           <ng-container matColumnDef="genericName">
                             <mat-header-cell *matHeaderCellDef> Generic Name </mat-header-cell>
-                            <mat-cell *matCellDef="let brand"> {{brand.genericName}} </mat-cell>
+                            <mat-cell *matCellDef="let brand"> {{brand.genericName || '--'}} </mat-cell>
                           </ng-container>
 
                           <!-- Weight Column -->
                           <ng-container matColumnDef="brandName">
                             <mat-header-cell *matHeaderCellDef> Brand Name </mat-header-cell>
-                            <mat-cell *matCellDef="let brand"> {{brand.brandName}} </mat-cell>
+                            <mat-cell *matCellDef="let brand"> {{brand.brandName  || '--'}} </mat-cell>
                           </ng-container>
 
                           <!-- Symbol Column -->
                           <ng-container matColumnDef="manufacturer">
                             <mat-header-cell *matHeaderCellDef> Manufacturer </mat-header-cell>
-                            <mat-cell *matCellDef="let brand"> {{brand.manufacturer}} </mat-cell>
+                            <mat-cell *matCellDef="let brand"> {{brand.manufacturer || '--'}} </mat-cell>
                           </ng-container>
 
                           <mat-header-row *matHeaderRowDef="['id', 'genericName', 'brandName', 'manufacturer']"></mat-header-row>
@@ -104,6 +108,11 @@
 
         </div>
       </div>
+      <mat-paginator [length]="RegimenDetails.length"
+                     [pageSize]="50"
+                     [pageSizeOptions]="[100, 150, 200]"
+                     (page)="changeRegimenList($event)">
+      </mat-paginator>
     </div>
   </div>
 </div>

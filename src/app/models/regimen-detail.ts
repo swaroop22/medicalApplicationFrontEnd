@@ -10,6 +10,7 @@ export interface RegimenDetail {
   brandNames:  string;
   brands: Brand[];
   regimenLevels: Level[];
+  linkedToCancers?: string[];
 }
 
 export interface RegimenReference {

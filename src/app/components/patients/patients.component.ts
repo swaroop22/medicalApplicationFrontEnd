@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 // import {MenuItem, TreeNode} from 'primeng/api';
 import {PatientsService} from '../../patients.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ModalDirective} from 'ngx-bootstrap';
 import {CancerTypeService} from '../../cancer-type.service';
 import {CANCERS} from '../../constants/constants';
@@ -50,6 +50,12 @@ export class PatientsComponent implements OnInit {
     if(this.route.url.indexOf('cancerTypes')>=0) {
       this.route.navigateByUrl(this.route.url);
     }
+
+      this.PatientsService.patientAdded.subscribe(params => {
+        // this line to refresh on same route
+        this.getPatients();
+      });
+
   }
 
   showAddPatient() {

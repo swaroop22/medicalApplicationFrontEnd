@@ -73,6 +73,7 @@ export class CancerTypeService {
 
   getRegimenById(id?) {
     return this.http.get(`${this.apiEndPointsMap.get(CANCERS.REGIMEN_DETAILS)}/${id || 0}/names`).pipe(map( response => {
+      this.cancerTree.processResponse(response.json());
       return response.json();
     }));
   }
@@ -112,6 +113,7 @@ export class CancerTypeService {
 
   getRegimenByIdAndType(id?, type?) {
     return this.http.get(`${this.apiEndPointsMap.get(CANCERS.REGIMEN_DETAILS)}/${id || 0}/type/${type}`).pipe(map( response => {
+      this.cancerTree.processResponse(response.json());
       return response.json();
     }));
   }

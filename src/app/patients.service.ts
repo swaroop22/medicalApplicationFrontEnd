@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/internal/Observable';
 import { map } from "rxjs/operators";
@@ -10,6 +10,7 @@ import {environment} from '../environments/environment.prod';
 @Injectable()
 export class PatientsService {
   private ApiUrl = environment.apiEndPoint + 'patientController';
+  patientAdded: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private http: Http) {
   }

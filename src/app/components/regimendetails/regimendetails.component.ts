@@ -8,6 +8,9 @@ import {CANCERS} from '../../constants/constants';
 import {RegimenDetail} from '../../models/regimen-detail';
 import {PageEvent} from '@angular/material/paginator';
 import * as BalloonEditor from '@ckeditor/ckeditor5-build-balloon';
+import {FormControl} from '@angular/forms';
+import {debounce} from 'rxjs/operators';
+import {timer} from 'rxjs';
 
 @Component({
   selector: 'app-regimendetails',
@@ -41,6 +44,7 @@ export class RegimendetailsComponent implements OnInit {
   regimenLevels: string[] = [];
   currentCancerId: number;
   currentRegimenType: string;
+  searchValue:FormControl = new FormControl('');
 
   constructor(private RegimenDetailService: RegimenDetailService,
               private cancerTypeService: CancerTypeService,
@@ -61,6 +65,12 @@ export class RegimendetailsComponent implements OnInit {
       this.getRegimens();
     }
     console.log(this.cancerTypeService.getBreadCrumbData());
+
+    this.searchValue.valueChanges.pipe(debounce(() => timer(1000))).subscribe(value => {
+      this.regimenToDisplay = this.RegimenDetails.filter(regimen => {
+        return (( regimen.dispName || '').toUpperCase().indexOf(this.searchValue.value.toUpperCase()) > -1);
+      })
+    })
   }
 
   /**
@@ -163,17 +173,30 @@ export class RegimendetailsComponent implements OnInit {
 
   deleteRegimenDetail(data) {
     this.isLoading = true;
-    this.RegimenDetailService.deleteRegimenDetail(data.id).subscribe((resp) =>{
-      if(!this.isOnCancerRegimens) {
-        this.getRegimens();
-        this.deleteModal.hide();
-      } else {
-        this.regimenActionCompleted.emit(true);
-      }
-    },  (error) => {
-      this.isLoading = false;
-      alert('Error in deleting regimen');
-    });
+    if (this.currentCancerId) {
+      this.RegimenDetailService.deleteRegimenFromCancer([{regimenId: data.id, cancerId: this.currentCancerId}]).subscribe((resp) =>{
+        this.refreshRegimenAfterDelete();
+      },  (error) => {
+        this.isLoading = false;
+        alert('Error in deleting regimen');
+      });
+    } else {
+      this.RegimenDetailService.deleteRegimenDetail(data.id).subscribe((resp) =>{
+        this.refreshRegimenAfterDelete();
+      },  (error) => {
+        this.isLoading = false;
+        alert('Error in deleting regimen');
+      });
+    }
+  }
+
+  refreshRegimenAfterDelete() {
+    if(!this.isOnCancerRegimens) {
+      this.getRegimens();
+      this.deleteModal.hide();
+    } else {
+      this.regimenActionCompleted.emit(true);
+    }
   }
 
   editRegimenDetail(data, cancerId?) {
@@ -209,6 +232,8 @@ export class RegimendetailsComponent implements OnInit {
     this.cancerTypeService.getRegimenById().subscribe((resp) => {
       this.isLoading = false;
       this.RegimenDetails = resp.regimenDetail;
+      this.regimenToDisplay = resp.regimenDetail;
+      this.setPaginationData();
       this.crumbs = this.getCrumbs(this.cancerTypeService.getBreadCrumbData(resp));
     }, (error) => {
       alert('Error while getting regimen');
@@ -254,12 +279,13 @@ export class RegimendetailsComponent implements OnInit {
   setRegimenAndDisplayData(response) {
     this.isLoading = false;
     this.RegimenDetails = response.regimenDetail;
+    this.regimenToDisplay = response.regimenDetail;
     this.crumbs = this.getCrumbs(this.cancerTypeService.getBreadCrumbData(response));
     this.setPaginationData();
   }
 
   setPaginationData() {
-    this.changeRegimenList({pageIndex: 0, pageSize: 10, length: this.RegimenDetails.length});
+    this.changeRegimenList({pageIndex: 0, pageSize: 50, length: this.RegimenDetails.length});
     this.getRegimenLevels();
   }
 

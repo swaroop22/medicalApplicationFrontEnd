@@ -89,7 +89,7 @@ export class RegimenDetailService {
   }
 
   deleteRegimenFromCancer(regimenCancerLinks: [{regimenId, cancerId}]): Observable<any> {
-    return this.http.put(this.ApiUrl + `deleteRegimenFromCancer`, regimenCancerLinks)
+    return this.http.post(this.ApiUrl + `/deleteRegimenFromCancer`, regimenCancerLinks)
       .pipe(map( response => {
       return {};
     }, (error) => {

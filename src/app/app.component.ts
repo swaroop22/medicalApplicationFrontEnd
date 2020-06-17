@@ -66,15 +66,16 @@ export class AppComponent {
     }
   }
 
-  addPerson(event) {
+  addPatient(event) {
     this.isLoading = true;
     this.patientsService.addPatientTypes(event).subscribe( (resp) => {
       this.isLoading = false;
       this.addPatientModal.hide();
+      this.patientsService.patientAdded.emit();
     }, (error) => {
       this.addPatientModal.hide();
       this.isLoading = false;
-      alert('Adding Patient Failed' + event.firstName);
+      alert('Adding Patient Failed');
     });
   }
 
