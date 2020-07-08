@@ -41,6 +41,19 @@
                           </mat-chip-list>
                       </div>
 
+                      <div class="regimen-detail-form-item" *ngIf="regimenDetail?.brands?.length > 0">
+                        <div class="heading-with-button">
+                          <h3 class="side-label"> Regimen Drugs </h3>
+                        </div>
+
+                        <mat-chip-list aria-label="Brands List">
+                          <mat-chip  *ngFor="let drugBrand of regimenDetail?.brands" color="primary" selected>
+                            {{drugBrand?.genericName}}</mat-chip>
+                        </mat-chip-list>
+                        <div *ngIf="!regimenDetail?.brands?.length || regimenDetail?.brands?.length  === 0">
+                          No Drug Details Available
+                        </div>
+                      </div>
 
                       <div  class="regimen-detail-form-item regimen-detail-header-schedule">
                         <div><h3  class="side-label">Schedule</h3></div>
@@ -62,39 +75,6 @@
                             <li>{{regimenDetail?.references[idx]?.referenceValue}}</li>
                           </ul>
                         </div>
-                      </div>
-                      <div class="regimen-detail-form-item" *ngIf="regimenDetail?.brands?.length > 0">
-                        <div class="heading-with-button">
-                          <h3 class="side-label"> Regimen Brands </h3>
-                        </div>
-                        <mat-table [dataSource]="regimenDetail?.brands" class="mat-elevation-z8">
-                          <!-- Position Column -->
-                          <ng-container matColumnDef="id">
-                            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-                            <mat-cell *matCellDef="let brand"> {{brand.id}} </mat-cell>
-                          </ng-container>
-
-                          <!-- Name Column -->
-                          <ng-container matColumnDef="genericName">
-                            <mat-header-cell *matHeaderCellDef> Generic Name </mat-header-cell>
-                            <mat-cell *matCellDef="let brand"> {{brand.genericName || '--'}} </mat-cell>
-                          </ng-container>
-
-                          <!-- Weight Column -->
-                          <ng-container matColumnDef="brandName">
-                            <mat-header-cell *matHeaderCellDef> Brand Name </mat-header-cell>
-                            <mat-cell *matCellDef="let brand"> {{brand.brandName  || '--'}} </mat-cell>
-                          </ng-container>
-
-                          <!-- Symbol Column -->
-                          <ng-container matColumnDef="manufacturer">
-                            <mat-header-cell *matHeaderCellDef> Manufacturer </mat-header-cell>
-                            <mat-cell *matCellDef="let brand"> {{brand.manufacturer || '--'}} </mat-cell>
-                          </ng-container>
-
-                          <mat-header-row *matHeaderRowDef="['id', 'genericName', 'brandName', 'manufacturer']"></mat-header-row>
-                          <mat-row *matRowDef="let row; columns: ['id', 'genericName', 'brandName', 'manufacturer'];"></mat-row>
-                        </mat-table>
                       </div>
                       <button  class="btn btn-primary" (click)="edit(regimenDetail)">Edit</button>
                       <button  class="btn btn-danger" *ngIf="!isOnCancerRegimens"  (click)="delete(regimenDetail)">Remove</button>

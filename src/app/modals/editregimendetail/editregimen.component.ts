@@ -127,9 +127,7 @@ export class EditregimenComponent{
     (this.regimenDetail.brands || []).forEach(brand => {
       referenceFCs.push(new FormGroup({
         id: new FormControl(brand.id),
-      brandName: new FormControl(brand.brandName),
       genericName: new FormControl(brand.genericName),
-      manufacturer: new FormControl(brand.manufacturer)
       }))
     });
 

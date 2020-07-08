@@ -20,8 +20,13 @@ export interface RegimenReference {
 
 export interface Brand {
   id: number;
-  brandName: string;
   genericName: string;
+  drugBrandList: DrugBrand[];
+}
+
+export interface DrugBrand {
+  id: number;
+  brandName: string;
   manufacturer: string;
 }
 
