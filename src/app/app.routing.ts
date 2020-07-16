@@ -7,6 +7,7 @@ import {EditregimenComponent} from './modals/editregimendetail/editregimen.compo
 import {RegimendetailsComponent} from './components/regimendetails/regimendetails.component';
 import {LoginComponent} from './components/login/login.component';
 import {UserLoggedInGuard} from './guards/user-loggedIn-guard';
+import {ManageDrugComponent} from './components/manage-drug/manage-drug.component';
 
 export const routes: Routes = [
   {
@@ -118,6 +119,12 @@ export const routes: Routes = [
     data: {
       title: 'regimenDetails'
     },
+    runGuardsAndResolvers: 'always',
+    canActivate: [UserLoggedInGuard]
+  },
+  {
+    path: 'manageDrug',
+    component: ManageDrugComponent,
     runGuardsAndResolvers: 'always',
     canActivate: [UserLoggedInGuard]
   },

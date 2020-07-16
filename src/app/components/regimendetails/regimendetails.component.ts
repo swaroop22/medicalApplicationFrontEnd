@@ -66,7 +66,7 @@ export class RegimendetailsComponent implements OnInit {
     }
     console.log(this.cancerTypeService.getBreadCrumbData());
 
-    this.searchValue.valueChanges.pipe(debounce(() => timer(1000))).subscribe(value => {
+    this.searchValue.valueChanges.pipe(debounce(() => timer(300))).subscribe(value => {
       this.regimenToDisplay = this.RegimenDetails.filter(regimen => {
         return (( regimen.dispName || '').toUpperCase().indexOf(this.searchValue.value.toUpperCase()) > -1);
       })
@@ -201,7 +201,7 @@ export class RegimendetailsComponent implements OnInit {
 
   editRegimenDetail(data, cancerId?) {
     this.isLoading = true;
-    if (cancerId || (this.currentCancerId)) {
+    if (cancerId || (this.currentCancerId != 0)) {
       this.RegimenDetailService.updateRegimenDetailWithCancerId(data, cancerId || this.currentCancerId )
         .subscribe((resp) => {
         this.refreshDataOnRegimenDetailsComponent();

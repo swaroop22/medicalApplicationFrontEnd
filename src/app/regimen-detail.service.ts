@@ -33,6 +33,26 @@ export class RegimenDetailService {
 
   }
 
+  getAllDrugs(): Observable<any> {
+    var url = this.ApiUrl + "/getAllDrugs";
+    return this.http.get(url).pipe(map(response => {
+      return response.json();
+    }));
+  }
+
+  addDrug(drug): Observable<any> {
+    var url = this.ApiUrl + "/add/drug";
+    return this.http.post(url, drug).pipe(map(response => {
+      return response.json();
+    }));
+  }
+
+  editDrug(drug): Observable<any> {
+    var url = this.ApiUrl + "/edit/drug";
+    return this.http.post(url, drug).pipe(map(response => {
+      return response.json();
+    }));
+  }
 
   addRegimenLevel(level): Observable<any> {
     const obj = {

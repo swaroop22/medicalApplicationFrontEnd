@@ -1,0 +1,71 @@
+<div  *ngIf="!isLoading">
+
+  <div class="card">
+    <div class="card-header tow-per-column" *ngIf="drugList?.length > 0">
+      <button  class="btn btn-primary pull-right" (click)="showAddNewDrugModal()">Add New Drug</button>
+      <mat-form-field class="example-form-field">
+        <mat-label>Search By Drug Name</mat-label>
+        <input matInput type="search" [formControl]="searchValue">
+        <a mat-button *ngIf="searchValue.valid" matSuffix mat-icon-button aria-label="Clear" (click)="searchValue.reset()">
+          <mat-icon>close</mat-icon>
+        </a>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <mat-accordion>
+    <mat-expansion-panel hideToggle *ngFor="let drug of drugList; let drugIndex=index">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{drug?.genericName}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div >
+        <mat-form-field>
+          <mat-label>Brand Name</mat-label>
+          <input matInput [(ngModel)]="drug.genericName">
+        </mat-form-field>
+      </div>
+      <div *ngFor="let drugBrand of drug?.drugBrandList; let brandIndex=index ">
+        <div class="tow-per-column">
+          <div >
+            <mat-form-field>
+              <mat-label>Brand Name</mat-label>
+              <input matInput [(ngModel)]="drugBrand.brandName">
+            </mat-form-field>
+          </div>
+
+          <div >
+            <mat-form-field>
+              <mat-label>Manufacturer</mat-label>
+              <input matInput [(ngModel)]="drugBrand.manufacturer">
+            </mat-form-field>
+          </div>
+          <div>
+            <a href="javascript:void(0)" (click)="drug?.drugBrandList.splice(brandIndex ,1)"><span class="material-icons">delete</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="tow-per-column">
+        <button  class="btn btn-primary" (click)="editDrug(drug)">Save</button>
+        <button  class="btn btn-danger" (click)="drug?.drugBrandList?.length > 0
+        ? drug?.drugBrandList.push({ brandName: '',  manufacturer: ''}) : drug.drugBrandList = [{ brandName: '',  manufacturer: ''}]">Add New Brand</button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</div>
+
+<app-add-drug-modal [config]="{ show: true }"
+                    bsModal
+                    class="modal fade"
+                    *ngIf="displayAddNewBrandModal"
+                    (yes)="addNewDrug($event)"
+                    (cancel)="hideAddNewDrugModal()" ></app-add-drug-modal>
+
+<mat-progress-spinner   class="spinner"
+                        *ngIf="isLoading"
+                        [color]="'accent'"
+                        [mode]="'indeterminate'">
+</mat-progress-spinner>
+

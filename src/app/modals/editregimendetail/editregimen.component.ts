@@ -7,8 +7,9 @@ import {CancerType} from '../../state/CancerType';
 // import {SelectItem} from 'primeng/api';
 import {RegimenDetailService} from '../../regimen-detail.service';
 import * as BalloonEditor from '@ckeditor/ckeditor5-build-balloon';
-import {Level, RegimenDetail, Brand, RegimenReference} from "../../models/regimen-detail";
+import {Level, RegimenDetail, Drug, RegimenReference} from "../../models/regimen-detail";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatSelectChange} from '@angular/material/select';
 
 @Component({
   selector: 'app-editregimen',
@@ -30,6 +31,7 @@ export class EditregimenComponent{
   id3: number;
   dummy: any;
   regimenForm: FormGroup;
+  public drugList: Drug[] = [];
 
   public regimenLevelTypes: Level[] = [];
 
@@ -60,6 +62,7 @@ export class EditregimenComponent{
    //   })
    //
     this.getRegimenLevels();
+    this.getAllDrugs();
 
     this.regimenDetailService.displayLevelType.subscribe(changed => {
       this.getRegimenLevels();
@@ -82,6 +85,13 @@ export class EditregimenComponent{
     })
   }
 
+  getAllDrugs() {
+    this.regimenDetailService.getAllDrugs().subscribe((types) => {
+      this.drugList = [...types];
+      console.log(this.drugList);
+    })
+  }
+
   okay() {
     this.populateSubCancerLevels();
 
@@ -98,11 +108,11 @@ export class EditregimenComponent{
   createRegimenForm() {
     this.regimenForm = this.formBuilder.group({
     id: new FormControl(this.regimenDetail.id),
-    dispName: new FormControl(this.regimenDetail.dispName, [Validators.required]),
-    schedule: new FormControl(this.regimenDetail.schedule, [Validators.required]),
-    emetogenicPotential: new FormControl(this.regimenDetail.emetogenicPotential, [Validators.required]),
+    dispName: new FormControl(this.regimenDetail.dispName || '', [Validators.required]),
+    schedule: new FormControl(this.regimenDetail.schedule || '', [Validators.required]),
+    emetogenicPotential: new FormControl(this.regimenDetail.emetogenicPotential || '', [Validators.required]),
     references:  this.formBuilder.array(this.getReferenceFromControls()),
-    dosageModifications: new FormControl(this.regimenDetail.dosageModifications, [Validators.required]),
+    dosageModifications: new FormControl(this.regimenDetail.dosageModifications || '', [Validators.required]),
     brands: this.formBuilder.array(this.getBrandFromControls()),
     regimenLevels: this.formBuilder.array(this.getLevelFromControls())
     })
@@ -114,7 +124,7 @@ export class EditregimenComponent{
     (this.regimenDetail.references || []).forEach(reference => {
       referenceFCs.push(new FormGroup({
         id: new FormControl(reference.id),
-        referenceValue: new FormControl(reference.referenceValue)
+        referenceValue: new FormControl(reference.referenceValue || '')
       }));
     });
 
@@ -127,7 +137,7 @@ export class EditregimenComponent{
     (this.regimenDetail.brands || []).forEach(brand => {
       referenceFCs.push(new FormGroup({
         id: new FormControl(brand.id),
-      genericName: new FormControl(brand.genericName),
+        genericName: new FormControl(brand.genericName),
       }))
     });
 
@@ -165,9 +175,13 @@ export class EditregimenComponent{
     let formControlLevel = {};
 
     if (levelIdFromList) {
+      if (isNaN(levelIdFromList)) {
+        return;
+      }
+
       formControlLevel = {
-        level: new FormControl(this.regimenLevelTypes[levelIdFromList-1].level),
-        id: new FormControl(this.regimenLevelTypes[levelIdFromList-1].id)
+        level: new FormControl(this.regimenLevelTypes[levelIdFromList].level),
+        id: new FormControl(this.regimenLevelTypes[levelIdFromList].id)
       };
     } else {
       formControlLevel = {
@@ -193,7 +207,60 @@ export class EditregimenComponent{
     (<FormArray>this.regimenForm.get('regimenLevels')).removeAt(index);
   }
 
+  removeDrugFromRegimen(index) {
+    const drugName = this.regimenForm.get('brands').value && this.regimenForm.get('brands').value.length > index ? this.regimenForm.get('brands').value[index].genericName : '';
+
+    (<FormArray>this.regimenForm.get('brands')).removeAt(index);
+
+    this.modifySchedule(drugName, true);
+    this.modifyDosageModification(drugName, true);
+  }
+
   scheduleChanged() {
     this.regimenForm.get('schedule').setValue(this.schedule);
+  }
+
+  addDrugToRegimen(drugIndex) {
+    if (isNaN(drugIndex)) {
+      return;
+    }
+    let drug = {};
+    const drugName = this.drugList[drugIndex].genericName;
+    if (drugIndex) {
+      drug = {
+        genericName: new FormControl(drugName),
+        id: new FormControl(this.drugList[drugIndex].id)
+      };
+    }
+
+    (<FormArray>this.regimenForm.get('brands')).push(new FormGroup(drug));
+
+    this.modifySchedule(drugName);
+    this.modifyDosageModification(drugName);
+  }
+
+  modifySchedule(genericName: string, removeDrug?: boolean) {
+    let schedule: string = this.regimenForm.get('schedule').value;
+    const scheduleString = `\n<p><strong>${genericName}:&nbsp;</strong>XXXX mg/m<sup>2</sup>&nbsp;IV on day YYYY</p><p>Repeat cycles every ZZZZ weeks.</p>`;
+    if (removeDrug) {
+      schedule = schedule.replace(scheduleString, '');
+    } else {
+      schedule = schedule.concat(scheduleString);
+    }
+
+    this.regimenForm.get('schedule').setValue(schedule);
+  }
+
+  modifyDosageModification(genericName: string, removeDrug?: boolean) {
+    let dosageModifications: string = this.regimenForm.get('dosageModifications').value;
+    const dosageString = `\n<ul><li>${genericName}:<br>No dose reduction</li></ul>`;
+
+    if (removeDrug) {
+      dosageModifications = dosageModifications.replace(dosageString, '');
+    } else {
+      dosageModifications = dosageModifications.concat(dosageString);
+    }
+
+    this.regimenForm.get('dosageModifications').setValue(dosageModifications);
   }
 }

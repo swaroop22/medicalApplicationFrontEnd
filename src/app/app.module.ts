@@ -42,12 +42,15 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatListModule} from '@angular/material/list';
+import {ManageDrugComponent} from './components/manage-drug/manage-drug.component';
+import {AddDrugModalComponent} from './modals/add-drug-modal/add-drug-modal.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AddregimenComponent,
+    AddDrugModalComponent,
     EditregimenComponent,
     DeleteregimenComponent,
     PatientsComponent,
@@ -65,6 +68,7 @@ import {MatListModule} from '@angular/material/list';
     LinkCancerRegimenModal,
     LevelTypesComponent,
     LoginComponent,
+    ManageDrugComponent,
     KeysPipe
   ],
   imports: [

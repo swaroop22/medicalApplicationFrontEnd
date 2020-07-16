@@ -47,7 +47,7 @@
                         </div>
 
                         <mat-chip-list aria-label="Brands List">
-                          <mat-chip  *ngFor="let drugBrand of regimenDetail?.brands" color="primary" selected>
+                          <mat-chip *ngFor="let drugBrand of regimenDetail?.brands" color="primary" selected>
                             {{drugBrand?.genericName}}</mat-chip>
                         </mat-chip-list>
                         <div *ngIf="!regimenDetail?.brands?.length || regimenDetail?.brands?.length  === 0">

@@ -1,0 +1,41 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Add New Drug</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="hideAddNewDrugModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form class="form">
+        <div >
+          <mat-form-field>
+            <mat-label>Generic Name</mat-label>
+            <input matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="newDrug.genericName">
+          </mat-form-field>
+        </div>
+        <div *ngFor="let newDrugBrand of newDrug?.drugBrandList; let brandIndex=index ">
+          <div class="tow-per-column">
+            <div >
+              <mat-form-field>
+                <mat-label>Brand Name</mat-label>
+                <input matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="newDrugBrand.brandName">
+              </mat-form-field>
+            </div>
+
+            <div >
+              <mat-form-field>
+                <mat-label>Manufacturer</mat-label>
+                <input matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="newDrugBrand.manufacturer">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </form>
+      <button  class="btn btn-danger" (click)="newDrug?.drugBrandList.push({ brandName: '',  manufacturer: ''})">Add Brand</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="okay()">Ok</button>
+    </div>
+  </div>
+</div>

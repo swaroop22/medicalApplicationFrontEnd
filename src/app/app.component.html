@@ -9,6 +9,7 @@
   <li class="pull-right" *ngIf="isOnPatientsScreen && userService.isLoggedIn"> <a href="javascript:void(0)" (click)="displayAddPatientModal()"> Add Patient </a></li>
   <li class="pull-right" *ngIf="userService.isLoggedIn"> <a href="javascript:void(0)" (click)="displayManageLevelModal()"> Manage Levels </a></li>
   <li class="pull-right" *ngIf="userService.isLoggedIn"> <a [routerLink]="'regimenDetails/0'"> All Regimen </a></li>
+  <li class="pull-right" *ngIf="userService.isLoggedIn"> <a [routerLink]="'manageDrug'"> Manage Drugs </a></li>
 </ul>
 <div class="app-root">
   <div class="right-panel container">

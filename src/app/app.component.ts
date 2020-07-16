@@ -21,6 +21,8 @@ export class AppComponent {
   breadCrumbs: {title: string, link: string}[] = [];
 
   @ViewChild('addPatientModal') public addPatientModal: ModalDirective;
+  @ViewChild('manageDrugModal') public manageDrugModal: ModalDirective;
+  private displayManageDrug: boolean = false;
 
   constructor(private cancerTreeService: CancerTreeService,
               private patientsService: PatientsService,
@@ -60,10 +62,18 @@ export class AppComponent {
     this.addPatientModal.hide();
   }
 
+  hideManageDrugModal() {
+    this.manageDrugModal.hide();
+  }
+
   displayManageLevelModal() {
     if (this.userService.isLoggedIn) {
       this.displayLevelModal = true;
     }
+  }
+
+  displayManageDrugModal() {
+    this.manageDrugModal.show();
   }
 
   addPatient(event) {

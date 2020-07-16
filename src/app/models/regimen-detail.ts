@@ -8,7 +8,7 @@ export interface RegimenDetail {
   dosageModifications: string;
   regimenType:  string;
   brandNames:  string;
-  brands: Brand[];
+  brands: Drug[];
   regimenLevels: Level[];
   linkedToCancers?: string[];
 }
@@ -18,16 +18,16 @@ export interface RegimenReference {
   referenceValue: string;
 }
 
-export interface Brand {
-  id: number;
-  genericName: string;
-  drugBrandList: DrugBrand[];
+export interface Drug {
+  id?: number;
+  genericName?: string;
+  drugBrandList?: DrugBrand[];
 }
 
 export interface DrugBrand {
-  id: number;
-  brandName: string;
-  manufacturer: string;
+  id?: number;
+  brandName?: string;
+  manufacturer?: string;
 }
 
 export interface Level {

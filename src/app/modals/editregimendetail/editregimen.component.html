@@ -26,8 +26,9 @@
               </div>
             </div>
             <div>
+
               <div>
-                <h3>Regimen Levels</h3>
+                <h3 class="side-label">Regimen Levels</h3>
                 <mat-chip-list>
                   <mat-chip *ngFor="let regimenLevel of regimenForm?.controls?.regimenLevels?.controls; let idx=index"
                             [removable]="true"
@@ -37,18 +38,16 @@
                   </mat-chip>
                 </mat-chip-list>
               </div>
-
               <div class="regimen-level-form">
                 <div>
                   <select placeholder="Regimen Level"
                           (change)="addNewLevel($event.target.value)">
                     <option>Select Level</option>
-                    <option [value]="level.id" *ngFor="let level of regimenLevelTypes">
+                    <option [value]="idx" *ngFor="let level of regimenLevelTypes; let idx=index">
                       {{level?.level}}
                     </option>
                   </select>
                 </div>
-
                 <div>
                   <mat-form-field>
                     <mat-label>New Regimen Level</mat-label>
@@ -58,6 +57,33 @@
                 </div>
               </div>
             </div>
+
+            <div >
+              <h3 class="side-label">Drugs In Regimen </h3>
+             <div>
+              <select class="drug-drop-down"
+                      placeholder="Select Drug"
+                      (change)="addDrugToRegimen($event.target.value)">
+                <option>Select Drug</option>
+                <option [value]="idx"
+                        style="width: 250px;"
+                        *ngFor="let drug of drugList; let idx=index" >
+                  {{drug.genericName}}
+                </option>
+              </select>
+             </div>
+              <div style="margin: 5px;">
+                <mat-chip-list>
+                  <mat-chip *ngFor="let drug of regimenForm?.controls?.brands?.controls; let idx=index"
+                            [removable]="true"
+                            (removed)="removeDrugFromRegimen(idx)">
+                    {{drug?.value?.genericName}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                </mat-chip-list>
+              </div>
+            </div>
+
             <div  class="regimen-detail-form-item regimen-detail-header-schedule">
               <div><h3  class="side-label">Schedule</h3></div>
               <div class="editor">
@@ -77,7 +103,6 @@
                       [editor]="editor"
                       formControlName="dosageModifications"
             ></ckeditor>
-            <!--                formControlName="dosageModifications"-->
           </div>
         </div>
             <div class="regimen-detail-form-item" >
@@ -99,41 +124,6 @@
                 </ng-container>
               </div>
               <div><button (click)="addNewReference()">Add New Reference</button></div>
-            </div>
-
-
-            <div class="regimen-detail-form-item"
-                 [innerHTML]="">
-              <div class="heading-with-button"><h3 class="side-label"> Regimen Brands </h3>
-              </div>
-              <div class="brand-container"
-                   formArrayName="references"
-                   *ngFor="let brand of regimenForm?.controls?.brands?.controls; let idx=index">
-                <ng-container [formGroup]="brand">
-                <div class="brand-input regimen-detail-form-3-col">
-                  <mat-form-field class="reference-input">
-                    <mat-label>Generic Name</mat-label>
-                    <input matInput formControlName="genericName">
-                  </mat-form-field>
-                </div>
-                <div class="brand-input regimen-detail-form-3-col">
-                  <mat-form-field class="reference-input">
-                    <mat-label>Brand Name</mat-label>
-                    <input matInput formControlName="brandName">
-                  </mat-form-field>
-                </div>
-                <div class="brand-input regimen-detail-form-3-col">
-                  <mat-form-field class="reference-input">
-                    <mat-label>Manufacturer</mat-label>
-                    <input matInput formControlName="manufacturer">
-                  </mat-form-field>
-                </div>
-                <div class="regimen-detail-form-3-col-delete" >
-                  <button (click)="removeBrand(idx)" >X</button>
-                </div>
-                </ng-container>
-              </div>
-              <div><button (click)="addNewBrand()">Add New Brand</button></div>
             </div>
           </div>
       </form>
