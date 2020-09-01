@@ -1,4 +1,5 @@
 export interface RegimenDetail {
+  isChanged: boolean;
   id: number;
   dispName: string;
   name: string;

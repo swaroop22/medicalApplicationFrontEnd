@@ -1,14 +1,15 @@
-<div class="modal-dialog size-60-p">
-
-  <div class="modal-content" *ngIf="!isLoading">
-    <div class="modal-header">
+<div class="size-60-p modal-screen-center">
+  <div class="content" *ngIf="!isLoading">
+    <div class="header">
       <h4 class="modal-title pull-left">Add Regimen To Cancer</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="close()">x</button>
+      <button type="button" style="padding: 10px;" class="close pull-right" aria-label="Close" (click)="close()">x</button>
     </div>
-    <div class="modal-body">
-      <div class="card">
-        <div class="card-header">Regimen List</div>
-        <div class="card-block">
+    <div class="body">
+      <div class="regimen-list-container">
+        <div class="regimen-list-heading">
+          <h3> Regimen List </h3>
+        </div>
+        <div class="regimen-search">
           <mat-form-field class="example-form-field">
             <mat-label>Search Regimen List</mat-label>
             <input matInput type="text" [formControl]="filterRegimenList">
@@ -16,18 +17,20 @@
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
-          <div class="regimen-list group">
-          <mat-selection-list #shoes>
-            <mat-list-option *ngFor="let regimenDetail of regimenListToDisplay; let idx=index" (click)="linkRegimenToCancer(regimenDetail, idx)">
+        </div>
+        <div class="regimen-list">
+          <mat-list role="list">
+            <mat-list-item *ngFor="let regimenDetail of regimenListToDisplay; let idx=index" (click)="linkRegimenToCancer(regimenDetail, idx)">
               {{regimenDetail.dispName}}
-            </mat-list-option>
-          </mat-selection-list>
-          </div>
+            </mat-list-item>
+          </mat-list>
         </div>
       </div>
-      <div class="card">
-        <div class="card-header">Regimen In Cancer</div>
-        <div class="card-block">
+      <div class="regimen-list-container">
+        <div class="regimen-list-heading">
+          <h3>Regimen In Cancer ({{existingRegimenInCancerToDisplay?.length}})</h3>
+        </div>
+        <div class="regimen-search">
           <mat-form-field class="example-form-field">
             <mat-label>Search Existing Regimen List</mat-label>
             <input matInput type="text" [formControl]="filterExistingCancerInRegimenList">
@@ -35,18 +38,18 @@
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
-          <div class="existing-regimen-list group">
-            <mat-list role="list">
-              <mat-list-item
-                *ngFor="let existingRegimenDetail of existingRegimenInCancerToDisplay; let idx=index"
-                (click)="unLinkRegimenToCancer(existingRegimenDetail, idx)">{{existingRegimenDetail?.dispName}}</mat-list-item>
-            </mat-list>
-          </div>
+        </div>
+        <div class="regimen-list">
+          <mat-list role="list">
+            <mat-list-item
+              *ngFor="let existingRegimenDetail of existingRegimenInCancerToDisplay; let idx=index"
+              (click)="unLinkRegimenToCancer(existingRegimenDetail, idx)">{{existingRegimenDetail?.dispName}}</mat-list-item>
+          </mat-list>
         </div>
       </div>
-
     </div>
-    <div class="modal-footer">
+
+    <div class="footer">
       <button class="btn btn-primary" (click)="close()">Ok</button>
     </div>
   </div>

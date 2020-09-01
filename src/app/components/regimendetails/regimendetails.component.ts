@@ -304,7 +304,7 @@ export class RegimendetailsComponent implements OnInit {
   showLinkRegimen(show: boolean) {
     this.showLinkRegimenModal = show;
     if(!this.showLinkRegimenModal) {
-      this.getAllRegimens();
+      this.ngOnInit();
     }
   }
 }

@@ -64,13 +64,14 @@ export class LinkCancerRegimenModal {
 
   close() {
     const selectedRegimen = [];
-    this.regimen.forEach(regimenDetail => {
+    this.existingRegimenInCancer.forEach(regimenDetail => {
       if (regimenDetail.isChanged) {
-        selectedRegimen.push(regimenDetail.regimen.id);
+        selectedRegimen.push(regimenDetail.id);
       }
     });
 
-    if(selectedRegimen.length > 0) {let currentCancerDetail: any = {id:''} ;
+    if(selectedRegimen.length > 0) {
+      let currentCancerDetail: any = {id:''} ;
       (this.cancerTreeService.parentCancers || []).forEach(cancer => {
         if (cancer.id === (<any>this.cancerTreeService.getCurrentCancer()).id) {
           currentCancerDetail = cancer;
@@ -110,8 +111,10 @@ export class LinkCancerRegimenModal {
   }
 
   linkRegimenToCancer(regimenDetail, index) {
-    this.existingRegimenInCancer.push(...this.regimenList.splice(index, 1));
-
+    const regimen = this.regimenList.splice(index, 1)[0];
+    regimen.isChanged = true;
+    this.existingRegimenInCancer.push(regimen);
+    this.existingRegimenInCancerToDisplay = this.existingRegimenInCancer;
   }
 
   unLinkRegimenToCancer(regimenDetail: any, index: number) {

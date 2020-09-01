@@ -6,6 +6,7 @@
         <div class="card">
           <div class="card-header" *ngIf="!isOnCancerRegimens">
             <button  class="btn btn-primary pull-right" (click)="showAddRegimenDetails()">Add New Regimen Detail</button>
+            <button  class="btn btn-primary m-10" (click)="showLinkRegimen(true)">Add Existing Regimen</button>
             <mat-form-field class="example-form-field">
               <mat-label>Search By Regimen Name</mat-label>
               <input matInput type="search" [formControl]="searchValue">
