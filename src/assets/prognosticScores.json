@@ -1,0 +1,1587 @@
+{
+  "prognosticCalculator": {
+    "ipi": {
+      "title": "R-IPI",
+      "inputs": [
+        {
+          "title": "Age",
+          "options": [
+            {
+              "title": "<= 60",
+              "score": 0
+            },
+            {
+              "title": "> 60",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "title": "Performance Status (ECOG) >= 2",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "title": "LDH Above Normal",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "title": "Extranodal Sites > 1",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "title": "Stage III or IV",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        }
+      ],
+      "result": {
+        "0": [
+          {
+            "title": "SCORE",
+            "value": 0
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Very Good"
+          },
+          {
+            "title": "4 YEAR PFS",
+            "value": "94%"
+          },
+          {
+            "title": "4 YEAR OS",
+            "value": "94%"
+          }
+        ],
+        "1": [
+          {
+            "title": "SCORE",
+            "value": 1
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Good"
+          },
+          {
+            "title": "4 YEAR PFS",
+            "value": "80%"
+          },
+          {
+            "title": "4 YEAR OS",
+            "value": "79%"
+          }
+        ],
+        "2": [
+          {
+            "title": "SCORE",
+            "value": 2
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Good"
+          },
+          {
+            "title": "4 YEAR PFS",
+            "value": "80%"
+          },
+          {
+            "title": "4 YEAR OS",
+            "value": "79%"
+          }
+        ],
+        "3": [
+          {
+            "title": "SCORE",
+            "value": 3
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Poor"
+          },
+          {
+            "title": "4 YEAR PFS",
+            "value": "53%"
+          },
+          {
+            "title": "4 YEAR OS",
+            "value": "55%"
+          }
+        ],
+        "4": [
+          {
+            "title": "SCORE",
+            "value": 4
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Poor"
+          },
+          {
+            "title": "4 YEAR PFS",
+            "value": "53%"
+          },
+          {
+            "title": "4 YEAR OS",
+            "value": "55%"
+          }
+        ],
+        "5": [
+          {
+            "title": "SCORE",
+            "value": 5
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Poor"
+          },
+          {
+            "title": "4 YEAR PFS",
+            "value": "53%"
+          },
+          {
+            "title": "4 YEAR OS",
+            "value": "55%"
+          }
+        ]
+      }
+    },
+    "rcc": {
+      "title": "RCC - MSKCC Prognostic Scale",
+      "inputs": [
+        {
+          "title": "KPS",
+          "options": [
+            {
+              "title": "< 80%>",
+              "score": 0
+            },
+            {
+              "title": ">= 80%",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "title": "LDH Level > 1.5 times the Upper Limit",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "title": "Corrected Serum Calcium > 10 mg/dL",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "title": "Hemoglobin < Lower Limit",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "title": "Absence of Nephrectomy",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        }
+      ],
+      "result": {
+        "0": [
+          {
+            "title": "SCORE",
+            "value": 0
+          },
+          {
+            "title": "1 Year Survival",
+            "value": "72%"
+          }
+        ],
+        "1": [
+          {
+            "title": "SCORE",
+            "value": 1
+          },
+          {
+            "title": "1 Year Survival",
+            "value": "42%"
+          }
+        ],
+        "2": [
+          {
+            "title": "SCORE",
+            "value": 2
+          },
+          {
+            "title": "1 Year Survival",
+            "value": "42%"
+          }
+        ],
+        "3": [
+          {
+            "title": "SCORE",
+            "value": 3
+          },
+          {
+            "title": "1 Year Survival",
+            "value": "17%"
+          }
+        ],
+        "4": [
+          {
+            "title": "SCORE",
+            "value": 4
+          },
+          {
+            "title": "1 Year Survival",
+            "value": "17%"
+          }
+        ],
+        "5": [
+          {
+            "title": "SCORE",
+            "value": 5
+          },
+          {
+            "title": "1 Year Survival",
+            "value": "17%"
+          }
+        ]
+      }
+    },
+    "aaipi": {
+      "title": "Age Adjusted IPI",
+      "inputs": [
+        {
+          "title": "Performance Status (ECOG) >= 2",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "title": "LDH Above Normal",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "title": "Extranodal Sites > 1",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "title": "Stage III or IV",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        }
+      ],
+      "result": {
+        "0": [
+          {
+            "title": "SCORE",
+            "value": 0
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Low Risk"
+          },
+          {
+            "title": "5-Yr OS",
+            "value": "56%"
+          },
+          {
+            "title": "CR Rate",
+            "value": "91%"
+          }
+        ],
+        "1": [
+          {
+            "title": "SCORE",
+            "value": 1
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Low-intermediate Risk"
+          },
+          {
+            "title": "5-Yr OS",
+            "value": "44%"
+          },
+          {
+            "title": "CR Rate",
+            "value": "71%"
+          }
+        ],
+        "2": [
+          {
+            "title": "SCORE",
+            "value": 2
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High-intermediate Risk"
+          },
+          {
+            "title": "5-Yr OS",
+            "value": "37%"
+          },
+          {
+            "title": "CR Rate",
+            "value": "56%"
+          }
+        ],
+        "3": [
+          {
+            "title": "SCORE",
+            "value": 3
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High Risk"
+          },
+          {
+            "title": "5-Yr OS",
+            "value": "21%"
+          },
+          {
+            "title": "CR Rate",
+            "value": "36%"
+          }
+        ],
+        "4": [
+          {
+            "title": "SCORE",
+            "value": 4
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High Risk"
+          },
+          {
+            "title": "5-Yr OS",
+            "value": "21%"
+          },
+          {
+            "title": "CR Rate",
+            "value": "36%"
+          }
+        ]
+      }
+    },
+    "flipi": {
+      "title": "FLIPI",
+      "inputs": [
+        {
+          "title": "Age",
+          "options": [
+            {
+              "title": "<= 60",
+              "score": 0
+            },
+            {
+              "title": "> 60",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "title": "Serum LDH Above Normal",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "title": "Hemoglobin Level < 12.0 g/dL",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "title": "Ann Arbor Stage III or IV",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "title": "Nodal Areas Involved > 4",
+          "options": [
+            {
+              "title": "Yes",
+              "score": 1
+            },
+            {
+              "title": "No",
+              "score": 0
+            }
+          ]
+        }
+      ],
+      "result": {
+        "0": [
+          {
+            "title": "SCORE",
+            "value": 0
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Low Risk"
+          },
+          {
+            "title": "5-Yr OS",
+            "value": "91%"
+          },
+          {
+            "title": "10-Yr OS",
+            "value": "71%"
+          }
+        ],
+        "1": [
+          {
+            "title": "SCORE",
+            "value": 1
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Low Risk"
+          },
+          {
+            "title": "5-Yr OS",
+            "value": "91%"
+          },
+          {
+            "title": "10-Yr OS",
+            "value": "71%"
+          }
+        ],
+        "2": [
+          {
+            "title": "SCORE",
+            "value": 2
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Intermediate Risk"
+          },
+          {
+            "title": "5-Yr OS",
+            "value": "78%"
+          },
+          {
+            "title": "10-Yr OS",
+            "value": "51%"
+          }
+        ],
+        "3": [
+          {
+            "title": "SCORE",
+            "value": 3
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High Risk"
+          },
+          {
+            "title": "5-Yr OS",
+            "value": "52%"
+          },
+          {
+            "title": "10-Yr OS",
+            "value": "36%"
+          }
+        ],
+        "4": [
+          {
+            "title": "SCORE",
+            "value": 4
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High Risk"
+          },
+          {
+            "title": "5-Yr OS",
+            "value": "52%"
+          },
+          {
+            "title": "10-Yr OS",
+            "value": "36%"
+          }
+        ],
+        "5": [
+          {
+            "title": "SCORE",
+            "value": 5
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High Risk"
+          },
+          {
+            "title": "5-Yr OS",
+            "value": "52%"
+          },
+          {
+            "title": "10-Yr OS",
+            "value": "36%"
+          }
+        ]
+      }
+    },
+    "ipss": {
+      "title": "MDS IPSS",
+      "inputs": [
+        {
+          "title": "Bone Marrow Blast (%)",
+          "options": [
+            {
+              "title": "< 5",
+              "score": 0
+            },
+            {
+              "title": "5-10",
+              "score": 0.5
+            },
+            {
+              "title": "11-20",
+              "score": 1.5
+            },
+            {
+              "title": "21-30",
+              "score": 2.0
+            }
+          ]
+        },
+        {
+          "title": "Karyotype",
+          "options": [
+            {
+              "title": "Good",
+              "score": 0
+            },
+            {
+              "title": "Intermediate",
+              "score": 0.5
+            },
+            {
+              "title": "Poor",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "title": "Cytopenias",
+          "options": [
+            {
+              "title": "0",
+              "score": 0
+            },
+            {
+              "title": "1",
+              "score": 0
+            },
+            {
+              "title": "2",
+              "score": 0.5
+            },
+            {
+              "title": "3",
+              "score": 0.5
+            }
+          ]
+        }
+      ],
+      "result": {
+        "0": [
+          {
+            "title": "SCORE",
+            "value": 0
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Low"
+          },
+          {
+            "title": "Survival",
+            "value": "5.7 Years"
+          }
+        ],
+        "0.5": [
+          {
+            "title": "SCORE",
+            "value": 0.5
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Intermediate-1"
+          },
+          {
+            "title": "Survival",
+            "value": "3.5 Years"
+          }
+        ],
+        "1.0": [
+          {
+            "title": "SCORE",
+            "value": 1
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Intermediate-1"
+          },
+          {
+            "title": "Survival",
+            "value": "3.5 Years"
+          }
+        ],
+        "1.5": [
+          {
+            "title": "SCORE",
+            "value": 1.5
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Intermediate-2"
+          },
+          {
+            "title": "Survival",
+            "value": "1.2 Years"
+          }
+        ],
+        "2": [
+          {
+            "title": "SCORE",
+            "value": 2.0
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Intermediate-2"
+          },
+          {
+            "title": "Survival",
+            "value": "1.2 Years"
+          }
+        ],
+        "2.5": [
+          {
+            "title": "SCORE",
+            "value": 2.5
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High"
+          },
+          {
+            "title": "Survival",
+            "value": "0.4 Years"
+          }
+        ],
+        "3": [
+          {
+            "title": "SCORE",
+            "value": 3.0
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High"
+          },
+          {
+            "title": "Survival",
+            "value": "0.4 Years"
+          }
+        ],
+        "3.5": [
+          {
+            "title": "SCORE",
+            "value": 3.5
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High"
+          },
+          {
+            "title": "Survival",
+            "value": "0.4 Years"
+          }
+        ]
+      }
+    },
+    "ipss-r": {
+      "title": "MDS Revised IPSS",
+      "inputs": [
+        {
+          "title": "Bone Marrow Blast (%)",
+          "options": [
+            {
+              "title": "<= 2",
+              "score": 0
+            },
+            {
+              "title": "<2 to <5",
+              "score": 1
+            },
+            {
+              "title": "5 - 10",
+              "score": 2
+            },
+            {
+              "title": "> 10",
+              "score": 3
+            }
+          ]
+        },
+        {
+          "title": "Karyotype",
+          "options": [
+            {
+              "title": "Very Good",
+              "score": 0
+            },
+            {
+              "title": "Good",
+              "score": 1
+            },
+            {
+              "title": "Intermediate",
+              "score": 2
+            },
+            {
+              "title": "Poor",
+              "score": 3
+            },
+            {
+              "title": "Very Poor",
+              "score": 4
+            }
+          ]
+        },
+        {
+          "title": "Hemoglobin (g/dL)",
+          "options": [
+            {
+              "title": ">= 10",
+              "score": 0
+            },
+            {
+              "title": "8 to <10",
+              "score": 1
+            },
+            {
+              "title": "< 8",
+              "score": 1.5
+            }
+          ]
+        },
+        {
+          "title": "Platelets (cells/microL)",
+          "options": [
+            {
+              "title": ">= 100,000",
+              "score": 0
+            },
+            {
+              "title": "50,000 to 100,000",
+              "score": 0.5
+            },
+            {
+              "title": "< 50,000",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "title": "Absolute neutrophil count (cells/microL)",
+          "options": [
+            {
+              "title": ">= 800",
+              "score": 0
+            },
+            {
+              "title": "< 800>",
+              "score": 0.5
+            },
+            {
+              "title": "< 50,000",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "result": {
+        "0": [
+          {
+            "title": "SCORE",
+            "value": "0"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Very Low Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "8.8 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": ">14.5 Years"
+          }
+        ],
+        "0.5": [
+          {
+            "title": "SCORE",
+            "value": "0.5"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Very Low Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "8.8 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": ">14.5 Years"
+          }
+        ],
+        "1.0": [
+          {
+            "title": "SCORE",
+            "value": "1.0"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Very Low Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "8.8 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": ">14.5 Years"
+          }
+        ],
+        "1.5": [
+          {
+            "title": "SCORE",
+            "value": "1.5"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Low Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "5.3 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "10.8 Years"
+          }
+        ],
+        "2": [
+          {
+            "title": "SCORE",
+            "value": "2.0"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Low Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "5.3 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "10.8 Years"
+          }
+        ],
+        "2.5": [
+          {
+            "title": "SCORE",
+            "value": "2.5"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Low Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "5.3 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "10.8 Years"
+          }
+        ],
+        "3": [
+          {
+            "title": "SCORE",
+            "value": "3.0"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Low Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "5.3 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "10.8 Years"
+          }
+        ],
+        "3.5": [
+          {
+            "title": "SCORE",
+            "value": "3.5"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Intermediate Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "3.0 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "3.2 Years"
+          }
+        ],
+        "4.0": [
+          {
+            "title": "SCORE",
+            "value": "4.0"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Intermediate Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "3.0 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "3.2 Years"
+          }
+        ],
+        "4.5": [
+          {
+            "title": "SCORE",
+            "value": "4.5"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Intermediate Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "3.0 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "3.2 Years"
+          }
+        ],
+        "5.0": [
+          {
+            "title": "SCORE",
+            "value": "5.0"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "1.6 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "1.4 Years"
+          }
+        ],
+        "5.5": [
+          {
+            "title": "SCORE",
+            "value": "5.5"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "1.6 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "1.4 Years"
+          }
+        ],
+        "6.0": [
+          {
+            "title": "SCORE",
+            "value": "6.0"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "1.6 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "1.4 Years"
+          }
+        ],
+        "6.5": [
+          {
+            "title": "SCORE",
+            "value": "6.5"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Very High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "0.8 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "0.7 Years"
+          }
+        ],
+        "7.0": [
+          {
+            "title": "SCORE",
+            "value": "7.0"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Very High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "0.8 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "0.7 Years"
+          }
+        ],
+        "7.5": [
+          {
+            "title": "SCORE",
+            "value": "7.5"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Very High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "0.8 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "0.7 Years"
+          }
+        ],
+        "8.0": [
+          {
+            "title": "SCORE",
+            "value": "8.0"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Very High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "0.8 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "0.7 Years"
+          }
+        ],
+        "8.5": [
+          {
+            "title": "SCORE",
+            "value": "8.5"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Very High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "0.8 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "0.7 Years"
+          }
+        ],
+        "9.0": [
+          {
+            "title": "SCORE",
+            "value": "9.0"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Very High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "0.8 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "0.7 Years"
+          }
+        ],
+        "9.5": [
+          {
+            "title": "SCORE",
+            "value": "9.5"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Very High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "0.8 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "0.7 Years"
+          }
+        ],
+        "10.0": [
+          {
+            "title": "SCORE",
+            "value": "10.0"
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Very High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "0.8 Years"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "0.7 Years"
+          }
+        ]
+      }
+    },
+    "who-ipss": {
+      "title": "MDS WHO IPSS",
+      "inputs": [
+        {
+          "title": "WHO classification",
+          "options": [
+            {
+              "title": "Refractory anemia, refractory anemia with ring sideroblasts, or MDS with isolated 5q",
+              "score": 0
+            },
+            {
+              "title": "Refractory cytopenia with multilineage dysplasia, refractory cytopenia with multilineage dysplasia with ring sideroblasts",
+              "score": 1
+            },
+            {
+              "title": "Refractory anemia with excess blasts-1",
+              "score": 2
+            },
+            {
+              "title": "Refractory anemia with excess blasts-2",
+              "score": 3
+            }
+          ]
+        },
+        {
+          "title": "Cytogenetics",
+          "options": [
+            {
+              "title": "Good",
+              "score": 0
+            },
+            {
+              "title": "Intermediate",
+              "score": 0.5
+            },
+            {
+              "title": "Poor",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "title": "Red cell transfusion need",
+          "options": [
+            {
+              "title": "None",
+              "score": 0
+            },
+            {
+              "title": "Regular",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "result": {
+        "0": [
+          {
+            "title": "SCORE",
+            "value": 0
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Very Low Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "141 Months"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "141 Months"
+          }
+        ],
+        "1": [
+          {
+            "title": "SCORE",
+            "value": 1
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Low Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "66 Months"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "66 Months"
+          }
+        ],
+        "2": [
+          {
+            "title": "SCORE",
+            "value": 2
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "Intermediate Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "48 Months"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "48 Months"
+          }
+        ],
+        "3": [
+          {
+            "title": "SCORE",
+            "value": 3
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "26 Months"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "26 Months"
+          }
+        ],
+        "4": [
+          {
+            "title": "SCORE",
+            "value": 4
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "26 Months"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "26 Months"
+          }
+        ],
+        "5": [
+          {
+            "title": "SCORE",
+            "value": 5
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "9 Months"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "9 Months"
+          }
+        ],
+        "6": [
+          {
+            "title": "SCORE",
+            "value": 6
+          },
+          {
+            "title": "RISK GROUP",
+            "value": "High Risk"
+          },
+          {
+            "title": "Median overall survival",
+            "value": "9 Months"
+          },
+          {
+            "title": "Median time to 25 percent AML evolution",
+            "value": "9 Months"
+          }
+        ]
+      }
+    }
+  },
+  "kps": [
+    {
+      "title": "Normal, no complaints, no evidence of disease",
+      "score": "100"
+    },
+    {
+      "title": "Able to carry on normal activity, minor signs or symptoms of disease",
+      "score": "90"
+    },
+    {
+      "title": "Normal activity with effort, some signs or symptoms of disease",
+      "score": "80"
+    },
+    {
+      "title": "Cares for self, unable to carry on normal activity or to do active work",
+      "score": "70"
+    },
+    {
+      "title": "Requires occasional assistance, but is able to care for most needs",
+      "score": "60"
+    },
+    {
+      "title": "Requires considerable assistance and frequent medical care",
+      "score": "50"
+    },
+    {
+      "title": "Disabled, requires special care and assistance",
+      "score": "40"
+    },
+    {
+      "title": "Severely disabled, hospitalization is indicated although death is not imminent",
+      "score": "30"
+    },
+    {
+      "title": "Hospitalization is necessarym very sick, active supportive treatment necessary",
+      "score": "20"
+    },
+    {
+      "title": "Moribund, fatal processes progressing rapidly",
+      "score": "10"
+    },
+    {
+      "title": "Dead",
+      "score": "0"
+    }
+  ],
+  "ecogperformance": [
+    {
+      "title": "Fully active; no performance restrictions",
+      "score": "0"
+    },
+    {
+      "title": "Strenuous physical activity restricted; fully ambulatory and able to carry out light work",
+      "score": "1"
+    },
+    {
+      "title": "Capable of all selfcare but unable to carry out any work activities. Up and about > 50% of waking hours",
+      "score": "2"
+    },
+    {
+      "title": "Capable of only limited selfcare; confined to bed or chair > 50% of waking hours",
+      "score": "3"
+    },
+    {
+      "title": "Completely disabled; cannot carry out any selfcare; totally confined to bed or chair",
+      "score": "4"
+    }
+  ],
+  "responsecriteria": [
+    {
+      "title": "Disappearance of all target lesions",
+      "score": "Complete Response (CR)"
+    },
+    {
+      "title": "At least a 30% decrease in the sum of the LD of target lesions, taking as reference the baseline sum LD",
+      "score": "Partial Response (PR)"
+    },
+    {
+      "title": "Neither sufficient shrinkage to qualify for PR nor sufficient increase to qualify for PD, taking as reference the smallest sum LD since the treatment started",
+      "score": "Stable Disease (SD)"
+    },
+    {
+      "title": "At least a 20% increase in the sum of the LD of target lesions, taking as reference the smallest sum LD recorded since the treatment started or the appearance of one or more new lesions",
+      "score": "Progressive Disease (PD)"
+    },
+    {
+      "title": "Disappearance of all non-target lesions and normalization of tumor marker level",
+      "score": "Complete Response (CR)"
+    },
+    {
+      "title": "Persistence of one or more non-target lesion(s) or/and maintenance of tumor marker level above the normal limits",
+      "score": "Incomplete Response/Stable Disease (SD)"
+    },
+    {
+      "title": "Appearance of one or more new lesions and/or unequivocal progression of existing non-target lesions",
+      "score": "Progressive Disease (PD)"
+    }
+  ]
+}
